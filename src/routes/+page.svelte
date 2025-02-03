@@ -1,7 +1,18 @@
 <script lang="ts">
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcomeFallback from '$lib/images/svelte-welcome.png';
+	import Hero from '$lib/components/homepage/hero.svelte';
+	import Aboutus from '$lib/components/homepage/aboutus.svelte';
+	import Projects from '$lib/components/homepage/projects.svelte';
+    import { observeText } from "$lib/scripts/textanims";
+
+    import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+    
+    const { projects } = data;
+
+    $effect(() => {
+        observeText('top 80%', 'top 20%')
+    })
 </script>
 
 <svelte:head>
@@ -9,27 +20,12 @@
 	<meta name="description" content="Dakdot homepage, landing page" />
 </svelte:head>
 
-<section class="h-[91vh] grid items-center">
-	<div class="hero-text">
-        <div class="one">DIGITAL</div>
-        <div class="two">SOLUTIONS</div>
-        <div class="three">AGENCY</div>
-    </div>
-</section>
 
-<style>
-    
-    .hero-text {
-        font-size: 8rem;
-        font-weight: 900;
+<Hero/>
 
-        & .two{
-            text-align: center;
-            color: var(--color-red);
-        }
+<Aboutus/>
 
-        & .three{
-            text-align: right;
-        }
-    }
-</style>
+<Projects {projects}/>
+
+
+

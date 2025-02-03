@@ -12,7 +12,7 @@
 		</a>
 	</div>
 
-	<nav>
+	<nav class="hidden sm:flex">
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
@@ -70,7 +70,6 @@
 	}
 
 	nav {
-		display: flex;
 		justify-content: center;
 		--background: theme(--color-white);
 	}
@@ -112,7 +111,7 @@
 		top: 0;
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
-		border-top: var(--size) solid theme(--color-black);
+		border-top: var(--size) solid var(--color-red);
 	}
 
 	nav a {
@@ -121,7 +120,7 @@
 		align-items: center;
 		padding: 0 0.5rem;
 		color: var(--color-text);
-		font-weight: 700;
+		font-weight: 500;
 		font-size: 0.8rem;
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
@@ -130,6 +129,6 @@
 	}
 
 	a:hover {
-		color: var(--color-theme-1);
+		color: var(--color-red);
 	}
 </style>
