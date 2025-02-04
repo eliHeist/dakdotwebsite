@@ -16,15 +16,15 @@
         let timeline = gsap.timeline({
             scrollTrigger: {
                 trigger: item,
-                start: "top 95%",
-                end: "bottom 90%",
+                start: "top 100%",
+                end: "bottom 98%",
                 scrub: true,
                 markers: false,
                 toggleActions: 'play play reverse reverse'
             }
         });
 
-        gsap.set(item, { y: 100, opacity: 0, scale: 0.9 });
+        gsap.set(item, { y: 100, opacity: 0, scale: 0.95 });
 
         timeline.to(item,
             { y: 0, opacity: 1, scale: 1, ease: 'power1.out', }

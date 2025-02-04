@@ -29,7 +29,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>DakDot Creations</title>
 	<meta name="description" content="Dakdot homepage, landing page" />
 </svelte:head>
 
