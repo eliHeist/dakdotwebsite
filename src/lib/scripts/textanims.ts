@@ -15,8 +15,8 @@ export function observeText(start: string = 'top 80%', end: string = 'top 20%', 
         gsap.from(text.words, {
             scrollTrigger: {
                 trigger: char,
-                start: 'top 80%',
-                end: 'top 20%',
+                start: start,
+                end: end,
                 scrub: scrub,
                 markers: false,
                 toggleActions: 'play play reverse reverse',

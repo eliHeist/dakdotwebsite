@@ -2,8 +2,8 @@
     import { Linkedin, Instagram } from "lucide-svelte";
 </script>
 
-<footer class="bg-white text-dark pt-24 pb-4">
-	<div class="content-grid">
+<footer class="bg-white text-dark pt-24 pb-4 content-grid">
+	<div class="breakout">
 		<div class="grid gap-y-6">
 			<div class="grid gap-y-3">
 				<h3 class="text-2xl">Contact Us</h3>

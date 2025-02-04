@@ -42,6 +42,8 @@
 
 <Services/>
 
+<Projects {projects}/>
+
 <Process/>
 
 <Faq/>
@@ -62,14 +64,13 @@
 
 <section class="py-8 bg-black">
 	<div class="scroller" data-direction="right" data-speed="fast">
-		<div class="scroller__inner">
+		<div class="scroller__inner gap-4 text-xl">
             {#each wordsArray as word}
                 <li>{word}</li>
             {/each}
 		</div>
 	</div>
 </section>
-<!-- <Projects {projects}/> -->
 
 
 

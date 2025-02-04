@@ -69,11 +69,17 @@
 	<h2 class="title-1 text-center">Featured <br />work</h2>
 	<div class="project-list" bind:this={container}>
 		{#each projects as project, i}
-			<div class="project project-{i}">
-				<img src={project.imageSrc} alt={project.name} />
-				<div class="project-details">
-					<h3>{project.name}</h3>
-					<p>Categories: {project.categories.join(', ')}</p>
+			<div class="project project-{i+1} @container flex flex-col">
+				<img src={project.imageSrc} alt={project.name} class="rounded-xl flex-1 object-cover" />
+				<div class="project-details mt-3 flex items-center gap-x-3 justify-between">
+					<h3 class="font-medium text-lg">{project.name}</h3>
+                    <div class="flex overflow-hidden gap-x-1.5 @max-sm:hidden">
+                        {#each project.categories as category }
+                            <div class="p-1.5 bg-dark rounded-md">
+                                <span>{category}</span>
+                            </div>
+                        {/each}
+                    </div>
 				</div>
 			</div>
 		{/each}
@@ -82,21 +88,74 @@
 
 <style>
 	.project-list {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
+		display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 1.5rem;
+        grid-template-areas: 
+            "a"
+            "b"
+            "c"
+            "d"
+            "e"
+        ;
 	}
 
-	.project {
-		width: calc(25% - 1rem);
-		aspect-ratio: 1 / 1;
-		overflow: hidden;
-		border-radius: 0.5rem;
-	}
+    .project {
+    }
 
-	.project img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
+    .project-1{
+        grid-area: a;
+    }
+
+    .project-2{
+        grid-area: b;
+    }
+
+    .project-3{
+        grid-area: c;
+    }
+
+    .project-4{
+        grid-area: d;
+    }
+
+    .project-5{
+        grid-area: e;
+    }
+
+    @media (min-width: 40rem){
+        .project-list {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            grid-template-areas: 
+                "a a"
+                "b c"
+                "d e"
+            ;
+        }
+    }
+
+    @media (min-width: 48rem){
+        .project-list {
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2rem;
+            grid-template-areas: 
+                "a a a a b b"
+                "a a a a c c"
+                "d d d e e e"
+            ;
+        }
+    }
+
+    @media (min-width: 64rem){
+        .project-list {
+            grid-template-columns: repeat(6, 1fr);
+            gap: 3rem;
+            grid-template-areas: 
+                "a a a a b b"
+                "a a a a c c"
+                "d d d e e e"
+            ;
+        }
+    }
 </style>

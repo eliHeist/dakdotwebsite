@@ -6,7 +6,7 @@
     import { Menu, Phone } from "lucide-svelte";
 </script>
 
-<div class="content-grid">
+<div class="content-grid fixed top-0 left-0 right-0">
     <header class="breakout">
         <div class="corner">
             <a href="https://svelte.dev/docs/kit">

@@ -42,29 +42,29 @@
     <header class="pb-16">
         <h2 class="title-1">What we <br>Do for You?</h2>
     </header>
-    <div class="services breakout grid gap-y-12">
+    <div class="services grid gap-y-12">
         {#each services as service, index}
         <article>
-            <header class="text-4xl border-b border-lead/20 p-4">
+            <header class="text-4xl lg:text-5xl border-b border-lead/20 p-4">
                 <h3>
                     <span class="text-red">{index + 1}.</span>
                     {service.title}
                 </h3>
             </header>
             <div class="flex">
-                <div class="text-4xl pl-4">
+                <div class="text-4xl lg:text-5xl pl-4">
                     <span class="text-red opacity-0">{index + 1}.</span>
                 </div>
                 <div class="flex-1">
-                    <p class="text-lg p-4 text-lead">{service.description}</p>
+                    <p class="text-lg lg:text-xl p-4 text-lead">{service.description}</p>
                 </div>
             </div>
         </article>
         {/each}
     </div>
-    <div class="tags py-20 flex flex-wrap gap-2 justify-center">
+    <div class="tags py-20 flex flex-wrap gap-2 md:gap-3 lg:gap-4 justify-center">
         {#each tags as tag}
-            <div class="rounded-lg bg-dark/45 py-1.5 px-3 outline-2 outline-dark flex gap-x-2 items-center text-sm">
+            <div class="rounded-lg bg-dark/45 py-1.5 px-3 outline-2 outline-dark flex gap-x-2 items-center text-sm lg:text-base">
                 <Star class="fill-red stroke-red h-4"/>
                 <span>{tag.name}</span>
             </div>

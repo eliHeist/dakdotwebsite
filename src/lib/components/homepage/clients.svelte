@@ -4,7 +4,7 @@
 	});
 </script>
 
-<section class="py-8 bg-black">
+<section class="py-20 bg-black">
 	<div class="scroller" data-direction="left" data-speed="fast">
 		<div class="scroller__inner gap-x-12">
 			<img src="/clients/mbfauto.svg" alt="" />

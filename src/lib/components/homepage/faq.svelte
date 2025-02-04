@@ -44,6 +44,7 @@
             answer: 'Yes, we offer consulting services such as strategy consulting, technology consulting, and marketing consulting.'
         },
     ]
+
 </script>
 
 <section class="py-24 content-grid">
