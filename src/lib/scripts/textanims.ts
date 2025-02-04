@@ -6,7 +6,7 @@ import SplitType from 'split-type'
 gsap.registerPlugin(ScrollTrigger);
 
 
-export function observeText(start: string = 'top 80%', end: string = 'top 20%') {
+export function observeText(start: string = 'top 80%', end: string = 'top 20%', scrub: boolean = true) {
     const split_types = document.querySelectorAll('.reveal-type') as NodeList
 
     split_types.forEach((char:any,i:any) => {
@@ -17,11 +17,13 @@ export function observeText(start: string = 'top 80%', end: string = 'top 20%') 
                 trigger: char,
                 start: 'top 80%',
                 end: 'top 20%',
-                scrub: true,
+                scrub: scrub,
                 markers: false,
                 toggleActions: 'play play reverse reverse',
             },
             opacity: 0.01,
+            scaleY: 0,
+            y: 10,
             transformOrigin: 'bottom',
             stagger: 0.1,
             ease: "power1.out"

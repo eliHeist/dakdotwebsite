@@ -1,28 +1,30 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import '../app.css';
-    import '../app.ts';
+	import '../app.ts';
 
-    import Lenis from "lenis";
-    import { gsap } from "gsap";
+	import Lenis from 'lenis';
+	import { gsap } from 'gsap';
+	import Footer from './Footer.svelte';
 
-    $effect(() => {
-        // const ScrollTrigger = (await import('gsap/ScrollTrigger')).default;
+	$effect(() => {
 
-        // Initialize a new Lenis instance for smooth scrolling
-        const lenis = new Lenis();
+		// const ScrollTrigger = (await import('gsap/ScrollTrigger')).default;
 
-        // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
-        // lenis.on('scroll', ScrollTrigger.update);
+		// Initialize a new Lenis instance for smooth scrolling
+		const lenis = new Lenis();
 
-        // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
-        // This ensures Lenis's smooth scroll animation updates on each GSAP tick
-        gsap.ticker.add((time) => {
-        lenis.raf(time * 1000); // Convert time from seconds to milliseconds
-        });
+		// Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
+		// lenis.on('scroll', ScrollTrigger.update);
 
-        // Disable lag smoothing in GSAP to prevent any delay in scroll animations
-        gsap.ticker.lagSmoothing(0);
+		// Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
+		// This ensures Lenis's smooth scroll animation updates on each GSAP tick
+		gsap.ticker.add((time) => {
+			lenis.raf(time * 1000); // Convert time from seconds to milliseconds
+		});
+
+		// Disable lag smoothing in GSAP to prevent any delay in scroll animations
+		gsap.ticker.lagSmoothing(0);
 	});
 
 	let { children } = $props();
@@ -35,11 +37,7 @@
 		{@render children()}
 	</main>
 
-	<footer>
-		<p>
-            DakDot Creations &copy; 2025
-		</p>
-	</footer>
+	<Footer />
 </div>
 
 <style>
@@ -51,11 +49,7 @@
 
 	main {
 		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
 		width: 100%;
-		margin: 0 auto;
 		box-sizing: border-box;
 	}
 
@@ -64,7 +58,6 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		padding: 12px;
 	}
 
 	footer a {

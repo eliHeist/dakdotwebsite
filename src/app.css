@@ -1,5 +1,6 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @import '@fontsource/fira-mono';
+@import './css/_infinitescroller';
 
 :root {
 	--color-bg-0: rgb(202, 216, 228);
@@ -13,84 +14,93 @@
 	color: var(--color-light);
 }
 
-@theme{
-    --color-white: #fdfefd;
-    --color-light: #e1e4e1;
-    --color-black: #0a0c0a;
-    --color-dark: #292b29;
-    --color-red: #ee2531;
-    --color-blue: #274595;
-    --color-yellow: #efd212;
+@theme {
+	--color-white: #FDFEFD;
+	--color-lead: #CDC3C5;
+	--color-black: #0C0C0C;
+	--color-dark: #1F1C1C;
+	--color-red: #EE2531;
+    
+	--color-light: #e1e4e1;
+	--color-blue: #274595;
+	--color-yellow: #efd212;
 
-    --font-display: "Inter" serif;
+	--font-display: 'Inter' serif;
+}
+
+.test {
+	color: #b5b3b3;
 }
 
 body {
 	min-height: 100vh;
 	margin: 0;
-    font-style: var(--font-display);
+	font-style: var(--font-display);
 
-	background-attachment: fixed;
 	background-color: var(--color-black);
-	background-size: 100vw 100vh;
-	background-image: radial-gradient(
-			50% 50% at 50% 50%,
-			var(--color-dark) 0%,
-			var(--color-black) 100%
-		);
 }
 
-@layer components{
-    .content-grid {
-        --padding-inline: 1rem;
-        --content-max-width: 1200px;
-        --breakout-max-width: 1600px;
-        --breakout-size: calc((var(--breakout-max-width) - var(--content-max-width)) / 2);
-    
-        display: grid;
-        grid-template-columns:
-            [full-width-start] minmax(var(--padding-inline), 1fr) [breakout-start] minmax(0, var(--breakout-size)) [content-start] min(100% - (var(--padding-inline) * 2),
-                var(--content-max-width)) [content-end] minmax(0, var(--breakout-size)) [breakout-end] minmax(var(--padding-inline), 1fr) [full-width-end];
-    
-        & > :not(.breakout, .full-width) {
-            grid-column: content;
-        }
-        
-        & > .breakout {
-            grid-column: breakout;
-        }
-        
-        & > .full-width {
-            grid-column: full-width;
-        }
-    }
+@layer components {
+	.content-grid {
+		--padding-inline: 1rem;
+		--content-max-width: 1200px;
+		--breakout-max-width: 1600px;
+		--breakout-size: calc((var(--breakout-max-width) - var(--content-max-width)) / 2);
 
-    .title-1 {
-        font-size: 6rem;
-        font-weight: 600;
-        background: linear-gradient(to bottom right, #fff4af 0%, #ffa5b0 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        line-height: .9;
-    }
+		display: grid;
+		grid-template-columns:
+			[full-width-start] minmax(var(--padding-inline), 1fr) [breakout-start] minmax(
+				0,
+				var(--breakout-size)
+			) [content-start] min(100% - (var(--padding-inline) * 2), var(--content-max-width))
+			[content-end] minmax(0, var(--breakout-size)) [breakout-end] minmax(
+				var(--padding-inline),
+				1fr
+			) [full-width-end];
+
+		& > :not(.breakout, .full-width) {
+			grid-column: content;
+		}
+
+		& > .breakout {
+			grid-column: breakout;
+		}
+
+		& > .full-width {
+			grid-column: full-width;
+		}
+	}
+
+	.title-1 {
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 800;
+		font-size: 4rem;
+		/* font-size: 8rem; */
+		/* line-height: 155px; */
+		text-align: center;
+
+		background: linear-gradient(90.89deg, #fff192 0.25%, #ffa5aa 97.84%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		color: transparent;
+	}
 }
 
-@media screen and (min-width: 1000px){
-    .title-1 {
-        font-size: 10rem;
-    }
+@media screen and (min-width: 1000px) {
+	.title-1 {
+		font-size: 10rem;
+	}
 }
 
 .text-gradient {
-    background: linear-gradient(to bottom right, #fff4af 0%, #ffa5b0 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+	background: linear-gradient(to bottom right, #fff4af 0%, #ffa5b0 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
 }
-
 
 a:hover {
 	text-decoration: underline;
 }
-

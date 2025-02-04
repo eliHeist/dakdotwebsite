@@ -1,46 +1,51 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import logo from '$lib/images/logo.svg';
+    import dakdot from '$lib/images/dakdot.svg'
 	import github from '$lib/images/github.svg';
-    import { Menu } from "lucide-svelte";
+    import { Menu, Phone } from "lucide-svelte";
 </script>
 
-<header>
-	<div class="corner">
-		<a href="https://svelte.dev/docs/kit">
-			<img src={logo} alt="SvelteKit" />
-		</a>
-	</div>
-
-	<nav class="hidden sm:flex">
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-		</svg>
-		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
-			</li>
-			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
-				<a href="/sverdle">Services</a>
-			</li>
-			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
-				<a href="/sverdle">Contact</a>
-			</li>
-		</ul>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-		</svg>
-	</nav>
-
-	<div class="corner">
-		<button class="text-white">
-			<Menu/>
-		</button>
-	</div>
-</header>
+<div class="content-grid">
+    <header class="breakout">
+        <div class="corner">
+            <a href="https://svelte.dev/docs/kit">
+                <img src={dakdot} alt="SvelteKit" class="w-full" />
+            </a>
+        </div>
+    
+        <nav class="hidden sm:flex">
+            <svg viewBox="0 0 2 3" aria-hidden="true">
+                <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
+            </svg>
+            <ul>
+                <li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+                    <a href="/">Home</a>
+                </li>
+                <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+                    <a href="/about">About</a>
+                </li>
+                <li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
+                    <a href="/sverdle">Services</a>
+                </li>
+                <li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
+                    <a href="/sverdle">Contact</a>
+                </li>
+            </ul>
+            <svg viewBox="0 0 2 3" aria-hidden="true">
+                <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
+            </svg>
+        </nav>
+    
+        <div class="corner">
+            <div class="flex justify-end">
+                <button class="text-black bg-white aspect-square rounded-full grid place-content-center h-10">
+                    <Phone/>
+                </button>
+            </div>
+        </div>
+    </header>
+</div>
 
 <style>
     @reference "tailwindcss/theme";
@@ -51,22 +56,10 @@
 	}
 
 	.corner {
-		width: 3em;
-		height: 3em;
-	}
-
-	.corner a, .corner button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-	}
-
-	.corner img {
-		width: 2em;
-		height: 2em;
-		object-fit: contain;
+		width: 6rem;
+		/* width: 9rem; */
+        display: grid;
+        align-items: center;
 	}
 
 	nav {

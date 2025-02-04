@@ -9,19 +9,19 @@
     let title: HTMLElement
 
     $effect(() => {
-        observeText('top 95%', 'top 40%')
+        observeText('top 80%', 'top 10%', true)
         // aboutUsSection(wrapper, content, title)
     })
 </script>
 
-<div class="h-24 bg-gradient-to-t from-black to-transparent"></div>
-<section class="about grid relative items-center bg-black" bind:this={wrapper}>
+<section class="about grid relative items-center bg-white text-dark" bind:this={wrapper}>
     <div class="absolutely content-grid items-center h-screen" bind:this={content}>
-        <div class="text-4xl xl:text-6xl">
+        <div class="text-3xl xl:text-6xl">
             <div class="reveal-type">
-                Fueled by passion and driven by impact, every service is crafted with creativity, precision, and a deep understanding of what truly makes a difference. World-class, tailored solutions that spark meaningful change. 
+                <span class="font-bold">Fueled by passion and driven by impact,</span> where every service is crafted with creativity, precision, and a deep understanding of what truly makes a difference. It’s a place where innovation meets purpose, where ideas turn into solutions, and where excellence isn’t just a goal—it’s <span class="font-bold">the standard.</span> With world-class, tailored services designed to inspire growth and create meaningful change, this is more than just business; it’s a commitment to making a real difference. 
+                <span class="font-bold">That’s so us.</span>
             </div>
-            <p class="text-gradient font-semibold mt-4">That’s so us.</p>
+            <p class="text-gradient font-semibold mt-4"></p>
         </div>
     </div>
 </section>
