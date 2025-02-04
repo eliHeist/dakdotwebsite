@@ -1,54 +1,56 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import logo from '$lib/images/logo.svg';
-    import dakdot from '$lib/images/dakdot.svg'
+	import dakdot from '$lib/images/dakdot.svg';
 	import github from '$lib/images/github.svg';
-    import { Menu, Phone } from "lucide-svelte";
+	import { Menu, Phone } from 'lucide-svelte';
 </script>
 
-<div class="content-grid fixed top-0 left-0 right-0">
-    <header class="breakout">
-        <div class="corner">
-            <a href="https://svelte.dev/docs/kit">
-                <img src={dakdot} alt="SvelteKit" class="w-full" />
-            </a>
-        </div>
-    
-        <nav class="hidden sm:flex">
-            <svg viewBox="0 0 2 3" aria-hidden="true">
-                <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-            </svg>
-            <ul>
-                <li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-                    <a href="/">Home</a>
-                </li>
-                <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-                    <a href="/about">About</a>
-                </li>
-                <li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
-                    <a href="/sverdle">Services</a>
-                </li>
-                <li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
-                    <a href="/sverdle">Contact</a>
-                </li>
-            </ul>
-            <svg viewBox="0 0 2 3" aria-hidden="true">
-                <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-            </svg>
-        </nav>
-    
-        <div class="corner">
-            <div class="flex justify-end">
-                <button class="text-black bg-white aspect-square rounded-full grid place-content-center h-10">
-                    <Phone/>
-                </button>
-            </div>
-        </div>
-    </header>
+<div class="content-grid fixed top-2 left-0 right-0">
+	<header class="breakout">
+		<div class="corner">
+			<a href="https://svelte.dev/docs/kit">
+				<img src={dakdot} alt="SvelteKit" class="w-full" />
+			</a>
+		</div>
+
+		<nav class="hidden sm:flex">
+			<svg viewBox="0 0 2 3" aria-hidden="true">
+				<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
+			</svg>
+			<ul>
+				<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+					<a href="/">Home</a>
+				</li>
+				<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+					<a href="/about">About</a>
+				</li>
+				<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
+					<a href="/sverdle">Services</a>
+				</li>
+				<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
+					<a href="/sverdle">Contact</a>
+				</li>
+			</ul>
+			<svg viewBox="0 0 2 3" aria-hidden="true">
+				<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
+			</svg>
+		</nav>
+
+		<div class="corner">
+			<div class="flex justify-end">
+				<button
+					class="text-black bg-white aspect-square rounded-full grid place-content-center h-10"
+				>
+					<Phone />
+				</button>
+			</div>
+		</div>
+	</header>
 </div>
 
 <style>
-    @reference "tailwindcss/theme";
+	@reference "tailwindcss/theme";
 
 	header {
 		display: flex;
@@ -58,19 +60,27 @@
 	.corner {
 		width: 6rem;
 		/* width: 9rem; */
-        display: grid;
-        align-items: center;
+		display: grid;
+		align-items: center;
 	}
 
 	nav {
+		--background: theme(--color-black);
 		justify-content: center;
-		--background: theme(--color-white);
-	}
-
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
+        border-radius: 2rem;
+        border: 1px solid theme(--color-white);
+        padding: 0 1rem;
+        transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+		& svg {
+            width: 2em;
+			height: 3em;
+			display: none;
+		}
+        
+        &:hover{
+            padding: 0 2rem;
+        }
 	}
 
 	path {
@@ -86,8 +96,6 @@
 		justify-content: center;
 		align-items: center;
 		list-style: none;
-		background: var(--background);
-		background-size: contain;
 	}
 
 	li {
@@ -112,7 +120,7 @@
 		height: 100%;
 		align-items: center;
 		padding: 0 0.5rem;
-		color: var(--color-text);
+		color: var(--color-white);
 		font-weight: 500;
 		font-size: 0.8rem;
 		text-transform: uppercase;
