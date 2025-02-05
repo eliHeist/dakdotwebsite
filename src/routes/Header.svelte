@@ -6,7 +6,7 @@
 	import { Menu, Phone } from 'lucide-svelte';
 </script>
 
-<div class="content-grid fixed top-2 left-0 right-0">
+<div class="content-grid fixed top-2 left-0 right-0 page-header py-2 z-20">
 	<header class="breakout">
 		<div class="corner">
 			<a href="https://svelte.dev/docs/kit">
@@ -14,7 +14,7 @@
 			</a>
 		</div>
 
-		<nav class="hidden sm:flex">
+		<nav class="hidden sm:flex page-header-blur">
 			<svg viewBox="0 0 2 3" aria-hidden="true">
 				<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 			</svg>
@@ -71,6 +71,8 @@
         border: 1px solid theme(--color-white);
         padding: 0 1rem;
         transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        backdrop-filter: blur(5px);
+        background-color: #0c0c0c8e;
         
 		& svg {
             width: 2em;
@@ -101,9 +103,25 @@
 	li {
 		position: relative;
 		height: 100%;
+
+        &[aria-current='page']{
+            font-weight: 900;
+
+            &::before {
+                --size: 6px;
+                content: '';
+                width: 0;
+                height: 0;
+                position: absolute;
+                top: 0;
+                left: calc(50% - var(--size));
+                border: var(--size) solid transparent;
+                border-top: var(--size) solid var(--color-red);
+            }
+        }
 	}
 
-	li[aria-current='page']::before {
+	/* li[aria-current='page']::before {
 		--size: 6px;
 		content: '';
 		width: 0;
@@ -113,7 +131,7 @@
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
 		border-top: var(--size) solid var(--color-red);
-	}
+	} */
 
 	nav a {
 		display: flex;
