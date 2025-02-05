@@ -37,22 +37,30 @@
 
 		gsap.set(heroSVG, { opacity: 0, y: '50%' });
 
-		animation.to(heroSVG, {
-			opacity: 1,
+		animation.to(
+			heroSVG,
+			{
+				opacity: 1,
+				y: 0,
+				duration: 0.75,
+				ease: 'power1.inOut'
+			},
+			'-=1'
+		);
+		animation.to('.hero-text-reveal', {
+			clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)',
 			y: 0,
-			duration: .75,
-			ease: 'power1.inOut'
-		}, '-=1');
-		animation.to('.hero-text-reveal', {
-            clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)',
-            y: 0,
-			duration: .75,
+			duration: 0.75
 		});
-		animation.to('.hero-text-reveal', {
-			clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-			stagger: 0.3,
-			duration: 1,
-		}, '<');
+		animation.to(
+			'.hero-text-reveal',
+			{
+				clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+				stagger: 0.3,
+				duration: 1
+			},
+			'<'
+		);
 	});
 </script>
 
@@ -87,7 +95,21 @@
 	</div>
 </section>
 
-<section class="grid items-end -z-10 h-[100svh] full-width" bind:this={heroElement}>
+<section class="grid items-end -z-10 h-[100svh] full-width relative" bind:this={heroElement}>
+	<svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 object-cover" width="100%" height="100%">
+        <rect fill="#0C0C0C" width="24" height="24" />
+        <defs>
+            <linearGradient id="a" x1="0" x2="0" y1="0" y2="1" gradientTransform="rotate(360,0.5,0.5)">
+                <stop offset="0" stop-color="#EE2531" />
+                <stop offset="1" stop-color="#0C0C0C" />
+            </linearGradient>
+        </defs>
+        <pattern id="b" width="32" height="32" patternUnits="userSpaceOnUse">
+            <circle fill="#0C0C0C" cx="16" cy="16" r="16" />
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#a)" />
+        <rect width="100%" height="100%" fill="url(#b)" fill-opacity="0.12" />
+    </svg>
 	<div class="grid content-grid">
 		<div class="relative">
 			<svg
