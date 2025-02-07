@@ -4,7 +4,10 @@
 
 	let preloaderElement: HTMLElement;
 	let heroElement: HTMLElement;
+	let heroSVGSection: HTMLElement;
 	let heroSVG: SVGElement;
+	let heroSVGBackDrop: SVGElement;
+	let heroSVGGlow: SVGElement;
 	let heroText: HTMLElement;
 
 	$effect(() => {
@@ -35,32 +38,46 @@
 			ease: 'power1.inOut'
 		});
 
-		gsap.set(heroSVG, { opacity: 0, y: '50%' });
+		gsap.set(heroSVGSection, { opacity: 0, y: '50%' });
+		gsap.set(heroSVGBackDrop, { opacity: 0 });
 
 		animation.to(
-			heroSVG,
+			heroSVGSection,
 			{
 				opacity: 1,
 				y: 0,
 				duration: 0.75,
 				ease: 'power1.inOut'
 			},
-			'-=1'
+			'-=0.2'
 		);
 		animation.to('.hero-text-reveal', {
-			clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)',
 			y: 0,
-			duration: 0.75
+			duration: 1
 		});
 		animation.to(
 			'.hero-text-reveal',
 			{
 				clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
 				stagger: 0.3,
-				duration: 1
+				duration: 0.75
 			},
 			'<'
 		);
+        animation.to(
+            heroSVGBackDrop,
+            {
+                opacity: 1,
+                duration: 2
+            }
+        )
+        animation.to(
+            heroSVGGlow,
+            {
+                opacity: .3,
+                duration: 2
+            }
+        )
 	});
 </script>
 
@@ -96,24 +113,98 @@
 </section>
 
 <section class="grid items-end -z-10 h-[100svh] full-width relative" bind:this={heroElement}>
-	<svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 object-cover" width="100%" height="100%">
-        <rect fill="#0C0C0C" width="24" height="24" />
-        <defs>
-            <linearGradient id="a" x1="0" x2="0" y1="0" y2="1" gradientTransform="rotate(360,0.5,0.5)">
-                <stop offset="0" stop-color="#EE2531" />
-                <stop offset="1" stop-color="#0C0C0C" />
-            </linearGradient>
-        </defs>
-        <pattern id="b" width="32" height="32" patternUnits="userSpaceOnUse">
-            <circle fill="#0C0C0C" cx="16" cy="16" r="16" />
-        </pattern>
-        <rect width="100%" height="100%" fill="url(#a)" />
-        <rect width="100%" height="100%" fill="url(#b)" fill-opacity="0.12" />
-    </svg>
+    <div class="content-grid absolute top-0 left-0 right-0 hidden">
+        <svg
+            bind:this={heroSVGGlow}
+            class="w-full -z-[1] opacity-0"
+            viewBox="0 0 968 474"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M0.5 0H968V474H0.5V0Z" fill="url(#paint0_linear_526_197)" />
+            <defs>
+                <linearGradient
+                    id="paint0_linear_526_197"
+                    x1="36.5353"
+                    y1="235.752"
+                    x2="937"
+                    y2="233"
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <stop stop-color="#EE2531" stop-opacity="0" />
+                    <stop offset="0.505" stop-color="#EE2531" />
+                    <stop offset="1" stop-color="#EE2531" stop-opacity="0" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
 	<div class="grid content-grid">
 		<div class="relative">
-			<svg
-				bind:this={heroSVG}
+			<div class="absolute top-0 left-0 right-0 z-[-1]" bind:this={heroSVGSection}>
+				<svg class="w-full" viewBox="0 0 969 585" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<g filter="url(#filter0_df_414_113)">
+						<path
+                        bind:this={heroSVGBackDrop}
+							d="M905 545C905 545 717.2 545 484.965 545C252.729 545 64 545 64 545C64 292.606 252.264 88 484.5 88C716.736 88 905 292.606 905 545Z"
+							fill="#EE2531"
+							fill-opacity="0.91"
+							shape-rendering="crispEdges"
+						/>
+					</g>
+					<path
+						d="M937 547.5C937 547.5 734.909 547.5 485 547.5C235.091 547.5 32 547.5 32 547.5C32 297.039 234.591 94 484.5 94C734.409 94 937 297.039 937 547.5Z"
+						fill="#FDFEFD"
+					/>
+					<path
+						d="M937 553.5C937 553.5 734.909 553.5 485 553.5C235.091 553.5 32 553.5 32 553.5C32 303.039 234.591 100 484.5 100C734.409 100 937 303.039 937 553.5Z"
+						fill="#0C0C0C"
+					/>
+					<defs>
+						<filter
+							id="filter0_df_414_113"
+							x="0"
+							y="0"
+							width="969"
+							height="585"
+							filterUnits="userSpaceOnUse"
+							color-interpolation-filters="sRGB"
+						>
+							<feFlood flood-opacity="0" result="BackgroundImageFix" />
+							<feColorMatrix
+								in="SourceAlpha"
+								type="matrix"
+								values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+								result="hardAlpha"
+							/>
+							<feMorphology
+								radius="16"
+								operator="dilate"
+								in="SourceAlpha"
+								result="effect1_dropShadow_414_113"
+							/>
+							<feOffset dy="-24" />
+							<feGaussianBlur stdDeviation="24" />
+							<feComposite in2="hardAlpha" operator="out" />
+							<feColorMatrix
+								type="matrix"
+								values="0 0 0 0 0.933333 0 0 0 0 0.145098 0 0 0 0 0.192157 0 0 0 0.93 0"
+							/>
+							<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_414_113" />
+							<feBlend
+								mode="normal"
+								in="SourceGraphic"
+								in2="effect1_dropShadow_414_113"
+								result="shape"
+							/>
+							<feGaussianBlur stdDeviation="2" result="effect2_foregroundBlur_414_113" />
+						</filter>
+					</defs>
+				</svg>
+				<div class="bg-black h-[20vh] w-full -translate-y-10"></div>
+			</div>
+
+			<!-- <svg
+				
 				class="w-full absolute top-0 left-0 z-[-1]"
 				viewBox="0 0 905 460"
 				fill="none"
@@ -127,16 +218,16 @@
 					d="M905 459.5C905 459.5 702.909 459.5 453 459.5C203.091 459.5 0 459.5 0 459.5C0 209.039 202.591 6 452.5 6C702.409 6 905 209.039 905 459.5Z"
 					fill="#0C0C0C"
 				/>
-			</svg>
+			</svg> -->
 
-			<div class="text-center w-full z-[3] px-10 mt-20 sm:mt-32 md:mt-40 lg:mt-56">
+			<div class="text-center w-full z-[3] px-10 mt-32 sm:mt-48 md:mt-56 lg:mt-68">
 				<div
-					class="grid text-[2rem] sm:text-[3rem] md:text-[3.5rem] lg:text-7xl text-white font-light"
+					class="grid text-[2rem] sm:text-[3rem] md:text-[3.5rem] lg:text-7xl text-white font-light [line-height:100%]"
 				>
 					<h2 class="font-bold hero-text-reveal">Brand Design</h2>
 					<h3 class="hero-text-reveal">with excellence</h3>
 				</div>
-				<p class="mt-4 text-lg text-lead max-w-md mx-auto hero-text-reveal">
+				<p class="mt-4 text-lg text-lead max-w-[35rem] mx-auto hero-text-reveal">
 					Innovative design solutions for technology firms and emerging businesses weary of the
 					typical aesthetic methodology, Arriving shortly.
 				</p>
