@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import '@fontsource/fira-mono';
 @import './css/_infinitescroller';
 
 :root {
@@ -25,7 +24,7 @@
 	--color-blue: #274595;
 	--color-yellow: #efd212;
 
-	--font-display: 'Inter' serif;
+	--font-display: "Inter Tight" serif;
 }
 
 .test {
@@ -72,12 +71,11 @@ body {
 	}
 
 	.title-1 {
-		font-family: 'Inter';
 		font-style: normal;
 		font-weight: 800;
 		font-size: 4rem;
 		/* font-size: 8rem; */
-		/* line-height: 155px; */
+		line-height: 100%;
 		text-align: center;
 
 		background: linear-gradient(90.89deg, #fff192 0.25%, #ffa5aa 97.84%);
