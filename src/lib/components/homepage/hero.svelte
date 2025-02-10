@@ -9,6 +9,8 @@
 	let heroSVGBackDrop: SVGElement;
 	let heroSVGGlow: SVGElement;
 	let heroText: HTMLElement;
+	let follower1: SVGElement;
+	let follower2: SVGElement;
 
 	$effect(() => {
 		let svg = preloaderElement.querySelector('svg');
@@ -64,20 +66,50 @@
 			},
 			'<'
 		);
-        animation.to(
-            heroSVGBackDrop,
-            {
-                opacity: 1,
-                duration: 2
-            }
-        )
-        animation.to(
-            heroSVGGlow,
-            {
-                opacity: .3,
-                duration: 2
-            }
-        )
+		animation.to(heroSVGBackDrop, {
+			opacity: 1,
+			duration: 2
+		});
+		animation.to(follower1, {
+			scale: 1,
+			y: 0,
+			duration: 3
+		}, '<');
+		animation.to(follower2, {
+			scale: 1,
+			y: 0,
+			duration: 1
+		}, '-=1');
+
+		document.addEventListener('mousemove', (e) => {
+			const { clientX: x, clientY: y } = e;
+			let winWidth = window.innerWidth;
+			let winHeight = window.innerHeight;
+
+			// Move smoothly towards cursor
+			changeTransform(follower1, winWidth, winHeight, x, y);
+			changeTransform(follower2, winWidth, winHeight, x, y);
+		});
+
+		function changeTransform(
+			follower: SVGElement,
+			win_width: number,
+			win_height: number,
+			clientX: number,
+			clientY: number
+		) {
+			return;
+			let follower_width = follower.clientWidth;
+			let follower_height = follower.clientHeight;
+
+			let x = win_width / 2;
+			let y = win_height / 2;
+
+			let x_percent = ((x - follower_width / 2) / win_width) * 100;
+			let y_percent = ((y - follower_height / 2) / win_height) * 100;
+
+			follower.style.transform = `translate3d(${x_percent}%, ${y_percent}%, 0)`;
+		}
 	});
 </script>
 
@@ -112,95 +144,90 @@
 	</div>
 </section>
 
-<section class="grid items-end -z-10 h-[100svh] full-width relative" bind:this={heroElement}>
-    <div class="content-grid absolute top-0 left-0 right-0 hidden">
-        <svg
-            bind:this={heroSVGGlow}
-            class="w-full -z-[1] opacity-0"
-            viewBox="0 0 968 474"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path d="M0.5 0H968V474H0.5V0Z" fill="url(#paint0_linear_526_197)" />
-            <defs>
-                <linearGradient
-                    id="paint0_linear_526_197"
-                    x1="36.5353"
-                    y1="235.752"
-                    x2="937"
-                    y2="233"
-                    gradientUnits="userSpaceOnUse"
-                >
-                    <stop stop-color="#EE2531" stop-opacity="0" />
-                    <stop offset="0.505" stop-color="#EE2531" />
-                    <stop offset="1" stop-color="#EE2531" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-        </svg>
-    </div>
+<section class="grid items-end -z-10 h-[100svh] full-width relative overflow-hidden" bind:this={heroElement}>
+	<svg
+		class="absolute top-[10vh] sm:top-0 -left-[20vw] sm:left-0 z-[-1] w-[60vw] sm:w-[40vw] opacity-0 glowing"
+		fill="none"
+		bind:this={follower1}
+		viewBox="0 0 660 596"
+	>
+		<rect width="660" height="596" fill="url(#paint0_radial_548_181)" />
+		<defs>
+			<radialGradient
+				id="paint0_radial_548_181"
+				cx="0"
+				cy="0"
+				r="1"
+				gradientUnits="userSpaceOnUse"
+				gradientTransform="translate(330 298) rotate(90) scale(298 330)"
+			>
+				<stop stop-color="#F3E5E6" stop-opacity="0.25" />
+				<stop offset="1" stop-color="#FBF0F0" stop-opacity="0" />
+			</radialGradient>
+		</defs>
+	</svg>
+
+	<svg
+		class="absolute top-[15vh] sm:top-[20vh] -right-[15vw] sm:right-[5vw] z-[-1] w-[50vw] sm:w-[30vw] opacity-0 glowing"
+		viewBox="0 0 568 497"
+		fill="none"
+		bind:this={follower2}
+	>
+		<rect y="-16" width="568" height="513" fill="url(#paint0_radial_545_179)" />
+		<defs>
+			<radialGradient
+				id="paint0_radial_545_179"
+				cx="0"
+				cy="0"
+				r="1"
+				gradientUnits="userSpaceOnUse"
+				gradientTransform="translate(284 240.5) rotate(90) scale(256.5 284)"
+			>
+				<stop stop-color="#EE2531" stop-opacity="0.37" />
+				<stop offset="1" stop-color="#FF0000" stop-opacity="0" />
+			</radialGradient>
+		</defs>
+	</svg>
+
+	<div class="content-grid absolute top-0 left-0 right-0 hidden glowing"></div>
 	<div class="grid content-grid">
 		<div class="relative">
 			<div class="absolute top-0 left-0 right-0 z-[-1]" bind:this={heroSVGSection}>
-				<svg class="w-full" viewBox="0 0 969 585" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<g filter="url(#filter0_df_414_113)">
+				<svg class="w-full main-svg hero-svg-shadow" viewBox="0 0 905 470" fill="none">
+					<g filter="url(#filter0_f_414_113)">
 						<path
-                        bind:this={heroSVGBackDrop}
-							d="M905 545C905 545 717.2 545 484.965 545C252.729 545 64 545 64 545C64 292.606 252.264 88 484.5 88C716.736 88 905 292.606 905 545Z"
+							bind:this={heroSVGBackDrop}
+							d="M894 461C894 461 696.822 461 452.988 461C209.154 461 11 461 11 461C11 208.606 208.666 4 452.5 4C696.334 4 894 208.606 894 461Z"
 							fill="#EE2531"
 							fill-opacity="0.91"
-							shape-rendering="crispEdges"
 						/>
 					</g>
 					<path
-						d="M937 547.5C937 547.5 734.909 547.5 485 547.5C235.091 547.5 32 547.5 32 547.5C32 297.039 234.591 94 484.5 94C734.409 94 937 297.039 937 547.5Z"
+						d="M905 463.5C905 463.5 702.909 463.5 453 463.5C203.091 463.5 0 463.5 0 463.5C0 213.039 202.591 10 452.5 10C702.409 10 905 213.039 905 463.5Z"
 						fill="#FDFEFD"
 					/>
 					<path
-						d="M937 553.5C937 553.5 734.909 553.5 485 553.5C235.091 553.5 32 553.5 32 553.5C32 303.039 234.591 100 484.5 100C734.409 100 937 303.039 937 553.5Z"
+						d="M905 469.5C905 469.5 702.909 469.5 453 469.5C203.091 469.5 0 469.5 0 469.5C0 219.039 202.591 16 452.5 16C702.409 16 905 219.039 905 469.5Z"
 						fill="#0C0C0C"
 					/>
 					<defs>
 						<filter
-							id="filter0_df_414_113"
-							x="0"
+							id="filter0_f_414_113"
+							x="7"
 							y="0"
-							width="969"
-							height="585"
+							width="891"
+							height="465"
 							filterUnits="userSpaceOnUse"
 							color-interpolation-filters="sRGB"
 						>
 							<feFlood flood-opacity="0" result="BackgroundImageFix" />
-							<feColorMatrix
-								in="SourceAlpha"
-								type="matrix"
-								values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-								result="hardAlpha"
-							/>
-							<feMorphology
-								radius="16"
-								operator="dilate"
-								in="SourceAlpha"
-								result="effect1_dropShadow_414_113"
-							/>
-							<feOffset dy="-24" />
-							<feGaussianBlur stdDeviation="24" />
-							<feComposite in2="hardAlpha" operator="out" />
-							<feColorMatrix
-								type="matrix"
-								values="0 0 0 0 0.933333 0 0 0 0 0.145098 0 0 0 0 0.192157 0 0 0 0.93 0"
-							/>
-							<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_414_113" />
-							<feBlend
-								mode="normal"
-								in="SourceGraphic"
-								in2="effect1_dropShadow_414_113"
-								result="shape"
-							/>
-							<feGaussianBlur stdDeviation="2" result="effect2_foregroundBlur_414_113" />
+							<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+							<feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_414_113" />
 						</filter>
 					</defs>
 				</svg>
-				<div class="bg-black h-[20vh] w-full -translate-y-10"></div>
+
+				<div class="bg-black h-[20vh] w-full -translate-y-10 opacity-0"></div>
 			</div>
 
 			<!-- <svg
@@ -220,16 +247,17 @@
 				/>
 			</svg> -->
 
-			<div class="text-center w-full z-[3] px-10 mt-32 sm:mt-48 md:mt-56 lg:mt-68">
+			<div class="text-center w-full z-[3] px-10 mt-36 sm:mt-48 md:mt-56 lg:mt-68">
 				<div
-					class="grid text-[2rem] sm:text-[3rem] md:text-[3.5rem] lg:text-7xl text-white font-light [line-height:100%]"
+					class="grid text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-7xl text-white font-light [line-height:100%]"
 				>
 					<h2 class="font-bold hero-text-reveal">Brand Design</h2>
 					<h3 class="hero-text-reveal">with excellence</h3>
 				</div>
 				<p class="mt-4 text-lg text-lead max-w-[35rem] mx-auto hero-text-reveal">
-					Innovative design solutions for technology firms and emerging businesses weary of the
-					typical aesthetic methodology, Arriving shortly.
+					Revolutionizing Digital Presence for firms and emerging businesses tired of the usual
+					aesthetics. We deliver unique and impactful visual and digital solutions tailored to your
+					brand's distinct identity. Get ready to stand out in the digital landscape.
 				</p>
 				<div class="mt-12">
 					<a href="#">
@@ -247,5 +275,44 @@
 		clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
 		transition: all 1.5s;
 		transform: translateY(3rem);
+	}
+
+	.main-svg {
+		position: relative;
+
+		&::after {
+			pointer-events: none;
+			content: '';
+			position: absolute;
+			top: 100%;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background-color: var(--color-red);
+			filter: blur(2em);
+			opacity: 1;
+			transform: perspective(1.5em) rotateX(35deg) scale(1, 0.6);
+			transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		}
+	}
+
+	.glowing {
+		/* create a glowing animation that is infinite and uses opacity from 0.5 to 1 */
+		animation: glowing 5s infinite;
+        scale: 0;
+        /* transform: translateY(50%); */
+	}
+
+	@keyframes glowing {
+		0% {
+			opacity: 0.5;
+			/* tra */
+		}
+		50% {
+			opacity: 0.8;
+		}
+		100% {
+			opacity: 0.5;
+		}
 	}
 </style>

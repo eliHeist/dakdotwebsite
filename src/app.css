@@ -24,7 +24,7 @@
 	--color-blue: #274595;
 	--color-yellow: #efd212;
 
-	--font-display: "Inter Tight" serif;
+    --default-font-family: 'Inter Tight', serif;
 }
 
 .test {
@@ -34,7 +34,6 @@
 body {
 	min-height: 100vh;
 	margin: 0;
-	font-style: var(--font-display);
 
 	background-color: var(--color-black);
 }

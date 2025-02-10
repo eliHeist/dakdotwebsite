@@ -67,22 +67,23 @@
 	nav {
 		--background: theme(--color-black);
 		justify-content: center;
-        border-radius: 2rem;
-        border: 1px solid theme(--color-white);
-        padding: 0 1rem;
-        transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        backdrop-filter: blur(5px);
-        background-color: #0c0c0c8e;
-        
+		border-radius: 2rem;
+		border: 1px solid theme(--color-white);
+		padding: 0 1rem;
+		transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		backdrop-filter: blur(5px);
+		background-color: #0c0c0c8e;
+        position: relative;
+
 		& svg {
-            width: 2em;
+			width: 2em;
 			height: 3em;
 			display: none;
 		}
         
-        &:hover{
+		&:hover {
             padding: 0 2rem;
-        }
+		}
 	}
 
 	path {
@@ -104,21 +105,21 @@
 		position: relative;
 		height: 100%;
 
-        &[aria-current='page']{
-            font-weight: 900;
+		&[aria-current='page'] {
+			font-weight: 900;
 
-            &::before {
-                --size: 6px;
-                content: '';
-                width: 0;
-                height: 0;
-                position: absolute;
-                top: 0;
-                left: calc(50% - var(--size));
-                border: var(--size) solid transparent;
-                border-top: var(--size) solid var(--color-red);
-            }
-        }
+			&::before {
+				--size: 6px;
+				content: '';
+				width: 0;
+				height: 0;
+				position: absolute;
+				top: 0;
+				left: calc(50% - var(--size));
+				border: var(--size) solid transparent;
+				border-top: var(--size) solid var(--color-red);
+			}
+		}
 	}
 
 	/* li[aria-current='page']::before {

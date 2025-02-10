@@ -14,7 +14,7 @@
 			let details = card.querySelector('.project-details h3');
 			let categories = card.querySelectorAll('.categories .category');
 
-			gsap.set(card, { y: 250 });
+			gsap.set(card, { y: 200 });
 			gsap.set(img, { scale: 1.25 });
 			gsap.set(details, { opacity: 0 });
 			gsap.set(categories, { x: 50, opacity: 0 });
@@ -22,10 +22,10 @@
 			let tl = gsap.timeline({
 				scrollTrigger: {
 					trigger: img,
-					start: 'top 90%',
+					start: '-50 95%',
 					end: '+=500',
-					scrub: true,
-                    toggleActions: 'play play reverse reverse'
+					scrub: 1,
+                    toggleActions: 'play play reverse reverse',
 				}
 			});
 
