@@ -1,26 +1,7 @@
 <script lang="ts">
-    import { Star } from "lucide-svelte";
-    
-	let services = [
-		{
-			title: 'Software Solutions',
-            image_url: '/images/business-woman-working-office.webp',
-			description:
-				'We create fast, responsive, and scalable digital experiences, from simple landing pages to complex web applications.'
-		},
-		{
-			title: 'Design',
-            image_url: '/images/business-woman-working-office.webp',
-			description:
-				'Our design team crafts stunning visuals and brand identities that connect with your audience and make your brand unforgettable.'
-		},
-		{
-			title: 'Motion',
-            image_url: '/images/business-woman-working-office.webp',
-			description:
-				'We produce captivating videos and motion graphics that grab attention, tell your story, and leave a lasting impression.'
-		}
-	];
+    import { Star, Computer } from "lucide-svelte";
+    import { gsap } from "gsap";
+    import { services } from "$lib/data/homepage";
 
     let tags = [
         {'name': "UI/UX Design"},
@@ -34,32 +15,104 @@
         {'name': "Animation"},
         {'name': "Photography"},
     ]
+
+    let servicesWrapper:HTMLElement
+    let servicesHeader:HTMLElement
+
+    $effect(() => {
+        const cards = servicesWrapper.querySelectorAll(".service.card")
+        const rotations = [0, 2, -1.2, 1, -2, 1.5, 0.5, -0.7,]
+
+        cards.forEach((card:any, index:number) => {
+            gsap.set(card, {
+                y: window.innerHeight,
+                rotate: rotations[index],
+            })
+        })
+        
+        gsap.to(servicesHeader, {
+            scrollTrigger: {
+                trigger: servicesWrapper,
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            filter: "blur(5px)",
+            right: 0
+        })
+
+        scrollAnimation()
+
+        async function scrollAnimation() {
+            const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+            gsap.registerPlugin(ScrollTrigger)
+
+            ScrollTrigger.create({
+                trigger: servicesWrapper,
+                start: "top top",
+                end: `+=${window.innerHeight * 5}px`,
+                pin: true,
+                pinSpacing: true,
+                scrub: 1,
+                onUpdate: (self) => {
+                    const progress = self.progress 
+                    const totalCards = cards.length
+                    const progressPerCard = 1 / totalCards
+
+                    cards.forEach((card, index) => {
+                        const cardStart = index * progressPerCard
+                        let cardProgress = (progress - cardStart) / progressPerCard
+                        cardProgress = Math.min(Math.max(cardProgress, 0), 1)
+
+                        let yPos = window.innerHeight * (1 - cardProgress)
+                        let xPos = 0
+
+                        if (cardProgress === 1 && index < totalCards - 1) {
+                            const remainingProgress = (progress - (cardStart + progressPerCard)) / (1 - (cardStart + progressPerCard))
+
+                            if (remainingProgress > 0) {
+                                const distanceMultiplier = 1 - index * 0.15
+
+                                xPos = -window.innerWidth * 0.3 * distanceMultiplier * remainingProgress
+                                
+                                yPos = -window.innerHeight * 0.3 * distanceMultiplier * remainingProgress
+                            }
+                        }
+
+                        gsap.to(card, {
+                            y: yPos,
+                            x: xPos,
+                            duration: 0,
+                            ease: "none"
+                        })
+                    })
+                }
+            })
+        }
+
+    })
 </script>
 
-<!-- grid layout for 3services where each service hasan image on one side and the content (title and description) on the other side,  -->
-<!-- the image and content should be in the same row -->
 <section class="content-grid bg-black py-24">
-    <header class="pb-16">
-        <h2 class="title-1">What we <br>Do for You?</h2>
-    </header>
-    <div class="services grid gap-y-12">
+    <div class="services gap-y-12 full-width grid place-content-center relative h-screen" bind:this={servicesWrapper}>
+        <header class="h-screen relative" bind:this={servicesHeader}>
+            <h2 class="title-1 absolute w-max right-[50%] top-[50%] translate-y-[-50%] translate-x-[50%]">What we <br>Do for You?</h2>
+        </header>
         {#each services as service, index}
-        <article>
-            <header class="text-4xl lg:text-5xl border-b border-lead/20 p-4">
+        {#each service.sub_categories as category, i}
+        <article class="card service {service.class} border-2 w-[80%] lg:w-[30%] text-white bg-black/80">
+            <header class="text-4xl lg:text-5xl font-bold p-4">
                 <h3>
-                    <span class="text-red">{index + 1}.</span>
-                    {service.title}
+                    {category.title}
                 </h3>
             </header>
-            <div class="flex">
-                <div class="text-4xl lg:text-5xl pl-4">
-                    <span class="text-red opacity-0">{index + 1}.</span>
-                </div>
+            <div class="body">
                 <div class="flex-1">
-                    <p class="text-lg lg:text-xl p-4 text-lead">{service.description}</p>
+                    <p class="text-xl lg:text-3xl p-4 opacity-80">{category.description}</p>
                 </div>
             </div>
         </article>
+        {/each}
         {/each}
     </div>
     <div class="tags py-20 flex flex-wrap gap-2 md:gap-3 lg:gap-4 justify-center">
@@ -73,21 +126,26 @@
 </section>
 
 <style>
-	
+	.card{
+        display: grid;
+        backdrop-filter: blur(20px);
+        border-radius: 1rem;
+        height: 50%;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        
+        & header{
+            padding: 2rem;
+        }
+        
+        & .body{
+            padding: 0rem 2rem 2rem 2rem;
+        }
+    }
 </style>
 
-    <!-- <div class="rounded-xl overflow-hidden min-h-96 h-full bg-cover relative group col-span-2 row-span-2 lg:row-start-1 xl:col-span-3" style="background-image: url('{service.image_url}');">
-        <div class="absolute top-0 left-0 bottom-0 right-0 bg-gradient-to-t from-[rgba(0,0,0,0.9)] to-[rgba(0,0,0,0)] z-[1] transition-all duration-500 opacity-60 group-hover:opacity-100"></div>
-        <div class="absolute top-0 left-0 bottom-0 right-0 h-full w-full content p-4 z-[2] grid content-end">
-            <h3 class="font-semibold text-white text-2xl transition-all duration-500 translate-y-10 group-hover:translate-y-0">{service.title}</h3>
-            <p class="text-gray-200 mt-4 transition-all duration-500 delay-75 translate-y-10 group-hover:translate-y-0">{service.description}</p>
-            <footer class="relative opacity-0 transition-all duration-500 delay-150 mt-4 translate-y-10 group-hover:translate-y-0 group-hover:opacity-100">
-                <a href="/services/#fish-farming" class="next-button w-fit">
-                    <span class="hover-underline-animation text-white"> Read more </span>
-                    <svg id="arrow-horizontal" width="30" height="10" viewBox="0 0 46 16" class="fill-white">
-                        <path d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z" transform="translate(30)"></path>
-                    </svg>
-                </a>
-            </footer>
-        </div>
-    </div> -->
