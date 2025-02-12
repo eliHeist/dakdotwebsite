@@ -23,7 +23,6 @@
         gsap.set(textSVG, {
             stroke: 'black',
             translateX: '50%',
-            opacity: 0
         });
 		let timeline1 = gsap.timeline({
 			scrollTrigger: {
@@ -37,7 +36,6 @@
 			stroke: '#0C0C0C',
 			fill: '#0C0C0C',
             translateX: '0%',
-            opacity: 1,
 		});
         gsap.set("#svgcliprect", {
             width: "0%"
@@ -86,9 +84,9 @@
             stagger: 0.4
         }, "-=1");
 
-        timeline2.to("header .brand_logo", {
-            fill: "#0C0C0C",
-        })
+        // timeline2.to("header .brand_logo", {
+        //     fill: "#0C0C0C",
+        // })
 
         timeline2.to("#svgcliprect", {
             width: "100%",
