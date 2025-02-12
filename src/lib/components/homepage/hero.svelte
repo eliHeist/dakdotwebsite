@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '../ui/button.svelte';
 	import { gsap } from 'gsap';
+    import { ChevronDown } from "lucide-svelte";
 
 	let preloaderElement: HTMLElement;
 	let heroElement: HTMLElement;
@@ -66,6 +67,12 @@
 			},
 			'<'
 		);
+        animation.from('.hero-next', {
+            opacity: 0,
+            y: 100,
+            duration: 1,
+            stagger: 0.5
+        },);
 		animation.to(heroSVGBackDrop, {
 			opacity: 1,
 			duration: 2
@@ -88,7 +95,7 @@
 
 			// Move smoothly towards cursor
 			changeTransform(follower1, winWidth, winHeight, x, y);
-			changeTransform(follower2, winWidth, winHeight, x, y);
+			changeTransform(follower2, winWidth, winHeight, x, y, true);
 		});
 
 		function changeTransform(
@@ -96,19 +103,28 @@
 			win_width: number,
 			win_height: number,
 			clientX: number,
-			clientY: number
+			clientY: number,
+            flip: boolean = false
 		) {
-			return;
-			let follower_width = follower.clientWidth;
-			let follower_height = follower.clientHeight;
+			// get the value 20% of the follower's width and its height too
+            let transform_x = follower.clientWidth * 0.2;
+            let transform_y = follower.clientHeight * 0.2;
 
-			let x = win_width / 2;
-			let y = win_height / 2;
+            // get the x and y percentage of the cursor position from the mid point of the window
+            let mid_x = win_width / 2;
+            let mid_y = win_height / 2;
 
-			let x_percent = ((x - follower_width / 2) / win_width) * 100;
-			let y_percent = ((y - follower_height / 2) / win_height) * 100;
+            let x_percent = (mid_x - clientX) / mid_x;
+            let y_percent = (mid_y - clientY) / mid_y;
 
-			follower.style.transform = `translate3d(${x_percent}%, ${y_percent}%, 0)`;
+            let x_transform = x_percent * transform_x;
+            let y_transform = y_percent * transform_y;
+
+            if (flip) {
+                x_transform = -x_transform;
+                y_transform = -y_transform;
+            }
+			follower.style.transform = `translate3d(${x_transform}px, ${y_transform}px, 0)`;
 		}
 	});
 </script>
@@ -189,10 +205,10 @@
 		</defs>
 	</svg>
 
-	<div class="content-grid absolute top-0 left-0 right-0 hidden glowing"></div>
+	<div class="content-grid absolute top-[20vh] left-0 right-0 hidden glowing"></div>
 	<div class="grid content-grid">
 		<div class="relative">
-			<div class="absolute top-0 left-0 right-0 z-[-1]" bind:this={heroSVGSection}>
+			<div class="absolute top-[6vh] sm:top-0 left-0 right-0 z-[-1]" bind:this={heroSVGSection}>
 				<svg class="w-full main-svg hero-svg-shadow" viewBox="0 0 905 470" fill="none">
 					<g filter="url(#filter0_f_414_113)">
 						<path
@@ -254,14 +270,19 @@
 					<h2 class="font-bold hero-text-reveal">Brand Design</h2>
 					<h3 class="hero-text-reveal">with excellence</h3>
 				</div>
-				<p class="mt-4 text-lg text-lead max-w-[35rem] mx-auto hero-text-reveal">
+				<p class="mt-4 text-lg text-lead max-w-[35rem] mx-auto hero-next">
 					Revolutionizing Digital Presence for firms and emerging businesses tired of the usual
 					aesthetics. We deliver unique and impactful visual and digital solutions tailored to your
 					brand's distinct identity. Get ready to stand out in the digital landscape.
 				</p>
 				<div class="mt-12">
 					<a href="#">
-						<Button text="What do we do?" />
+                        <div class="grid gap-3 place-content-center justify-items-center text-center mx-auto hero-next">
+                            <span class="w-max">Browse More</span>
+                            <div class="rounded-full border-2 border-white/50 h-8 w-8 grid place-content-center animation-down">
+                                <ChevronDown class="w-6 h-6" />
+                            </div>
+                        </div>
 					</a>
 				</div>
 			</div>
@@ -308,11 +329,30 @@
 			opacity: 0.5;
 			/* tra */
 		}
-		50% {
+		/* 50% {
 			opacity: 0.8;
-		}
+		} */
+        60% {
+            opacity: 0.9;
+        }
 		100% {
 			opacity: 0.5;
 		}
 	}
+
+    .animation-down {
+        animation: down 4s infinite;
+    }
+
+    @keyframes down {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(2rem);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
 </style>
