@@ -42,7 +42,7 @@
 <div class="app">
 	<Header />
 
-	<main>
+	<main class="bg-black">
 		{@render children()}
 	</main>
 

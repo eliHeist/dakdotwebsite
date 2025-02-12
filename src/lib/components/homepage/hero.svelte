@@ -160,7 +160,7 @@
 	</div>
 </section>
 
-<section class="grid items-end -z-10 h-[100svh] full-width relative overflow-hidden" bind:this={heroElement}>
+<section class="grid items-end z-10 h-[100svh] full-width relative overflow-hidden" bind:this={heroElement}>
 	<svg
 		class="absolute top-[10vh] sm:top-0 -left-[20vw] sm:left-0 z-[-1] w-[60vw] sm:w-[40vw] opacity-0 glowing"
 		fill="none"
