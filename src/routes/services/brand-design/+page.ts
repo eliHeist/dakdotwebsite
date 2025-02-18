@@ -28,22 +28,22 @@ export const load: PageLoad = () => {
             {
                 "name": "Brand Identity",
                 "description": "We create a cohesive visual identity that represents your brand’s values, including logos, typography, colors, and brand guidelines for consistency across all platforms.",
-                "svg": "/svgs/brand-guidelines.svg"
+                "svg": "/svgs/branddesign.svg"
             },
             {
                 "name": "Product Visualization",
                 "description": "Bring your products to life with realistic 3D renders, mockups, and digital prototypes that showcase your product in the best light before production.",
-                "svg": "/svgs/product-visualization.svg"
+                "svg": "/svgs/productvisualization.svg"
             },
             {
                 "name": "Stationery & Print Design",
                 "description": "We design business cards, letterheads, brochures, packaging, and marketing materials that align with your brand’s visual identity and messaging.",
-                "svg": "/svgs/stationery-design.svg"
+                "svg": "/svgs/stationary.svg"
             },
             {
                 "name": "Digital Marketing",
                 "description": "We craft stunning social media graphics, digital ads, and content templates to help you maintain a strong and engaging online presence.",
-                "svg": "/svgs/digital-marketing.svg"
+                "svg": "/svgs/digitalmarketing.svg"
             }
         ],
         "faq": [

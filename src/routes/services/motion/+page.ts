@@ -24,12 +24,12 @@ export const load: PageLoad = () => {
             {
                 "name": "Motion Graphics & Explainer Videos",
                 "description": "Animated graphics enhance communication and simplify complex ideas into engaging visual stories, perfect for product explainers and brand storytelling.",
-                "svg": "/svgs/motion-graphics.svg"
+                "svg": "/svgs/editing.svg"
             },
             {
                 "name": "Video Animation & 3D Motion",
                 "description": "From 2D animation to immersive 3D visuals, our animation services bring characters, products, and concepts to life with fluid motion and compelling narratives.",
-                "svg": "/svgs/video-animation.svg"
+                "svg": "/svgs/animation.svg"
             },
             {
                 "name": "Visual Effects (VFX) & Compositing",
@@ -39,7 +39,7 @@ export const load: PageLoad = () => {
             {
                 "name": "Post-Production & Editing",
                 "description": "Our post-production services refine raw footage into polished masterpieces, including color grading, sound design, transitions, and final cut editing for professional results.",
-                "svg": "/svgs/post-production.svg"
+                "svg": "/svgs/editing.svg"
             }
         ],
         "faq": [

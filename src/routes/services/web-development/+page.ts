@@ -81,6 +81,14 @@ export const load: PageLoad = () => {
                 svg: "/svgs/technologies/typescript.svg"
             },
             {
+                name: "GSAP",
+                svg: "/svgs/technologies/gsap.svg"
+            },
+            {
+                name: "Figma",
+                svg: "/svgs/technologies/figma.svg"
+            },
+            {
                 name: "Microsoft Azure",
                 svg: "/svgs/technologies/azure.svg"
             },
