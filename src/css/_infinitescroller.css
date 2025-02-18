@@ -5,7 +5,7 @@
 .scroller__inner {
     padding-block: 1rem;
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
 }
 
 .scroller[data-animated="true"] {

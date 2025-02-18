@@ -45,12 +45,28 @@
         },
     ]
 
+    let accordion: HTMLElement;
+
+    $effect(() => {
+        let items = accordion.querySelectorAll('.accordion-item');
+
+        items.forEach((item, i) => {
+            item.addEventListener('click', () => {
+                items.forEach((el, j) => {
+                    if (el !== item) {
+                        el.classList.remove('open');
+                    }
+                });
+            });
+        });
+    })
+
 </script>
 
 <section class="py-24 content-grid">
     <div class="wrapper">
         <!-- accordion for the faq -->
-        <div class="accordion grid gap-y-6">
+        <div class="accordion grid w-[90%] mx-auto" bind:this={accordion}>
             {#each faq as { question, answer }, i}
                 <AccordionItem {question} {answer} {i} />
             {/each}

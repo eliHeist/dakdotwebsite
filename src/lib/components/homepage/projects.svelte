@@ -14,7 +14,6 @@
 			let details = card.querySelector('.project-details h3');
 			let categories = card.querySelectorAll('.categories .category');
 
-			gsap.set(card, { y: 200 });
 			gsap.set(img, { scale: 1.25 });
 			gsap.set(details, { opacity: 0 });
 			gsap.set(categories, { x: 50, opacity: 0 });
@@ -29,12 +28,6 @@
 				}
 			});
 
-			tl.to(card, {
-				y: 0,
-				ease: 'power1.inOut',
-
-                duration: .8,
-			});
 			tl.to(
 				img,
 				{
@@ -95,11 +88,11 @@
 </script>
 
 <!-- Featured projects -->
-<section class="py-40 content-grid bg-black">
+<section class="pb-40 content-grid bg-black">
 	<h2 class="title-1 text-center">Featured <br />work</h2>
 	<div class="project-list mt-16" bind:this={container}>
 		{#each projects as project, i}
-        <div class="project-{i + 1} p-6 border border-lead/20">
+        <div class="project-{i + 1} p-6 border border-lead/20 slide-in-up">
             <a href="#">
                 <div class="project  @container flex flex-col">
                     <figure class="rounded-xl flex-1 overflow-hidden">

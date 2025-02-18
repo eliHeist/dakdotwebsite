@@ -46,7 +46,9 @@
             scrollTrigger: {
                 trigger: spacer,
                 start: 'top 10%',
-                toggleActions: 'play play reverse reverse'
+                end: 'top top',
+                toggleActions: 'play play reverse reverse',
+                scrub: 1
             }
         });
         gsap.set("footer .lower-deck", {

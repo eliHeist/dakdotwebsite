@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './css/_infinitescroller';
+@import './css/_animations';
 
 :root {
 	--color-bg-0: rgb(202, 216, 228);
@@ -24,6 +25,8 @@
 	--color-light: #e1e4e1;
 	--color-blue: #274595;
 	--color-yellow: #efd212;
+
+    --gradient-main: linear-gradient(to bottom right, #fff4af 0%, #ffa5b0 100%);
 
     --default-font-family: 'Inter Tight', serif;
 }
@@ -74,7 +77,32 @@ body {
 		font-style: normal;
 		font-weight: 800;
 		font-size: 4rem;
-		/* font-size: 8rem; */
+		line-height: 100%;
+		text-align: center;
+
+		background: linear-gradient(90.89deg, #fff192 0.25%, #ffa5aa 97.84%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		color: transparent;
+	}
+	.title-2 {
+		font-style: normal;
+		font-weight: 800;
+		font-size: 3.75rem;
+		line-height: 100%;
+		text-align: center;
+
+		background: linear-gradient(90.89deg, #fff192 0.25%, #ffa5aa 97.84%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		color: transparent;
+	}
+	.title-3 {
+		font-style: normal;
+		font-weight: 800;
+		font-size: 3rem;
 		line-height: 100%;
 		text-align: center;
 
@@ -90,6 +118,12 @@ body {
 	.title-1 {
 		font-size: 10rem;
 	}
+	.title-2 {
+		font-size: 7rem;
+	}
+	.title-3 {
+		font-size: 5rem;
+	}
 }
 
 .text-gradient {
@@ -102,3 +136,4 @@ body {
 a:hover {
 	text-decoration: underline;
 }
+

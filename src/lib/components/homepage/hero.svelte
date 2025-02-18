@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getContext } from 'svelte';
 	import Button from '../ui/button.svelte';
 	import { gsap } from 'gsap';
     import { ChevronDown } from "lucide-svelte";
@@ -14,6 +15,8 @@
 	let follower2: SVGElement;
 
 	$effect(() => {
+        let headerHeight = getContext('header_height');
+        heroElement.style.paddingTop = `${headerHeight}px`;
 		let svg = preloaderElement.querySelector('svg');
 		svg?.classList.remove('animate-spin');
 
@@ -78,12 +81,12 @@
 			duration: 2
 		});
 		animation.to(follower1, {
-			scale: 1,
+			scale: 1.2,
 			y: 0,
 			duration: 3
 		}, '<');
 		animation.to(follower2, {
-			scale: 1,
+			scale: 1.2,
 			y: 0,
 			duration: 1
 		}, '-=1');
@@ -160,9 +163,8 @@
 	</div>
 </section>
 
-<section class="grid items-end z-10 h-[100svh] full-width relative overflow-hidden" bind:this={heroElement}>
-	<svg
-		class="absolute top-[10vh] sm:top-0 -left-[20vw] sm:left-0 z-[-1] w-[60vw] sm:w-[40vw] opacity-0 glowing"
+<section class="grid items-end h-[100svh] full-width relative overflow-hidden" bind:this={heroElement}>
+	<svg class="absolute top-[10svh] lg:top-[0vh] -left-[20vw] sm:left-0 z-[0] w-[60vw] sm:w-[40vw] opacity-0 glowing"
 		fill="none"
 		bind:this={follower1}
 		viewBox="0 0 660 596"
@@ -183,8 +185,7 @@
 		</defs>
 	</svg>
 
-	<svg
-		class="absolute top-[15vh] sm:top-[20vh] -right-[15vw] sm:right-[5vw] z-[-1] w-[50vw] sm:w-[30vw] opacity-0 glowing"
+	<svg class="absolute top-[20svh] lg:top-[5vh] -right-[15vw] sm:right-[5vw] z-[0] w-[50vw] sm:w-[30vw] opacity-0 glowing"
 		viewBox="0 0 568 497"
 		fill="none"
 		bind:this={follower2}
@@ -206,9 +207,9 @@
 	</svg>
 
 	<div class="content-grid absolute top-[20vh] left-0 right-0 hidden glowing"></div>
-	<div class="grid content-grid">
-		<div class="relative">
-			<div class="absolute top-[6vh] sm:top-0 left-0 right-0 z-[-1]" bind:this={heroSVGSection}>
+	<div class="grid content-grid bg-gradient-to-t from-black to-black/10 h-[70vh] sm:h-[60vh]">
+		<div class="relative lg:max-w-[80vw] mx-auto">
+			<div class="absolute left-0 right-0 -top-24 sm:-top-40 olg:-top-64 translate-y-40" bind:this={heroSVGSection}>
 				<svg class="w-full main-svg hero-svg-shadow" viewBox="0 0 905 470" fill="none">
 					<g filter="url(#filter0_f_414_113)">
 						<path
@@ -242,41 +243,21 @@
 						</filter>
 					</defs>
 				</svg>
-
-				<div class="bg-black h-[20vh] w-full -translate-y-10 opacity-0"></div>
 			</div>
 
-			<!-- <svg
-				
-				class="w-full absolute top-0 left-0 z-[-1]"
-				viewBox="0 0 905 460"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path
-					d="M905 453.5C905 453.5 702.909 453.5 453 453.5C203.091 453.5 0 453.5 0 453.5C0 203.039 202.591 0 452.5 0C702.409 0 905 203.039 905 453.5Z"
-					fill="#FDFEFD"
-				/>
-				<path
-					d="M905 459.5C905 459.5 702.909 459.5 453 459.5C203.091 459.5 0 459.5 0 459.5C0 209.039 202.591 6 452.5 6C702.409 6 905 209.039 905 459.5Z"
-					fill="#0C0C0C"
-				/>
-			</svg> -->
-
-			<div class="text-center w-full z-[3] px-10 mt-36 sm:mt-48 md:mt-56 lg:mt-68">
+			<div class="text-center w-full z-[2] mb-20">
 				<div
 					class="grid text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-7xl text-white font-light [line-height:100%]"
 				>
 					<h2 class="font-bold hero-text-reveal">Brand Design</h2>
 					<h3 class="hero-text-reveal">with excellence</h3>
 				</div>
-				<p class="mt-4 text-lg text-lead max-w-[35rem] mx-auto hero-next">
+				<p class="mt-4 text-lg text-lead max-w-[90%] sm:max-w-[80%] mx-auto hero-next">
 					Revolutionizing Digital Presence for firms and emerging businesses tired of the usual
-					aesthetics. We deliver unique and impactful visual and digital solutions tailored to your
-					brand's distinct identity. Get ready to stand out in the digital landscape.
+					aesthetics. Get ready to stand out in the digital landscape.
 				</p>
 				<div class="mt-12">
-					<a href="#">
+					<a href="#clients">
                         <div class="grid gap-3 place-content-center justify-items-center text-center mx-auto hero-next">
                             <span class="w-max">Browse More</span>
                             <div class="rounded-full border-2 border-white/50 h-8 w-8 grid place-content-center animation-down">
@@ -288,7 +269,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="bg-black h-[5vh] relative"></div>
 </section>
 
 <style>
