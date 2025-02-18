@@ -24,7 +24,7 @@
 	</section>
 
 	<section class="py-8">
-		<div class="scroller" data-direction="right" data-speed="fast">
+		<div class="scroller" data-direction="right" data-speed="fast" data-animated="true">
 			<div class="scroller__inner gap-x-3">
 				{#each data.products as word}
 					<div class="px-3 flex gap-x-2 items-center w-max">
@@ -67,7 +67,7 @@
 	</section>
 
 	<section class="py-32">
-		<div class="grid gap-6 lg:grid-cols-3">
+		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 			{#each data.features as feature, i}
 				<FeatureCard title={feature.name} body={feature.description} icon={feature.svg} />
 			{/each}
@@ -126,7 +126,7 @@
 	<!-- CTA Section -->
 	<section class="py-32">
 		<div
-			class="bg-gradient-to-tr from-15% from-[#FF4B56] to-red to-75% p-32 rounded-4xl grid place-content-center"
+			class="bg-gradient-to-tr from-15% from-[#FF4B56] to-red to-75% py-32 px-6 rounded-4xl grid place-content-center"
 		>
 			<div class="bg-white text-dark text-center p-16 rounded-2xl w-fit max-w-[500px] grid gap-y-6">
 				<h2 class="text-3xl font-medium">Ready To Discuss your Project with us?</h2>

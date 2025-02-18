@@ -19,7 +19,7 @@
     <button class="w-full header-btn text-left border-t border-white cursor-pointer group" onclick="{toggleAccordion}">
         <header class="flex gap-x-6 justify-between py-3">
             <h3 class="text-xl my-auto">{question}</h3>
-            <div class="rounded-full aspect-square p-2 group-hover:bg-white group-hover:text-black transition-all duration-400 btn-plus">
+            <div class="rounded-full aspect-square h-10 w-10 grid place-content-center group-hover:bg-white group-hover:text-black transition-all duration-400 btn-plus">
                 <Plus class="plus-btn text-2xl" />
             </div>
         </header>

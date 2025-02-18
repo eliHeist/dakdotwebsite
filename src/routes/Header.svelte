@@ -9,8 +9,30 @@
 	let header: HTMLElement;
 	let spacer: HTMLElement;
 	let hamburgerButton: HTMLButtonElement;
+    let smHeader: HTMLElement
 
 	let navOpen = $state(false);
+
+
+	let lastScrollY = $state(0);
+	let isCollapsed = $state(false);
+
+	function handleScroll() {
+        console.log('handleScroll')
+		const currentScrollY = window.scrollY;
+
+		if (currentScrollY > lastScrollY) {
+			// Scrolling down
+			isCollapsed = true;
+            console.log('down')
+		} else {
+			// Scrolling up
+			isCollapsed = false;
+            console.log('up')
+		}
+
+		lastScrollY = currentScrollY;
+	}
 
 	$effect(() => {
 		setContext('header_height', header.clientHeight);
@@ -42,7 +64,7 @@
 			});
 		});
 
-		const menu = document.querySelector('#menu') as HTMLDivElement;
+		window.addEventListener('scroll', handleScroll);
 	});
 </script>
 
@@ -93,7 +115,7 @@
 					data-target="service_links"
 					aria-current={$page.url.pathname.startsWith('/services') ? 'page' : undefined}
 				>
-					<a href="/services">Services</a>
+					<a href="#">Services</a>
 				</li>
 			</ul>
 		</nav>
@@ -132,10 +154,8 @@
 	<element class="link"> </element>
 </div>
 
-<div
-	class="sm-header content-grid fixed bottom-8 left-0 right-0 sm:hidden z-[102]"
-	class:open={navOpen}
->
+<div class="sm-header content-grid fixed bottom-8 left-0 right-0 sm:hidden z-[102]"  class:collapse={isCollapsed}
+	class:open={navOpen}>
 	<header class="flex justify-between">
 		<div class="corner">
 			<a href="/" aria-labelledby="dakdot">
@@ -189,7 +209,7 @@
 			data-target="service_links"
 			aria-current={$page.url.pathname.startsWith('/services') ? 'page' : undefined}
 		>
-			<a href="/services">Services</a>
+			<a href="#">Services</a>
 		</li>
 		<div class="grid grid-cols-2 gap-x-3 text-base">
 			{#each service_links as { name, color, url, icon }}
@@ -260,12 +280,6 @@
 		backdrop-filter: blur(5px);
 		background-color: #0c0c0c8e;
 		position: relative;
-
-		& svg {
-			width: 2em;
-			height: 3em;
-			display: none;
-		}
 
 		&:hover {
 			padding: 0 2rem;
@@ -365,6 +379,12 @@
 		& .brand_logo {
 			fill: var(--color-white);
 		}
+
+        &.collapse{
+            scale: 1.5rem;
+            opacity: 0;
+            bottom: -4rem;
+        }
 	}
 
 	.sm-nav {
