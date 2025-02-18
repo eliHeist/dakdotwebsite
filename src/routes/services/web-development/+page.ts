@@ -92,6 +92,9 @@ export const load: PageLoad = () => {
                 name: "MySQL",
                 svg: "/svgs/technologies/mysql.svg"
             },
+        ],
+        products: [
+            "SEO Optimization", "Website Design", "UI/UX Design", "Web Security", "Custom Web Applications", "API Development", "FullStack Development",
         ]
     };
 };

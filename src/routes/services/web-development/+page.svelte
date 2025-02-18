@@ -5,6 +5,7 @@
 	import FeatureCard from '$lib/components/ui/featureCard.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import AccordionItem from '$lib/components/ui/accordion-item.svelte';
+	import { Star } from 'lucide-svelte';
 
 	let { data }: PageProps = $props();
 
@@ -20,7 +21,20 @@
 <div class="content-grid pt-[10vh] md:pt-[20vh]" bind:this={spacer}>
     <!-- Hero Section -->
     <section class="text-center h-[50vh] grid place-content-center justify-items-center">
-        <h1 class="title-2">Custom Applications <br>That Run on The Web</h1>
+        <h1 class="title-2">Custom Solutions <br>That Run on The Web</h1>
+    </section>
+
+    <section class="py-8">
+        <div class="scroller" data-direction="right" data-speed="fast">
+			<div class="scroller__inner gap-x-3">
+				{#each data.products as word}
+                <div class="px-3 flex gap-x-2 items-center w-max">
+                    <Star class="fill-red stroke-red h-4" />
+                    <span>{word}</span>
+                </div>
+                {/each}
+			</div>
+		</div>
     </section>
 
     <section class="py-32">

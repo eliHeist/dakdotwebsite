@@ -56,6 +56,7 @@
         & header{
             display: flex;
             justify-content: space-between;
+            column-gap: .75rem;
             
             & .title{
                 font-size: 1.5rem;
@@ -63,8 +64,9 @@
             }
             
             & .plus-btn{
-                @apply h-10 w-10;
+                @apply h-10 w-10 mt-auto;
                 font-size: 1rem;
+                aspect-ratio: 1/1;
                 outline: 1px solid var(--color-black);
                 display: grid;
                 place-content: center;

@@ -95,19 +95,16 @@
 				>
 					<a href="/services">Services</a>
 				</li>
-				<li aria-current={$page.url.pathname.startsWith('/contact') ? 'page' : undefined}>
-					<a href="/contact">Contact</a>
-				</li>
 			</ul>
 		</nav>
 
 		<div class="corner">
 			<div class="flex justify-end">
-				<button
-					class="text-black bg-white aspect-square rounded-full grid place-content-center h-10"
-				>
-					<Phone />
-				</button>
+                <a href="/contact" class="cursor-pointer">
+                    <button class="bg-white aspect-square rounded-full grid place-content-center h-10 {$page.url.pathname.startsWith('/contact') ? 'text-red' : 'text-black'}">
+                        <Phone />
+                    </button>
+                </a>
 			</div>
 		</div>
 	</header>
