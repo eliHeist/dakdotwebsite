@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { setContext } from 'svelte';
-    import { afterNavigate } from "$app/navigation";
-    
+	import { afterNavigate } from '$app/navigation';
+
 	import { Phone } from 'lucide-svelte';
 	import { gsap } from 'gsap';
 
@@ -11,34 +11,78 @@
 	let header: HTMLElement;
 	let spacer: HTMLElement;
 	let hamburgerButton: HTMLButtonElement;
-    let smHeader: HTMLElement
+	let smHeader: HTMLElement;
+	let brand_logo: SVGElement;
 
 	let navOpen = $state(false);
-
 
 	let lastScrollY = $state(0);
 	let isCollapsed = $state(false);
 
 	function handleScroll() {
-        console.log('handleScroll')
+		console.log('handleScroll');
 		const currentScrollY = window.scrollY;
 
 		if (currentScrollY > lastScrollY) {
-			// Scrolling down
+            // scrilling down, hide the header
 			isCollapsed = true;
-            console.log('down')
+			const timelineIn = gsap.timeline({ease: 'power1.inOut'});
+			timelineIn.to(
+				brand_logo,
+				{
+					scale: 0.75,
+                    x: '-2rem',
+                    opacity: 0,
+                    y: '4rem',
+					duration: 0.3,
+				},
+				'<'
+			);
+			timelineIn.to(
+				hamburgerButton,
+				{
+					scale: 0.75,
+                    x: '2rem',
+                    opacity: 0,
+                    y: '4rem',
+					duration: 0.3,
+				},
+				'<'
+			);
 		} else {
-			// Scrolling up
+			// Scrolling up, show the header
 			isCollapsed = false;
-            console.log('up')
+			const timelineOut = gsap.timeline({ease: 'power1.inOut'});
+			timelineOut.to(
+				brand_logo,
+				{
+					scale: 1,
+                    x: '0rem',
+                    opacity: 1,
+                    y: '0rem',
+					duration: 0.3,
+				},
+				'<'
+			);
+			timelineOut.to(
+				hamburgerButton,
+				{
+					scale: 1,
+                    x: '0rem',
+                    opacity: 1,
+                    y: '0rem',
+					duration: 0.3,
+				},
+				'<'
+			);
 		}
 
 		lastScrollY = currentScrollY;
 	}
 
-    afterNavigate(() => {
-        navOpen = false;
-    })
+	afterNavigate(() => {
+		navOpen = false;
+	});
 
 	$effect(() => {
 		setContext('header_height', header.clientHeight);
@@ -69,6 +113,22 @@
 				targetDropdown.classList.remove('show');
 			});
 		});
+
+		gsap.set(brand_logo, {
+			scale: 0.75,
+			x: '-2rem',
+            opacity: 0,
+            y: '4rem',
+		});
+		gsap.set(
+			hamburgerButton,
+			{
+				scale: 0.75,
+				x: '2rem',
+                opacity: 0,
+                y: '4rem',
+			}
+		);
 
 		window.addEventListener('scroll', handleScroll);
 	});
@@ -128,11 +188,17 @@
 
 		<div class="corner">
 			<div class="flex justify-end">
-                <a href="/contact" class="cursor-pointer">
-                    <button class="bg-white aspect-square rounded-full grid place-content-center h-10 {$page.url.pathname.startsWith('/contact') ? 'text-red' : 'text-black'}">
-                        <Phone />
-                    </button>
-                </a>
+				<a href="/contact" class="cursor-pointer">
+					<button
+						class="bg-white aspect-square rounded-full grid place-content-center h-10 {$page.url.pathname.startsWith(
+							'/contact'
+						)
+							? 'text-red'
+							: 'text-black'}"
+					>
+						<Phone />
+					</button>
+				</a>
 			</div>
 		</div>
 	</header>
@@ -160,12 +226,18 @@
 	<element class="link"> </element>
 </div>
 
-<div class="sm-header transition-all duration-300 content-grid fixed bottom-8 left-0 right-0 sm:hidden z-[102]"  class:collapse={isCollapsed}
-	class:open={navOpen}>
+<div
+	class="sm-header content-grid fixed bottom-8 left-0 right-0 sm:hidden z-[102]"
+	bind:this={smHeader}
+>
 	<header class="flex justify-between">
 		<div class="corner">
 			<a href="/" aria-labelledby="dakdot">
-				<svg class="brand_logo h-6 transition-all duration-500 ease-in-out" viewBox="0 0 163 36">
+				<svg
+					bind:this={brand_logo}
+					class="brand_logo fill-white h-6 transition-all duration-500 ease-in-out"
+					viewBox="0 0 163 36"
+				>
 					<path
 						d="M86 36H77.6025L70.175 25.0017L68.137 27.3336V33.6765C68.137 34.9609 67.1098 36 65.8453 36H61V2.32768C61 1.0433 62.0272 0 63.2917 0H68.137V19.3779H68.5421L76.5631 9.80533C76.9969 9.28576 77.6353 8.98649 78.3064 8.98649H85.5007L75.5564 20.7205L86 36Z"
 					/>
@@ -189,7 +261,6 @@
 		</div>
 		<button
 			class="hamburger-btn grid grid-flow-col md:hidden"
-			class:open={navOpen}
 			bind:this={hamburgerButton}
 			onclick={() => (navOpen = !navOpen)}
 			title="Menu button"
@@ -348,7 +419,7 @@
 
 	.hamburger-btn {
 		@apply bg-white overflow-hidden rounded-full;
-        cursor: pointer;
+		cursor: pointer;
 
 		& svg {
 			@apply stroke-[10];
@@ -375,24 +446,6 @@
 		}
 	}
 
-	.sm-header {
-        &.open {
-            & .brand_logo {
-                fill: var(--color-black);
-            }
-        }
-
-		& .brand_logo {
-			fill: var(--color-white);
-		}
-
-        &.collapse{
-            scale: 1.5rem;
-            opacity: 0;
-            bottom: -4rem;
-        }
-	}
-
 	.sm-nav {
 		position: fixed;
 		inset: 0;
@@ -400,9 +453,9 @@
 		pointer-events: none;
 		clip-path: circle(0% at 94% 92%);
 		transition: clip-path 500ms ease-in;
-        
+
 		&.open {
-            pointer-events: auto;
+			pointer-events: auto;
 			clip-path: circle(135% at 94% 92%);
 		}
 

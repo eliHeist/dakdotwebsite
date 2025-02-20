@@ -24,7 +24,7 @@
             scrollTrigger: {
                 trigger: split_type,
                 start: 'top 80%',
-                end: 'top 40%',
+                end: 'top 60%',
                 scrub: 2,
                 markers: false,
                 toggleActions: 'play play reverse reverse'
