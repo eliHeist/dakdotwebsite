@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { setContext } from 'svelte';
+    import { afterNavigate } from "$app/navigation";
+    
 	import { Phone } from 'lucide-svelte';
 	import { gsap } from 'gsap';
-	import { setContext } from 'svelte';
 
 	import { service_links } from '$lib/data/links';
 
@@ -33,6 +35,10 @@
 
 		lastScrollY = currentScrollY;
 	}
+
+    afterNavigate(() => {
+        navOpen = false;
+    })
 
 	$effect(() => {
 		setContext('header_height', header.clientHeight);
@@ -154,7 +160,7 @@
 	<element class="link"> </element>
 </div>
 
-<div class="sm-header content-grid fixed bottom-8 left-0 right-0 sm:hidden z-[102]"  class:collapse={isCollapsed}
+<div class="sm-header transition-all duration-300 content-grid fixed bottom-8 left-0 right-0 sm:hidden z-[102]"  class:collapse={isCollapsed}
 	class:open={navOpen}>
 	<header class="flex justify-between">
 		<div class="corner">

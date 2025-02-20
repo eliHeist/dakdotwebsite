@@ -5,6 +5,7 @@
     import { observeText } from "$lib/scripts/textanims";
 
     import type { PageProps } from './$types';
+    import { onDestroy } from "svelte";
 	import Clients from '$lib/components/homepage/clients.svelte';
 	import Services from '$lib/components/homepage/services.svelte';
 	import Process from '$lib/components/homepage/process.svelte';
@@ -25,6 +26,7 @@
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 			addAnimation();
 		}
+
     })
 </script>
 
@@ -40,7 +42,7 @@
 
 <Aboutus/>
 
-<Services/>
+<Services services={data.services}/>
 
 <Projects {projects}/>
 
@@ -48,16 +50,22 @@
 
 <Faq/>
 
-<section class="py-24">
+<section class="">
     <div class="content-grid justify-center text-center">
-        <h2 class="title-1">So, <br>Got an Idea?</h2>
-        <p class="text-lg">
-            Great ideas deserve great execution. Let’s collaborate and turn your concept into something extraordinary.
-        </p>
-        <div class="mt-6">
-            <a href="#">
-                <Button text="Let’s Get Started" />
-            </a>
+        <div class="bg-gradient-to-tr from-15% from-[#1F1C1C] to-[#1F1C1D] to-75% py-32 px-6 rounded-4xl grid place-content-center">
+            <h2 class="title-1">Got an Idea?</h2>
+            <p class="text-lg">
+                Great ideas deserve great execution. Let’s collaborate and turn your concept into something extraordinary.
+            </p>
+            <div class="mt-6">
+                <a href="/contact">
+					<button
+						class="px-6 py-3 text-lg font-medium text-black bg-white rounded-lg [text-decoration:none]"
+					>
+						Lets Get Started
+					</button>
+				</a>
+            </div>
         </div>
     </div>
 </section>

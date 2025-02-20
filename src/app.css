@@ -16,7 +16,7 @@
 
 @theme {
 	--color-white: #FDFEFD;
-	--color-lead: #CDC3C5;
+	--color-lead: #B7AFB5;
 	--color-dark-lead: #787273;
 	--color-black: #0C0C0C;
 	--color-dark: #1F1C1C;
@@ -80,11 +80,14 @@ body {
 		line-height: 100%;
 		text-align: center;
 
-		background: linear-gradient(90.89deg, #fff192 0.25%, #ffa5aa 97.84%);
+		background: linear-gradient(90.89deg, #f9e982 0%, #f68e93 100%, rgba(0,0,0,0) 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
 		color: transparent;
+        /* animation: textGradientFill ease-in-out; */
+        /* animation-timeline: view(); */
+        /* animation-range: entry 0 cover 40%; */
 	}
 	.title-2 {
 		font-style: normal;
@@ -112,6 +115,21 @@ body {
 		background-clip: text;
 		color: transparent;
 	}
+}
+
+@keyframes textGradientFill{
+    from{
+        background: linear-gradient(90.89deg, #f9e982 0%, #f68e93 0%, rgba(0,0,0,0) 0%);
+        -webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+    }
+    to {
+        background: linear-gradient(90.89deg, #f9e982 0%, #f68e93 100%, rgba(0,0,0,0) 100%);
+        -webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+    }
 }
 
 @media screen and (min-width: 1000px) {

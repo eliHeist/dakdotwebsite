@@ -164,7 +164,7 @@
 </section>
 
 <section class="grid items-end h-[100svh] full-width relative overflow-hidden" bind:this={heroElement}>
-	<svg class="absolute top-[10svh] lg:top-[0vh] -left-[20vw] sm:left-0 z-[0] w-[60vw] sm:w-[40vw] opacity-0 glowing"
+	<svg class="absolute top-[5svh] lg:top-[0vh] -left-[20vw] sm:left-0 z-[0] w-[60vw] sm:w-[40vw] opacity-0 glowing"
 		fill="none"
 		bind:this={follower1}
 		viewBox="0 0 660 596"
@@ -185,7 +185,7 @@
 		</defs>
 	</svg>
 
-	<svg class="absolute top-[20svh] lg:top-[5vh] -right-[15vw] sm:right-[5vw] z-[0] w-[50vw] sm:w-[30vw] opacity-0 glowing"
+	<svg class="absolute top-[10svh] lg:top-[5vh] -right-[15vw] sm:right-[5vw] z-[0] w-[50vw] sm:w-[30vw] opacity-0 glowing"
 		viewBox="0 0 568 497"
 		fill="none"
 		bind:this={follower2}
@@ -207,7 +207,7 @@
 	</svg>
 
 	<div class="content-grid absolute top-[20vh] left-0 right-0 hidden glowing"></div>
-	<div class="grid content-grid bg-gradient-to-t from-black to-black/10 h-[70vh] sm:h-[60vh]">
+	<div class="grid content-grid h-[70vh] sm:h-[60vh]">
 		<div class="relative lg:max-w-[80vw] mx-auto">
 			<div class="absolute left-0 right-0 -top-24 sm:-top-40 olg:-top-64 translate-y-40" bind:this={heroSVGSection}>
 				<svg class="w-full main-svg hero-svg-shadow" viewBox="0 0 905 470" fill="none">

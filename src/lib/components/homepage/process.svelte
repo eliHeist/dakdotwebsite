@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { gsap } from "gsap";
-    
+	import { gsap } from 'gsap';
+
 	let steps = [
 		{
 			title: 'Discovery & Strategy',
@@ -24,38 +24,50 @@
 		}
 	];
 
-    let stepsWrapper: HTMLElement
+	let stepsWrapper: HTMLElement;
 
 	$effect(() => {
 		const items = stepsWrapper.querySelectorAll('.step') as NodeList;
 
 		items.forEach((item: any) => {
+			const bar = item.querySelector('.bar') as HTMLElement;
+            const circle = item.querySelector('svg circle') as HTMLElement;
 
-            const bar = item.querySelector(".bar") as HTMLElement
-
-            let timeline = gsap.timeline({
-                scrollTrigger: {
+			let timeline = gsap.timeline({
+				scrollTrigger: {
 					trigger: item,
-					start: "top 90%",
-					end: "bottom 70%",
+					start: 'top 95%',
+					end: 'bottom 80%',
 					scrub: true,
 					markers: false,
 					toggleActions: 'play play reverse reverse'
 				}
-            })
+			});
 
-            gsap.set(item, {y:200, opacity:0})
-            gsap.set(bar, {width:"0%", transformOrigin:"left"})
+			gsap.set(item, { y: 200, opacity: 0 });
+			gsap.set(bar, { width: '0%', transformOrigin: 'left' });
 
 			timeline.to(item, {
 				opacity: 1,
 				y: 0,
-				ease: 'power1.out',
-			})
-            timeline.to(bar, {
-                width: "100%",
-                ease: 'power1.out'
-            }, "<")
+				ease: 'power1.out'
+			});
+			timeline.to(
+				bar,
+				{
+					width: '100%',
+					ease: 'power1.out'
+				},
+				'<'
+			);
+			timeline.to(
+				circle,
+				{
+					strokeDashoffset: 0,
+					ease: 'power1.out'
+				},
+				'<'
+			);
 		});
 	});
 </script>
@@ -67,11 +79,14 @@
 	<div class="steps grid gap-y-24" bind:this={stepsWrapper}>
 		{#each steps as step, index}
 			<div class="step">
-				<div class="number grid content-start mt-1">
-					<div
-						class="rounded-full h-8 aspect-square grid place-content-center text-red text-4xl font-medium"
-					>
-						{index + 1}
+				<div class="number mt-1">
+					<div class="counter-wrapper">
+						<svg viewBox="0 0 100 100">
+							<circle cx="50" cy="50" r="40" />
+						</svg>
+						<div class="number">
+							{index + 1}
+						</div>
 					</div>
 				</div>
 				<div class="hidden px-4 md:grid items-center relative">
@@ -104,5 +119,40 @@
 			border-radius: 2rem;
 			height: 2px;
 		}
+
+		.counter-wrapper {
+            --_size: 2.5rem;
+            width: var(--_size);
+            height: var(--_size);
+            position: relative;
+			svg {
+				transform: rotate(-90deg);
+                width: var(--_size);
+
+                circle {
+                    fill: none;
+                    stroke: var(--color-white);
+                    stroke-width: 4;
+                    stroke-dasharray: 251.2; /* Circumference of the circle */
+                    stroke-dashoffset: 251.2;
+                    animation: draw 2s linear forwards;
+                }
+			}
+
+            .number {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+		}
 	}
+	/* @keyframes draw {
+		from {
+			stroke-dashoffset: 251.2;
+		}
+		to {
+			stroke-dashoffset: 0;
+		}
+	} */
 </style>

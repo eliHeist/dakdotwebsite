@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Star, Computer } from 'lucide-svelte';
 	import { gsap } from 'gsap';
-	import { services } from '$lib/data/homepage';
+
+    let { services } = $props();
 
 	let tags = [
 		{ name: 'UI/UX Design' },
@@ -18,107 +19,28 @@
 
 	let servicesWrapper: HTMLElement;
 	let servicesHeader: HTMLElement;
-
-	// $effect(() => {
-	// 	const cards = servicesWrapper.querySelectorAll('.service.card');
-	// 	const rotations = [0, 2, -1.2, 1, -2, 1.5, 0.5, -0.7];
-
-	// 	cards.forEach((card: any, index: number) => {
-	// 		gsap.set(card, {
-	// 			y: window.innerHeight,
-	// 			rotate: rotations[index]
-	// 		});
-	// 	});
-
-	// 	gsap.to(servicesHeader, {
-	// 		scrollTrigger: {
-	// 			trigger: servicesWrapper,
-	// 			start: 'top top',
-	// 			end: 'bottom top',
-	// 			scrub: true
-	// 		},
-    //         scale: 0.6,
-	// 		right: 0
-	// 	});
-
-	// 	scrollAnimation();
-
-	// 	async function scrollAnimation() {
-	// 		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-	// 		gsap.registerPlugin(ScrollTrigger);
-
-	// 		ScrollTrigger.create({
-	// 			trigger: servicesWrapper,
-	// 			start: 'top top',
-	// 			end: `+=${window.innerHeight * 4}px`,
-	// 			pin: true,
-	// 			pinSpacing: true,
-	// 			scrub: 1,
-	// 			onUpdate: (self) => {
-	// 				const progress = self.progress;
-	// 				const totalCards = cards.length;
-	// 				const progressPerCard = 1 / totalCards;
-
-	// 				cards.forEach((card, index) => {
-	// 					const cardStart = index * progressPerCard;
-	// 					let cardProgress = (progress - cardStart) / progressPerCard;
-	// 					cardProgress = Math.min(Math.max(cardProgress, 0), 1);
-
-	// 					let yPos = window.innerHeight * (1 - cardProgress);
-	// 					let xPos = 0;
-
-	// 					if (cardProgress === 1 && index < totalCards - 1) {
-	// 						const remainingProgress =
-	// 							(progress - (cardStart + progressPerCard)) / (1 - (cardStart + progressPerCard));
-
-	// 						if (remainingProgress > 0) {
-	// 							const distanceMultiplier = 1 - index * 0.15;
-
-	// 							xPos = -window.innerWidth * 0.3 * distanceMultiplier * remainingProgress;
-
-	// 							yPos = -window.innerHeight * 0.3 * distanceMultiplier * remainingProgress;
-	// 						}
-	// 					}
-
-	// 					gsap.to(card, {
-	// 						y: yPos,
-	// 						x: xPos,
-	// 						duration: 0,
-	// 						ease: 'none'
-	// 					});
-	// 				});
-	// 			}
-	// 		});
-	// 	}
-	// });
 </script>
 
-<section class="content-grid bg-black py-24">
-	<div
-		class="services gap-y-12 full-width grid place-content-center relative h-screen"
-		bind:this={servicesWrapper}
-	>
-		<header class="h-screen relative" bind:this={servicesHeader}>
-			<h2 class="title-1 absolute w-max right-[50%] top-[50%] translate-y-[-50%] translate-x-[50%]">
+<section class="content-grid py-32">
+	<div class="services gap-y-12 grid place-content-center relative" bind:this={servicesWrapper}>
+		<header class="" bind:this={servicesHeader}>
+			<h2 class="title-1">
 				What we <br />Do for You?
 			</h2>
 		</header>
-        <div class="relative overflow-hidden">
+        <div class="grid gap-6 md:grid-cols-2">
             {#each services as service, index}
-                {#each service.sub_categories as category, i}
-                    <article class="card service {service.class} border-2 w-[70%] sm:w-[23rem] md:w-[25rem] max-w-[90%] text-white bg-black/80">
-                        <header class="text-2xl md:text-3xl font-bold p-4">
-                            <h3>
-                                {category.title}
-                            </h3>
-                        </header>
-                        <div class="body">
-                            <div class="flex-1 md:text-lg lg:text-xl">
-                                <p class="text-lead">{category.description}</p>
-                            </div>
+                <div class="card fade-in-up">
+                    <div class="icons">
+                        <div class="icon">
+                            <img class="default" src={service.icon} alt={service.title}>
+                            <img class="hover" src={service.icon_colored} alt={service.title}>
                         </div>
-                    </article>
-                {/each}
+                    </div>
+                    <h3>{service.title}</h3>
+                    <div class=""></div>
+                    <p>{service.details}</p>
+                </div>
             {/each}
         </div>
 	</div>
@@ -148,24 +70,75 @@
 
 <style>
 	.card {
+        --gap: 1.5rem;
+        --icon: 4rem;
+        --img: 55%;
+        --duration: .35s;
+
+		border-radius: calc(var(--gap)/1.5);
+        background-color: var(--color-white);
 		display: grid;
-		backdrop-filter: blur(20px);
-		border-radius: 1rem;
-		/* height: fit-content; */
-		transform: translate(-50%, -50%);
-        /* transform-origin: center; */
-		overflow: hidden;
+        column-gap: var(--gap);
+        row-gap: calc(var(--gap)/1.5);
+        padding: var(--gap);
+        grid-template-columns: auto 1fr;
 
-		position: absolute;
-		top: 50%;
-		left: 50%;
+        .icons {
+            .icon{
+                height: var(--icon);
+                width: var(--icon);
+                background-color: var(--color-white);
+                border-radius: 50%;
+                position: relative;
+                overflow: hidden;
+                border: 1px solid var(--color-dark);
 
-		& header {
-			padding: 2rem;
-		}
+                img{
+                    width: var(--img);
+                    height: var(--img);
+                    object-fit: contain;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    translate: -50% -50%;
+                    transition: top var(--duration) cubic-bezier(0.175, 0.885, 0.32, 1.275), left var(--duration) cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-		& .body {
-			padding: 0rem 2rem 2rem 2rem;
-		}
+                    &.hover{
+                        left: -20%;
+                        top: 120%;
+                    }
+                }
+            }
+        }
+
+        h3{
+            font-size: 2rem;
+            margin: auto 0;
+            color: var(--color-dark);
+        }
+
+        p{
+            color: var(--color-lead);
+            color: var(--color-dark-lead);
+        }
+
+        &:hover{
+            .icons{
+                img{
+                    &.default{
+                        left: 120%;
+                        top: -20%;
+                    }
+                    &.hover{
+                        left: 50%;
+                        top: 50%;
+                    }
+                }
+            }
+        }
+
+        @media (min-width: 1024px) {
+            --gap: 2.25rem;
+        }
 	}
 </style>
