@@ -1,9 +1,33 @@
-import { dev } from '$app/environment';
+import type { PageLoad } from './$types';
 
-// we don't need any JS on this page, though we'll load
-// it in dev so that we get hot module replacement
-export const csr = dev;
-
-// since there's no dynamic data here, we can prerender
-// it so that it gets served as a static asset in production
-export const prerender = true;
+export const load: PageLoad = () => {
+    return {
+        services: [
+            {
+                name: "Web Development",
+                url: "/services/web-development",
+                description: "We build high-performance websites and applications tailored to your business needs. Whether it's a dynamic website, an e-commerce store, or a custom web application, we ensure seamless functionality, speed, and security."
+            },
+            {
+                name: "Brand Design & Identity",
+                url: "/services/brand-design",
+                description: "We craft unique and memorable brand identities that reflect your business vision. From logo design to full brand guidelines, we ensure consistency across all platforms, helping your brand leave a lasting impression."
+            },
+            {
+                name: "Product Visualization",
+                url: "/services/motion",
+                description: "We bring your products to life through high-quality 3D renderings and visualizations. Whether you need stunning product images, interactive models, or animated demonstrations, we help showcase your products in the best light."
+            },
+            {
+                name: "Motion & Video Production",
+                url: "/services/motion",
+                description: "We create engaging videos, animations, and motion graphics that captivate audiences. Whether it's an explainer video, a brand commercial, or social media content, our video production team ensures high-quality storytelling and visuals."
+            },
+            {
+                name: "Digital Marketing",
+                url: "/services/motion",
+                description: "We drive growth and engagement with strategic digital marketing campaigns. From SEO and content marketing to paid advertising and social media management, we help you attract, convert, and retain customers effectively."
+            },
+        ]
+    }
+}
