@@ -176,6 +176,9 @@
 				<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 					<a href="/about">About</a>
 				</li>
+                <li aria-current={$page.url.pathname.startsWith('/work') ? 'page' : undefined}>
+                    <a href="/work">Our Work</a>
+                </li>
 				<li
 					class="dropdown-wrapper"
 					data-target="service_links"
@@ -281,6 +284,9 @@
 		<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 			<a href="/about">About</a>
 		</li>
+		<li aria-current={$page.url.pathname.startsWith('/work') ? 'page' : undefined}>
+			<a href="/work">Our Work</a>
+		</li>
 		<li
 			class="dropdown-wrapper"
 			data-target="service_links"
@@ -351,7 +357,7 @@
 		--background: theme(--color-black);
 		justify-content: center;
 		border-radius: 2rem;
-		border: 1px solid theme(--color-white);
+		border: 2px solid var(--color-lead);
 		padding: 0 1rem;
 		transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 		backdrop-filter: blur(5px);
