@@ -28,6 +28,19 @@ export const load: PageLoad = () => {
                 url: "/services/motion",
                 description: "We drive growth and engagement with strategic digital marketing campaigns. From SEO and content marketing to paid advertising and social media management, we help you attract, convert, and retain customers effectively."
             },
-        ]
+            {
+                name: "IT Consulting",
+                url: "/services/web-development",
+                description: "We provide expert IT consulting services to help businesses optimize their technology infrastructure and strategy. From system integration and cloud computing to cybersecurity and data management, we offer tailored solutions for your IT needs."
+            },
+        ],
+        svgs: [
+            '/svgs/shapes/stack.svg',
+            '/svgs/shapes/flower.svg',
+            '/svgs/shapes/circle.svg',
+            '/svgs/shapes/y.svg',
+            '/svgs/shapes/circles.svg',
+            '/svgs/shapes/star.svg',
+        ],
     }
 }

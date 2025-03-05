@@ -20,7 +20,7 @@
 
 <section class="py-32">
     <h2 class="title-2">Our values</h2>
-    <div class="content-grid @container">
+    <div class="content-grid @container mt-16">
         <div class="grid @min-md:grid-cols-12 gap-6" bind:this={wrapper}>
             <article class="card group slide-in-up outline-2 outline-white @min-md:col-span-10 @min-lg:col-span-8 @min-xl:col-span-6 @min-2xl:col-span-5 @min-5xl:col-span-4">
                 <div class="icon">
