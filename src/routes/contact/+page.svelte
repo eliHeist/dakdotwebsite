@@ -102,7 +102,7 @@
 	<meta name="description" content="Get in touch with us" />
 </svelte:head>
 
-<section class="min-h-screen content-grid items-center pt-14">
+<section class="min-h-screen content-grid items-center py-32">
 	<div class="grid grid-cols-1 md:[grid-template-columns:2fr_3fr] gap-10 items-center">
 		<!-- Left Column - Contact Info -->
 		<div class="grid gap-y-12">

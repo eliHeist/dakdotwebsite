@@ -63,11 +63,6 @@
 				We creatively craft tailored services that help businesses grow, engage and inspire their
 				audiences. We are committed to excellence and making a real difference. That's so us.
                 </span>
-                <span class="inline-flex ml-3" bind:this={scroller}>
-                    <span class="rounded-full w-8 h-8 grid place-content-center aspect-square border mx-auto animation-down">
-                        <ChevronDown />
-                    </span>
-                </span>
 				<!-- <span class="font-bold">That’s so us, find out more below.</span> -->
 			</div>
 			<!-- <p class="text-gradient font-semibold mt-4"></p> -->

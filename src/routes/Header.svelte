@@ -267,6 +267,7 @@
 				</svg>
 			</a>
 		</div>
+        <div></div>
 		<button
 			class="hamburger-btn grid grid-flow-col md:hidden"
 			bind:this={hamburgerButton}
@@ -460,8 +461,9 @@
 	}
 
 	.hamburger-btn {
-		@apply bg-white overflow-hidden rounded-full;
+		@apply bg-white overflow-hidden rounded-full ml-auto;
 		cursor: pointer;
+        width: fit-content;
 
 		& svg {
 			@apply stroke-[10];
@@ -495,6 +497,7 @@
 		pointer-events: none;
 		clip-path: circle(0% at 94% 92%);
 		transition: clip-path 500ms ease-in;
+        padding: 0 1rem;
 
 		&.open {
 			pointer-events: auto;

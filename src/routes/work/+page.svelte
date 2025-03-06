@@ -23,8 +23,8 @@
 
 <div class="content-grid pt-[10vh] md:pt-[20vh]" bind:this={spacer}>
 	<!-- Hero Section -->
-	<section class="text-center h-[50vh] grid place-content-center justify-items-center">
-		<h1 class="title-1">Our Work</h1>
+	<section class="text-center sm:h-[30vh] grid place-content-center justify-items-center">
+		<h1 class="title-2">Our Work</h1>
 	</section>
 </div>
 

@@ -33,31 +33,33 @@
                 <p class="text-lead text-lg">{data.project.overview}</p>
             </div>
         </div>
-        <div class="mt-16 grid justify-center">
+        <div class="mt-16 grid">
             {#if data.project.splash.type === 'image'}
-                <img src={data.project.splash.src} alt={data.project.title} class="object-cover rounded-2xl aspect-video max-w-[60rem] fade-in-up" />
+                <img src={data.project.splash.src} alt={data.project.title} class="object-cover rounded-2xl aspect-video w-full fade-in-up" />
             {/if}
         </div>
     </div>
 </div>
-<div class="content-grid py-32 gap-12">
-    {#each data.project.sections as section}
-        {#if section.type === 'images'}
-            {#if section.cols === 1}
-            <div class="grid gap-6">
-                {#each section.images as image}
-                    <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl w-full fade-in-up" />
-                {/each}
-            </div>
-            {:else if section.cols === 2}
-            <div class="grid md:grid-cols-2 gap-6">
-                {#each section.images as image}
-                    <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl aspect-square fade-in-up" />
-                {/each}
-            </div>
+<div class="py-32">
+    <div class="content-grid gap-y-12">
+        {#each data.project.sections as section}
+            {#if section.type === 'images'}
+                {#if section.cols === 1}
+                <div class="grid gap-6">
+                    {#each section.images as image}
+                        <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl w-full fade-in-up" />
+                    {/each}
+                </div>
+                {:else if section.cols === 2}
+                <div class="grid md:grid-cols-2 gap-6">
+                    {#each section.images as image}
+                        <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl aspect-square fade-in-up" />
+                    {/each}
+                </div>
+                {/if}
             {/if}
-        {/if}
-    {/each}
+        {/each}
+    </div>
 </div>
 
 <style>
@@ -73,5 +75,9 @@
         font-weight: 700;
         
 		color: var(--color-white);
+    }
+
+    img{
+        max-width: 100%;
     }
 </style>
