@@ -189,17 +189,22 @@
 			</ul>
 		</nav>
 
-		<div class="corner">
+		<div class="corner last">
 			<div class="flex justify-end">
 				<a href="/contact" class="cursor-pointer">
 					<button
-						class="bg-white aspect-square rounded-full grid place-content-center h-10 {$page.url.pathname.startsWith(
+						class="contact-button {$page.url.pathname.startsWith(
 							'/contact'
 						)
-							? 'text-red'
-							: 'text-black'}"
+							? 'active'
+							: ''}"
 					>
-						<Phone />
+                        <div class="icon text-red">
+                            <Phone class="w-5 h-5 fill-white" />
+                        </div>
+                        <div class="text">
+                            <span>Contact us</span>
+                        </div>
 					</button>
 				</a>
 			</div>
@@ -208,7 +213,7 @@
 	<div class="dropdowns relative">
 		<div
 			id="service_links"
-			class="bg-white text-dark rounded-xl shadow-lg p-6 w-full max-w-2xl dropdown absolute"
+			class="bg-dark text-white outline-2 outline-dark-lead/20 rounded-xl shadow-lg p-6 w-full max-w-2xl dropdown absolute"
 		>
 			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 				{#each service_links as { name, color, url, icon }}
@@ -342,13 +347,11 @@
 	}
 
 	header {
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
 	}
 
 	.corner {
-		width: 6rem;
-		/* width: 9rem; */
 		display: grid;
 		align-items: center;
 	}
@@ -357,67 +360,100 @@
 		--background: theme(--color-black);
 		justify-content: center;
 		border-radius: 2rem;
-		border: 2px solid var(--color-lead);
-		padding: 0 1rem;
-		transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		border: 2px solid var(--color-dark-lead);
+		padding: 0 1.5rem;
 		backdrop-filter: blur(5px);
 		background-color: #0c0c0c8e;
 		position: relative;
+		transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 		&:hover {
 			padding: 0 2rem;
 		}
+
+        ul {
+            position: relative;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            
+            li {
+                position: relative;
+                height: 100%;
+                
+                &[aria-current='page'] {
+                    font-weight: 900;
+
+                    &::before {
+                        --size: 6px;
+                        content: '';
+                        width: 0;
+                        height: 0;
+                        position: absolute;
+                        top: 0;
+                        left: calc(50% - var(--size));
+                        border: var(--size) solid transparent;
+                        border-top: var(--size) solid var(--color-red);
+                    }
+                }
+
+                a {
+                    display: flex;
+                    height: 100%;
+                    align-items: center;
+                    padding: 0 0.5rem;
+                    color: var(--color-white);
+                    font-weight: 500;
+                    font-size: 0.8rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    text-decoration: none;
+                    transition: color 0.2s linear;
+                }
+            }
+        }
 	}
 
 	path {
 		fill: var(--background);
 	}
 
-	ul {
-		position: relative;
-		padding: 0;
-		margin: 0;
-		height: 3em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		list-style: none;
-	}
+    .contact-button {
+        @apply bg-white text-black rounded-full grid h-12 w-12 p-1 cursor-pointer;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        grid-template-columns: auto 0fr;
+        transform-origin: left;
 
-	li {
-		position: relative;
-		height: 100%;
+        & .icon {
+            @apply grid place-content-center aspect-square rounded-full;
+        }
 
-		&[aria-current='page'] {
-			font-weight: 900;
+        & .text {
+            @apply grid place-content-center font-semibold;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+        
+        &:hover, &:focus, &.active {
+            @apply pr-6;
+            grid-template-columns: auto auto;
+            column-gap: .75rem;
+            width: auto;
 
-			&::before {
-				--size: 6px;
-				content: '';
-				width: 0;
-				height: 0;
-				position: absolute;
-				top: 0;
-				left: calc(50% - var(--size));
-				border: var(--size) solid transparent;
-				border-top: var(--size) solid var(--color-red);
-			}
-		}
-	}
 
-	nav a {
-		display: flex;
-		height: 100%;
-		align-items: center;
-		padding: 0 0.5rem;
-		color: var(--color-white);
-		font-weight: 500;
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		text-decoration: none;
-		transition: color 0.2s linear;
-	}
+            & .icon {
+                background-color: var(--color-red);
+            }
+            
+            & .text {
+                width: max-content;
+            }
+        }
+    }
 
 	a:hover {
 		color: var(--color-red);

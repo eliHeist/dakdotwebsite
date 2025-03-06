@@ -1,17 +1,57 @@
 <script lang="ts">
-	import { Linkedin, Instagram } from 'lucide-svelte';
+	import { SendHorizontal, Mail, Phone } from 'lucide-svelte';
 
-	let name = '';
-	let company = '';
-	let email = '';
-	let phone = '';
-	let subject = '';
-	let category = 'software solutions';
-	let message = '';
+    let sending = $state(false);
 
-	function handleSubmit(event: Event) {
+	interface FormData {
+		name: string;
+		email: string;
+		phone: string;
+		budget_currency: string;
+		budget_amount: number | null | string;
+		details: string;
+	}
+
+	let formData = $state<FormData>({
+		name: '',
+		email: '',
+		phone: '',
+		budget_currency: 'UGX',
+		budget_amount: null,
+		details: ''
+	});
+
+	async function handleSubmit(event: Event) {
 		event.preventDefault();
-		// Handle form submission logic here
+        sending = true;
+        formData.budget_amount = Number(formData.budget_amount).toLocaleString('en-US');
+		// post the formdata to /api/contact
+		const response = await fetch('/api/contact', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formData)
+		});
+
+        let data = await response.json();
+        console.log(data);
+
+		if (response.ok) {
+			alert('Your message has been sent successfully!');
+			formData = { 
+				name: '', 
+				email: '', 
+				phone: '', 
+				budget_currency: 'UGX',
+				budget_amount: null,
+				details: ''
+			};
+		} else {
+			alert('There was an error sending your message. Please try again later.');
+		}
+
+        sending = false;
 	}
 </script>
 
@@ -20,81 +60,90 @@
 	<meta name="description" content="Get in touch with us" />
 </svelte:head>
 
-<section class="min-h-screen content-grid items-center">
-	<div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+<section class="min-h-screen content-grid items-center pt-14">
+	<div class="grid grid-cols-1 md:[grid-template-columns:2fr_3fr] gap-10 items-center">
 		<!-- Left Column - Contact Info -->
-		<div class="space-y-6">
-			<p class="text-red uppercase text-sm tracking-wide">Connect With Us</p>
-			<h1 class="text-3xl md:text-5xl lg:text-7xl font-semibold">
-				Together, we can <span class="text-red">do extraordinary things.</span>
+		<div class="grid gap-y-12">
+			<h1 class="text-3xl md:text-5xl lg:text-7xl font-semibold mb-12">
+				Let's <span class="text-red">Talk.</span>
 			</h1>
-			<a
-				href="mailto:connect@dakdot.com"
-				class="inline-flex items-center text-red underline text-lg"
-			>
-				connect@dakdot.com <span class="ml-2 text-xl">↗</span>
-			</a>
+
+            <div class="flex gap-6 items-center">
+                <div class="rounded-full h-16 w-16 grid place-content-center outline-2 outline-lead">
+                    <Phone />
+                </div>
+                <p>
+                    Talk to us directly at <br>
+                    <a href="tel:+256769345389" class="inline-flex items-center text-red underline text-lg">+256 769 345 389</a>
+                </p>
+            </div>
+
+            <div class="flex gap-6 items-center">
+                <div class="rounded-full h-16 w-16 grid place-content-center outline-2 outline-lead">
+                    <Mail />
+                </div>
+                <p>
+                    Email us directly at <br>
+                    <a href="mailto:connect@dakdot.com" class="inline-flex items-center text-red underline text-lg">
+                        connect@dakdot.com
+                    </a>
+                </p>
+            </div>
 		</div>
 
 		<!-- Right Column - Contact Form -->
-		<div class="w-full bg-black/50 p-6 rounded-xl">
-			<form class="space-y-4">
+		<div class="w-full bg-dark p-12 rounded-3xl">
+			<form class="space-y-4" onsubmit={handleSubmit}>
 				<!-- From Uiverse.io by Maximinodotpy -->
-				<div class="inputGroup">
-					<input type="text" required autocomplete="off" />
-					<label for="name">Your Full Name *</label>
-				</div>
-
-				<div class="inputGroup">
-					<input type="text" autocomplete="off" />
-					<label for="name">Company (Optional)</label>
-				</div>
-
-				<div class="inputGroup">
-					<input type="email" required autocomplete="off" />
-					<label for="name">Your Email *</label>
-				</div>
-
-				<div class="inputGroup">
-					<input type="tel" required autocomplete="off" />
-					<label for="name">Your Phone *</label>
-				</div>
-
-				<div class="inputGroup">
-					<input type="text" required autocomplete="off" />
-					<label for="name">Subject (Optional)</label>
-				</div>
-
-				<div class="inputGroup">
-                    <select required>
-                        <option value="" disabled selected></option
-                        >
-                        <option value="general">General</option>
-                        <option value="software">Software Solutions</option>
-                        <option value="design">Design & Graphics</option>
-                        <option value="motion">Motion Design</option>
-                    </select>
-                    <label for="name">Category *</label>
-					<!-- <label for="name">Subject (Optional)</label> -->
-				</div>
-
-				<div class="inputGroup">
-                    <textarea name="message" id="message" maxlength="200" required></textarea>
-					<label for="name">Write your message (max 200 characters) *</label>
-				</div>
+                <div class="grid gap-y-6">
+                    <div class="input-field">
+                        <input id="name" name="name" required type="text" bind:value={formData.name} />
+                        <label for="name">Full Name <span class="text-red">*</span></label>
+                    </div>
+    
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div class="input-field">
+                            <input id="email" name="email" required type="email" bind:value={formData.email} />
+                            <label for="email">Email <span class="text-red">*</span></label>
+                        </div>
+        
+                        <div class="input-field">
+                            <input id="phone" name="phone" required type="tel" bind:value={formData.phone} />
+                            <label for="phone">Phone <span class="text-red">*</span></label>
+                        </div>
+                    </div>
+    
+                    <div class="grid gap-3 [grid-template-columns:2fr_1fr]">
+                        <div class="input-field">
+                            <input id="amount" name="amount" required type="number" bind:value={formData.budget_amount} />
+                            <label for="amount">Your budget <span class="text-red">*</span></label>
+                        </div>
+                        <div class="input-field">
+                            <select id="country" name="country" required bind:value={formData.budget_currency}>
+                                <option value="UGX" selected>UGX</option>
+                                <option value="USD">USD</option>
+                            </select>
+                            <label for="country">Currency <span class="text-red">*</span></label>
+                        </div>
+                    </div>
+    
+                    <div class="input-field">
+                        <textarea id="message" name="message" required bind:value={formData.details}></textarea>
+                        <label for="message">Tell us about your Project <span class="text-red">*</span></label>
+                    </div>
+                </div>
 
 				<div class="mt-4 flex items-center space-x-2">
-					<input type="checkbox" class="text-red" />
-					<span class="text-gray-400 text-sm">
-						I understand that DakDot will securely hold my data in accordance with their
-						<a href="#" class="text-red underline">privacy policy</a>.
+					<span class="text-lead text-sm">
+						By submitting, I understand that DakDot will securely hold my data in accordance with their
+						<a href="/legal/pivacy/" class="text-red underline">privacy policy</a>.
 					</span>
 				</div>
 
 				<button
-					class="w-full bg-white text-black py-3 rounded-full mt-6 flex justify-center items-center space-x-2 font-semibold"
+					class="w-full bg-white text-black py-3 rounded-full mt-6 flex justify-center items-center space-x-2 font-semibold group cursor-pointer"
 				>
-					<span>Submit Form</span> <span class="ml-2">↗</span>
+					<span>Submit Form</span> <SendHorizontal class="w-6 h-6 transition-all group-hover:-rotate-45" />
 				</button>
 			</form>
 		</div>
@@ -107,61 +156,63 @@
 
 <style>
     @reference "tailwindcss/theme";
-	/* From Uiverse.io by Maximinodotpy */
-	.inputGroup {
-		margin: 1em 0 1em 0;
-		position: relative;
-	}
+	/* From Uiverse.io by elijahgummer */ 
+    .input-field {
+        position: relative;
+        border-bottom: 1px solid;
+        border-color: color-mix(in oklab, var(--color-lead) /* #B7AFB5 = #b7afb5 */ 20%, transparent);
+        margin: 15px 0;
 
-	.inputGroup input, .inputGroup select, .inputGroup textarea {
-		padding: 0.5rem 0.75rem;
-		outline: 1px solid rgb(74, 73, 73);
-		background-color: transparent;
-		border-radius: 0.375rem;
-		width: 100%;
-	}
-
-    select {
-        & option {
-            padding: 0.5rem 0.5rem;
-            background: var(--color-dark);
+        & label {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
             color: var(--color-lead);
+            pointer-events: none;
+            transition: 0.15s ease;
+        }
+    
+        & input, & select {
+            width: 100%;
+            height: 3rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--color-white);
+        }
+    
+        & textarea {
+            width: 100%;
+            height: 3rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--color-white);
+        }
+    
+        & input:focus ~ label,
+        & input:valid ~ label,
+        & textarea:focus ~ label,
+        & textarea:valid ~ label,
+        & select:focus ~ label,
+        & select:valid ~ label {
+            font-size: 0.8rem;
+            top: 10px;
+            transform: translateY(-120%);
         }
     }
 
-	.inputGroup label {
-		position: absolute;
-		left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-		padding: 0 0.75rem;
-		pointer-events: none;
-		transition: all 0.3s ease;
-		color: var(--color-dark-lead);
-        transform-origin: left;
-	}
+    select {
+        & option {
+            color: var(--color-lead);
+            background-color: var(--color-dark);
 
-	.inputGroup textarea ~ label {
-		position: absolute;
-		left: 0;
-        top: 1.25rem;
-        transform: translateY(-50%);
-		padding: 0 0.75rem;
-		pointer-events: none;
-		transition: all 0.3s ease;
-		color: var(--color-dark-lead);
-        transform-origin: left;
-	}
+            &:hover {
+                background-color: color-mix(in oklab, var(--color-lead) /* #B7AFB5 = #b7afb5 */ 20%, transparent);
+            }
+        }
+    }
 
-	.inputGroup :is(input:focus, input:valid) ~ label,
-    .inputGroup :is(select:focus, select:valid) ~ label,
-    .inputGroup :is(textarea:focus, textarea:valid) ~ label{
-		transform: translateY(-50%) scale(0.75);
-        top: 0;
-		margin: 0em;
-		margin-left: .5rem;
-		padding: 0.4em;
-		background-color: var(--color-black);
-	}
 
 </style>
