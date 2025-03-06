@@ -74,7 +74,7 @@ const emailTemplate = (name:string, email:string, phone:string, budget_currency:
     <style>
         body { font-family: Arial, sans-serif;background-color: #0C0C0C; color: #FDFEFD }
         .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; }
-        .header { color: #FDFEFD; padding: 12px; text-align: center;font-size:1.35rem;font-weight:700; }
+        .header { color: #FDFEFD; padding: 12px; text-align: center;font-weight:700; }
         .content { padding: 20px;background-color:#1F1C1C;border-radius:0.75rem; }
         .content table {text-align:left;width:100%;}
         .content h2 { color: #FDFEFD;font-size:1.25rem;margin-bottom:.25rem; }
@@ -86,7 +86,7 @@ const emailTemplate = (name:string, email:string, phone:string, budget_currency:
 <body>
     <div class="container">
         <div class="header">
-            <h1>New Contact Form Submission</h1>
+            <h2>New Contact Form Submission</h2>
         </div>
         <div class="content">
             <h2>Details</h2>

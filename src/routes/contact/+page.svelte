@@ -1,5 +1,43 @@
 <script lang="ts">
-	import { SendHorizontal, Mail, Phone } from 'lucide-svelte';
+	import { SendHorizontal, Mail, Phone, Loader2 } from 'lucide-svelte';
+    import { gsap } from "gsap";
+
+    let buttonMessage: string|null = null;
+    let buttonMessageColor: string = "#000";
+
+    function startSend() {
+        if (typeof(window) !== 'undefined') {
+            const timeline1 = gsap.timeline({ paused: true });
+            // Timeline 1: Text fades out, icon moves up like a rocket, and new text appears
+            timeline1
+                .to(".submit-btn", { rotate: -2, duration: 0.3, ease: "power2.inOut" })
+                // .to(".submit-btn .icon", { className: "icon animate-spin" })
+                .to(".submit-btn .text", { opacity: 1, left: "30%", duration: 0.4 }, "<")
+                .to(".submit-btn .icon", { opacity: 1, left: "70%", scale: 1.25 , duration: 0.3, ease: "power2.inOut" }, "-=0.1")
+                .to(".submit-btn .text", { innerText: "Sending ...", duration: 0.3, ease: "power2.inOut" }, "-=0.2")
+
+            timeline1.play();
+        }
+    }
+    
+    function endSend() {
+        if (typeof(window) !== 'undefined') {
+            const timeline2 = gsap.timeline({ paused: true });
+            // Timeline 2: Transition from "Sending..." to "Success"
+            timeline2
+                .to(".submit-btn .text", { innerText: buttonMessage })
+                .to(".submit-btn .text", { innerText: buttonMessage, color: buttonMessageColor, duration: 1, ease: "power2.inOut" }, "<")
+                .to(".submit-btn .icon", { top: "50%", rotate: 0, left: "50%", scale: 0.3, opacity: 0, duration: 0.3, ease: "power2.inOut" }, "<")
+                .to(".submit-btn", { rotate: 0, duration: 5, ease: "power2.inOut" }, "-=0.6")
+                .to(".submit-btn .text", { left: '50%', duration: 5 }, "<")
+                .to(".submit-btn .text", { color: "var(--color-black)", duration: 0.5, ease: "power2.inOut" }, "+=1")
+                .to(".submit-btn .text", { innerText: "Submit Form" })
+
+            timeline2.play();
+        }
+    }
+
+
 
     let sending = $state(false);
 
@@ -23,7 +61,9 @@
 
 	async function handleSubmit(event: Event) {
 		event.preventDefault();
-        sending = true;
+        buttonMessage = "Sending...";
+        startSend();
+        
         formData.budget_amount = Number(formData.budget_amount).toLocaleString('en-US');
 		// post the formdata to /api/contact
 		const response = await fetch('/api/contact', {
@@ -35,10 +75,10 @@
 		});
 
         let data = await response.json();
-        console.log(data);
+        buttonMessage = data.message;
 
 		if (response.ok) {
-			alert('Your message has been sent successfully!');
+            buttonMessageColor = "#29a718";
 			formData = { 
 				name: '', 
 				email: '', 
@@ -48,9 +88,11 @@
 				details: ''
 			};
 		} else {
-			alert('There was an error sending your message. Please try again later.');
+            buttonMessageColor = "#EE2531";
+			console.error(data.message);
 		}
 
+        endSend();
         sending = false;
 	}
 </script>
@@ -140,10 +182,11 @@
 					</span>
 				</div>
 
-				<button
-					class="w-full bg-white text-black py-3 rounded-full mt-6 flex justify-center items-center space-x-2 font-semibold group cursor-pointer"
-				>
-					<span>Submit Form</span> <SendHorizontal class="w-6 h-6 transition-all group-hover:-rotate-45" />
+				<button class="submit-btn">
+					<span class="text">Submit Form</span> 
+                    <div class="icon">
+                        <Loader2 class="animate-spin" />
+                    </div>
 				</button>
 			</form>
 		</div>
@@ -151,7 +194,6 @@
 </section>
 
 <div class="hidden">
-    <select name="" id="" on:selectionchange></select>
 </div>
 
 <style>
@@ -214,5 +256,30 @@
         }
     }
 
+    .submit-btn {
+        @apply w-full bg-white text-black h-12 rounded-full mt-6 flex justify-center items-center space-x-2 font-semibold cursor-pointer relative transition-all outline-2 outline-transparent outline-offset-2;
+        
+        &:hover {
+            outline-color: var(--color-lead);
+        }
+
+        & .text{
+            position: absolute;
+            font-weight: 600;
+            transform-origin: center;
+            transform: translateX(-50%) translateY(-50%);
+            left: 50%;
+            top: 50%;
+        }
+        
+        & .icon {
+            @apply opacity-0 w-6 h-6 transition-all;
+            position: absolute;
+            transform-origin: center;
+            transform: translateX(-50%) translateY(-50%) scale(0.3);
+            left: 50%;
+            top: 50%;
+        }
+    }
 
 </style>
