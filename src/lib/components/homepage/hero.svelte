@@ -38,11 +38,10 @@
 		);
 		animation.to(preloaderElement, {
 			opacity: 0,
-			clipPath: 'circle(35%)',
 			y: '100%',
 			duration: 1,
 			ease: 'power1.inOut'
-		});
+		}, '-=0.5');
 
 		gsap.set(heroSVGSection, { opacity: 0, y: '50%' });
 		gsap.set(heroSVGBackDrop, { opacity: 0 });
@@ -55,18 +54,18 @@
 				duration: 0.75,
 				ease: 'power1.inOut'
 			},
-			'-=0.2'
+			'-=1'
 		);
 		animation.to('.hero-text-reveal', {
 			y: 0,
 			duration: 1
-		});
+		}, '');
 		animation.to(
 			'.hero-text-reveal',
 			{
 				clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
 				stagger: 0.3,
-				duration: 0.75
+				duration: 0.5
 			},
 			'<'
 		);
@@ -88,8 +87,8 @@
 		animation.to(follower2, {
 			scale: 1.2,
 			y: 0,
-			duration: 1
-		}, '-=1');
+			duration: 3
+		}, '-=2.5');
 
 		document.addEventListener('mousemove', (e) => {
 			const { clientX: x, clientY: y } = e;
