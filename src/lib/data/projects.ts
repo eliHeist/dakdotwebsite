@@ -11,6 +11,9 @@ export const TAGS = {
     webapp: {
         name: "Web Application"
     },
+    content: {
+        name: "Content"
+    }
 }
 
 export const INDUSTRIES = {

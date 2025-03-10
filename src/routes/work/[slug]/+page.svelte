@@ -16,14 +16,18 @@
 <div class="min-h-screen relative grid overflow-hidden bg-cover bg-center"
     style="background-image: url({data.project.splash.src});"
 >
-    <div class="splash-content content-grid pb-32">
+    <div class="splash-content content-grid pb-16">
         <div bind:this={spacer}></div>
         <div class="breakoutx mt-32 grid md:grid-cols-2">
             <div>
                 <h2 class="lead-1">{data.project.title}</h2>
-                <ul class="grid gap-3 mt-6">
+                <div class="flex gap-x-3">
+                    <span class="font-semibold">INDUSTRY:</span>
+                    <span class="uppercase">{data.project.industry.name}</span>
+                </div>
+                <ul class="flex flex-wrap gap-3 mt-6">
                     {#each data.project.tags as tag}
-                    <li class="uppercase text-sm">
+                    <li class="uppercase text-sm p-1.5 bg-red-900 w-fit rounded-xs">
                         <span>{tag.name}</span>
                     </li>
                     {/each}
@@ -40,23 +44,38 @@
         </div>
     </div>
 </div>
-<div class="py-32">
-    <div class="content-grid gap-y-12">
+<div class="hidden @xl:grid-cols-2 @5xl:grid-cols-3"></div>
+<div class="pb-32">
+    <div class="content-grid gap-y-12 @container">
         {#each data.project.sections as section}
             {#if section.type === 'images'}
-                {#if section.cols === 1}
+            <div class="grid gap-6" 
+            class:@xl:grid-cols-2={section.cols === 2 || section.cols === 3} 
+            class:@5xl:grid-cols-3={section.cols === 3}>
+                {#each section.images as image}
+                    <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl w-full fade-in-up" class:aspect-square={section.fit} />
+                {/each}
+            </div>
+                <!-- {#if section.cols === 1}
                 <div class="grid gap-6">
                     {#each section.images as image}
-                        <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl w-full fade-in-up" />
+                        <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl w-full fade-in-up" class:aspect-square={section.fit} />
                     {/each}
                 </div>
                 {:else if section.cols === 2}
                 <div class="grid md:grid-cols-2 gap-6">
                     {#each section.images as image}
-                        <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl aspect-square fade-in-up" />
+                        <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl fade-in-up" class:aspect-square={section.fit} />
                     {/each}
                 </div>
                 {/if}
+                {:else if section.cols === 3}
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {#each section.images as image}
+                        <img src={`${data.project.mediaPath}${image}`} alt={image.alt} class="object-cover rounded-2xl fade-in-up" class:aspect-square={section.fit} />
+                    {/each}
+                </div>
+                {/if} -->
             {/if}
         {/each}
     </div>

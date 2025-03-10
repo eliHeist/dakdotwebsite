@@ -92,11 +92,11 @@
 	<h2 class="title-1 text-center">Featured <br />work</h2>
 	<div class="project-list mt-16" bind:this={container}>
 		{#each projects as project, i}
-        <div class="project-{i + 1} p-6 border border-lead/20 slide-in-up">
-            <a href="#">
-                <div class="project  @container flex flex-col">
+        <div class="project-{i + 1} p-6 border border-lead/20 grid slide-in-up">
+            <a href="#" class="h-full grid">
+                <div class="project @container flex flex-col">
                     <figure class="rounded-xl flex-1 overflow-hidden">
-                        <img src={project.imageSrc} alt={project.name} class=" object-cover" />
+                        <img src={project.imageSrc} alt={project.name} class="h-full w-full object-cover" />
                     </figure>
                     <div class="project-details mt-3 flex items-center gap-x-3 justify-between">
                         <h3 class="font-medium text-lg">{project.name}</h3>

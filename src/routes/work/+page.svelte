@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="wrapper breakout @container">
-        <div class="grid @min-lg:grid-cols-2 @min-4xl:grid-cols-3">
+        <div class="grid gap-6 @min-lg:grid-cols-2 @min-4xl:grid-cols-3">
             {#each data.projects as project}
             <a href="{`/work/${project.slug}`}">
                 <article class="project-card group">
@@ -48,6 +48,9 @@
                             <video class="nail" src={project.thumb.src} autoplay loop muted></video>
                         {:else}
                             <img class="nail" src={project.thumb.src} alt={project.title} />
+                            <div class="overlay">
+                                <p>{project.industry.name}</p>
+                            </div>
                         {/if}
                     </div>
                     <header>
@@ -74,15 +77,41 @@
 
         & .thumb{
             overflow: hidden;
-            border-radius: 1.5rem;
             display: grid;
             place-content: center;
+            position: relative;
             
             & .nail{
                 aspect-ratio: 4/3;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                border-radius: 1.5rem;
+
+                transition: scale 1s ease-in-out;
+            }
+
+
+            & .overlay{
+                position: absolute;
+                bottom: -4rem;
+                left: -3rem;
+                width: fit-content;
+                height: fit-content;
+                background: var(--color-black);
+                padding: .5rem 1rem;
+                border-top-right-radius: 1rem;
+                transition: all .5s ease-in-out;
+            }
+
+            &:hover {
+                & .overlay{
+                    bottom: 0;
+                    left: 0;
+                }
+                & img {
+                    scale: 1.05;
+                }
             }
         }
 

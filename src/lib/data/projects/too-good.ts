@@ -1,9 +1,10 @@
-import { TAGS } from "../projects";
+import { INDUSTRIES, TAGS } from "../projects";
 
 export default {
     title: 'Too Good Yoghurt',
     slug: 'too-good',
     tags: [TAGS.packagedesign, TAGS.logo],
+    industry: INDUSTRIES.foodandbeverages,
     thumb: {
         type: 'image',
         src: '/projects/too-good/thumb.webp'

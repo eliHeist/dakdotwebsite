@@ -7,9 +7,9 @@ export const load: PageLoad = ({ params }) => {
         projects: [
             {
                 id: "project-2",
-                name: "Falcon",
-                categories: ["Website", "Brand Design"],
-                imageSrc: "/projects/2.jpg"
+                name: "Too Good",
+                categories: ["Food and Beverages"],
+                imageSrc: "/projects/too-good/splash.webp"
             },
             {
                 id: "project-7",
@@ -19,9 +19,9 @@ export const load: PageLoad = ({ params }) => {
             },
             {
                 id: "project-8",
-                name: "Mago",
-                categories: ["Brand Design", "Website"],
-                imageSrc: "/projects/8.jpg"
+                name: "Thupu",
+                categories: ["Food and Beverages"],
+                imageSrc: "/projects/thupu/thumb.webp"
             },
             {
                 id: "project-26",
