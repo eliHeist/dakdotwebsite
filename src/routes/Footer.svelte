@@ -104,11 +104,6 @@
 		ScrollTrigger.refresh(); // Refresh only footer-related ScrollTriggers
 	};
 
-	// Re-run footer animations when navigating to a new page
-	// $page.subscribe(() => {
-	// 	runAnimation();
-	// });
-
 	// Run on first load
 	$effect(() => {
 		runAnimation();
@@ -119,7 +114,7 @@
 <!-- clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); -->
 
 <footer bind:this={footer}
-	class="bg-white text-dark pt-24 pb-4 content-grid h-screen fixed inset-0 -z-[1]"
+	class="bg-white text-dark pt-24 pb-4 content-grid h-screen fixed inset-0 z-[5]"
 >
 	<div class="breakout grid h-full">
 		<div class="grid lg:flex lg:flex-row-reverse lg:justify-between">
@@ -164,12 +159,12 @@
 			<div>
 				<h3 class="text-2xl lg:text-4xl font-medium heading">Navigate</h3>
 				<ul class="space-y-1.5 gap-x-12 grid grid-cols-2 mt-4 sm:mt-10 lg:text-lg">
-					<a href="/web-development/" class="reveal-in">Websites</a>
-					<a href="/web-development/" class="reveal-in">Web Development</a>
-					<a href="/brand-design/" class="reveal-in">Branding</a>
-					<a href="/brand-design/" class="reveal-in">Digital Marketing</a>
-					<a href="/motion/" class="reveal-in">Product Visualization</a>
-					<a href="/motion/" class="reveal-in">Animation</a>
+					<a href="/services/web-development/" class="reveal-in">Websites</a>
+					<a href="/services/web-development/" class="reveal-in">Web Development</a>
+					<a href="/services/brand-design/" class="reveal-in">Branding</a>
+					<a href="/services/brand-design/" class="reveal-in">Digital Marketing</a>
+					<a href="/services/motion/" class="reveal-in">Product Visualization</a>
+					<a href="/services/motion/" class="reveal-in">Animation</a>
 				</ul>
 			</div>
 		</div>

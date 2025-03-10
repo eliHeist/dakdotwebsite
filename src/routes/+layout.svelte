@@ -7,6 +7,9 @@
 	import { gsap } from 'gsap';
 	import Footer from './Footer.svelte';
 
+    import { page } from "$app/stores";
+    import { fly } from "svelte/transition";
+
 	$effect(() => {
 		// const ScrollTrigger = (await import('gsap/ScrollTrigger')).default;
 
@@ -22,31 +25,27 @@
         }
 
         requestAnimationFrame(raf);
-
-		// Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
-		// lenis.on('scroll', ScrollTrigger.update);
-
-		// Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
-		// This ensures Lenis's smooth scroll animation updates on each GSAP tick
-		// gsap.ticker.add((time) => {
-		// 	lenis.raf(time * 1000); // Convert time from seconds to milliseconds
-		// });
-
-		// Disable lag smoothing in GSAP to prevent any delay in scroll animations
-		// gsap.ticker.lagSmoothing(0);
 	});
 
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
-<div class="app">
+<div class="app bg-black">
 	<Header />
 
-	<main class="bg-black">
+    <!-- <div class="fixed inset-0 h-screen w-screen bg-dark z-50"
+    in:fly={{ y: "-100%", duration: 1000 }}
+    out:fly={{ y: "100%", duration: 500 }}>
+
+    </div> -->
+	<main class="bg-black z-10"> 
 		{@render children()}
 	</main>
 
-	<Footer />
+    {#key $page.url.pathname}
+    <Footer />
+    {/key}
+    
 </div>
 
 <style>

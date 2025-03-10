@@ -20,7 +20,6 @@
 	let isCollapsed = $state(false);
 
 	function handleScroll() {
-		console.log('handleScroll');
 		const currentScrollY = window.scrollY;
 
 		if (currentScrollY > lastScrollY) {
@@ -49,6 +48,9 @@
 				},
 				'<'
 			);
+            gsap.to(header, {
+                top: '-4rem',
+            })
 		} else {
 			// Scrolling up, show the header
 			isCollapsed = false;
@@ -75,6 +77,9 @@
 				},
 				'<'
 			);
+            gsap.to(header, {
+                top: '.5rem',
+            })
 		}
 
 		lastScrollY = currentScrollY;
@@ -129,6 +134,9 @@
                 y: '4rem',
 			}
 		);
+        gsap.set(header, {
+                top: '.5rem',
+        })
 
 		window.addEventListener('scroll', handleScroll);
 	});
