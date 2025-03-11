@@ -13,9 +13,10 @@
 	let heroText: HTMLElement;
 	let follower1: SVGElement;
 	let follower2: SVGElement;
+    let spacer: HTMLElement;
 
 	$effect(() => {
-        let headerHeight = getContext('header_height');
+        let headerHeight = document.querySelector(".page-header")?.clientHeight || 0;
         heroElement.style.paddingTop = `${headerHeight}px`;
 		let svg = preloaderElement.querySelector('svg');
 		svg?.classList.remove('animate-spin');
@@ -207,7 +208,8 @@
 
 	<div class="content-grid absolute top-[20vh] left-0 right-0 hidden glowing"></div>
 	<div class="grid content-grid h-[70vh] content-end sm:h-[60vh]">
-		<div class="relative lg:max-w-[80vw] mx-auto">
+        <div bind:this={spacer}></div>
+		<div class="relative lg:max-w-[80vw] mx-auto xl:mb-20">
 			<div class="absolute left-0 right-0 -top-24 sm:-top-40 olg:-top-64 translate-y-40" bind:this={heroSVGSection}>
 				<svg class="w-full main-svg hero-svg-shadow" viewBox="0 0 905 470" fill="none">
 					<g filter="url(#filter0_f_414_113)">

@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="wrapper breakout @container">
-        <div class="grid gap-6 @min-lg:grid-cols-2 @min-4xl:grid-cols-3">
+        <div class="grid gap-6 projects_wrapper">
             {#each data.projects as project}
             <a href="{`/work/${project.slug}`}">
                 <article class="project-card group">
@@ -70,6 +70,12 @@
 
 <style>
     @reference "tailwindcss/theme";
+
+    .projects_wrapper{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
+        justify-content: center;
+    }
     
     .project-card {
         display: grid;
@@ -86,7 +92,7 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                border-radius: 1.5rem;
+                border-radius: .75rem;
 
                 transition: scale 1s ease-in-out;
             }
