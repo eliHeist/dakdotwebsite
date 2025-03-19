@@ -87,6 +87,27 @@
 				</div>
 			</section>
 			{/if}
+			{#if section.type === 'images-sm'}
+			<section class="grid gap-y-8 mt-12">
+				{#if section.title}
+				<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
+				{/if}
+				<div
+					class="grid gap-6 max-w-[60rem] mx-auto"
+					class:@xl:grid-cols-2={section.cols === 2 || section.cols === 3}
+					class:@5xl:grid-cols-3={section.cols === 3}
+				>
+					{#each section.images as image}
+						<img
+							src={`${data.project.mediaPath}${image}`}
+							alt={image.alt}
+							class="object-cover rounded-2xl w-full fade-in-up"
+							class:aspect-square={section.fit}
+						/>
+					{/each}
+				</div>
+			</section>
+			{/if}
 			{#if section.type === 'paragraph'}
 				<section class="grid gap-y-8 mt-12">
 					{#if section.title}
