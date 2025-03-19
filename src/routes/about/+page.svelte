@@ -28,6 +28,59 @@
 </div>
 
 <div class="content-grid py-32">
+    <h2 class="title-3 mb-16">Who we are</h2>
+    <div class="max-w-xl mx-auto text-lead text-lg text-justify">
+        <p>At DakDot Creations, we believe in powerful digital solutions that drive business growth. Founded with a passion for creativity and technology, we have helped businesses across industries launch stunning websites, establish unforgettable brands, and scale through digital marketing.</p>
+    </div>
+</div>
+
+<div class="content-grid py-32">
+    <h2 class="title-3 mb-16">Why Choose Us?</h2>
+    <div class="grid gap-y-12 gap-x-12 lg:gap-x-24 md:grid-cols-2 max-w-[60rem] mx-auto">
+        <div class="rounded-full outline outline-dark-lead grid sm:grid-cols-2 md:grid-cols-1 gap-3 p-2">
+            <div class="rounded-full bg-dark aspect-square grid text-center text-lead overflow-hidden transition-all [grid-template-rows:1fr_0fr] focus:[grid-template-rows:0fr_1fr] hover:[grid-template-rows:0fr_1fr]">
+                <div class="content-main overflow-hidden grid place-content-center">
+                    <span class="text-7xl text-white">5+</span>
+                    <p>Years of experience</p>
+                </div>
+                <div class="content-alt overflow-hidden grid place-content-center">
+                    <p class="max-w-[80%] mx-auto">Our team is comprised of experienced professionals for Graphics design, Web Development, 3D Animation, Motion Graphics, Photography and Videography.</p>
+                </div>
+            </div>
+            <div class="rounded-full bg-dark aspect-square grid text-center text-lead overflow-hidden transition-all [grid-template-rows:1fr_0fr] focus:[grid-template-rows:0fr_1fr] hover:[grid-template-rows:0fr_1fr]">
+                <div class="content-main overflow-hidden grid place-content-center">
+                    <span class="text-4xl text-white">Results-driven<br/>Approach</span>
+                    <!-- <p>Years of experience</p> -->
+                </div>
+                <div class="content-alt overflow-hidden grid place-content-center">
+                    <p class="max-w-[75%] mx-auto">We focus on strategies that deliver measurable results, using data-driven techniques to optimize every aspect of your digital presence for business growth.</p>
+                </div>
+            </div>
+        </div>
+        <div class="rounded-full outline outline-dark-lead grid sm:grid-cols-2 md:grid-cols-1 gap-3 p-2">
+            <div class="rounded-full bg-dark aspect-square grid text-center text-lead overflow-hidden transition-all [grid-template-rows:1fr_0fr] focus:[grid-template-rows:0fr_1fr] hover:[grid-template-rows:0fr_1fr]">
+                <div class="content-main overflow-hidden grid place-content-center">
+                    <span class="text-4xl text-white">Client-Focused<br/>Solutions</span>
+                    <!-- <p>Years of experience</p> -->
+                </div>
+                <div class="content-alt overflow-hidden grid place-content-center">
+                    <p class="max-w-[75%] mx-auto">We prioritize your needs, creating customized solutions tailored to your business, ensuring that our designs and strategies align with your goals and vision.</p>
+                </div>
+            </div>
+            <div class="rounded-full bg-dark aspect-square grid text-center text-lead overflow-hidden transition-all [grid-template-rows:1fr_0fr] focus:[grid-template-rows:0fr_1fr] hover:[grid-template-rows:0fr_1fr]">
+                <div class="content-main overflow-hidden grid place-content-center">
+                    <span class="text-4xl text-white">Commitment<br/>to Excellence</span>
+                    <!-- <p>Years of experience</p> -->
+                </div>
+                <div class="content-alt overflow-hidden grid place-content-center">
+                    <p class="max-w-[75%] mx-auto">Our dedication to excellence ensures we never settle for mediocrity. We continually push boundaries to deliver top-tier services with exceptional attention to detail.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-grid py-32">
     <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
         {#each data.services as service, i}
         <div class="fade-in-up grid place-content-center rounded-3xl outline-0 outline-dark group hidden">

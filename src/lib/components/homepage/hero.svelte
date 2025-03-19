@@ -250,12 +250,12 @@
 				<div
 					class="grid text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-7xl text-white font-light [line-height:100%]"
 				>
-					<h2 class="font-bold hero-text-reveal">Brand Design</h2>
-					<h3 class="hero-text-reveal">with excellence</h3>
+					<h2 class="font-bold hero-text-reveal">Your Digital <br/>Growth Partner!</h2>
+					<!-- <h2 class="font-bold hero-text-reveal">Brand Design</h2>
+					<h3 class="hero-text-reveal">with excellence</h3> -->
 				</div>
 				<p class="mt-4 text-lg text-lead max-w-[90%] sm:max-w-[80%] mx-auto hero-next">
-					Revolutionizing Digital Presence for firms and emerging businesses tired of the usual
-					aesthetics. Get ready to stand out in the digital landscape.
+					We design, develop, and brand businesses for success. Whether you need a high-performing web app, a powerful brand identity, or expert digital marketing, we craft strategies that turn visitors into loyal customers.
 				</p>
 				<div class="mt-12">
 					<a href="#clients">
