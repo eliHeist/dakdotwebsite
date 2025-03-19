@@ -67,7 +67,11 @@
 	<div class="content-grid gap-y-12 @container">
 		{#each data.project.sections as section}
 			{#if section.type === 'images'}
-				<section
+			<section class="grid gap-y-8 mt-12">
+				{#if section.title}
+				<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
+				{/if}
+				<div
 					class="grid gap-6"
 					class:@xl:grid-cols-2={section.cols === 2 || section.cols === 3}
 					class:@5xl:grid-cols-3={section.cols === 3}
@@ -80,11 +84,14 @@
 							class:aspect-square={section.fit}
 						/>
 					{/each}
-				</section>
+				</div>
+			</section>
 			{/if}
 			{#if section.type === 'paragraph'}
 				<section class="grid gap-y-8 mt-12">
+					{#if section.title}
 					<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
+					{/if}
 					<div class="max-w-xl mx-auto text-lead text-lg">
 						{@html section.body}
 					</div>
@@ -92,7 +99,9 @@
 			{/if}
 			{#if section.type === 'list'}
 				<section class="grid gap-y-8 mt-12">
+					{#if section.title}
 					<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
+					{/if}
 					<div>
 						<ul class="text-lg space-y-6 max-w-xl mx-auto text-lead">
 							{#each section.list_items as item}

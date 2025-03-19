@@ -5,6 +5,9 @@ export const TAGS = {
     logo: {
         name: "Logo"
     },
+    badgeoremblem: {
+        name: "Badge & Emblem"
+    },
     website: {
         name: "Website"
     },
@@ -25,5 +28,8 @@ export const INDUSTRIES = {
     },
     agric: {
         name: "Agriculture"
+    },
+    education: {
+        name: "Education"
     },
 }
