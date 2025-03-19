@@ -33,6 +33,6 @@ export const INDUSTRIES = {
         name: "Education"
     },
     healthcare: {
-	name: "Health Care"
+	    name: "Health Care"
     },
 }
