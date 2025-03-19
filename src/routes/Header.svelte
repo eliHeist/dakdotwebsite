@@ -207,8 +207,8 @@
 							? 'active'
 							: ''}"
 					>
-                        <div class="icon text-red">
-                            <Phone class="w-5 h-5 fill-white" />
+                        <div class="icon text-black">
+                            <Phone class="w-5 h-5 fill-gray-500" />
                         </div>
                         <div class="text">
                             <span>Contact us</span>

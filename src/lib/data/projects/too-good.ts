@@ -11,6 +11,7 @@ export default {
     },
     splash: {
         type: 'image',
+        fill: false,  
         src: '/projects/too-good/splash.webp'
     },
     mediaPath: '/projects/too-good/',

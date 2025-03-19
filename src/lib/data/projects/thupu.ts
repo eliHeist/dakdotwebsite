@@ -11,6 +11,7 @@ export default {
     },
     splash: {
         type: 'image',
+        fill: false,  
         src: '/projects/thupu/splash.webp'
     },
     mediaPath: '/projects/thupu/',

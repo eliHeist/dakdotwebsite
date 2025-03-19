@@ -20,4 +20,10 @@ export const INDUSTRIES = {
     foodandbeverages: {
         name: "Food and Beverages"
     },
+    facilitymgt: {
+        name: "Facility Management"
+    },
+    agric: {
+        name: "Agriculture"
+    },
 }
