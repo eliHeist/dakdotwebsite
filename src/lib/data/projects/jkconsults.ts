@@ -4,7 +4,7 @@ export default {
     title: 'JK Consults',
     slug: 'jkconsults',
     tags: [TAGS.logo, TAGS.badgeoremblem],
-    industry: INDUSTRIES.education,
+    industry: INDUSTRIES.healthcare,
     thumb: {
         type: 'image',
         src: '/projects/jkconsults/thumb.jpg'

@@ -32,4 +32,7 @@ export const INDUSTRIES = {
     education: {
         name: "Education"
     },
+    healthcare: {
+	name: "Health Care"
+    },
 }
