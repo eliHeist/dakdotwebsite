@@ -66,8 +66,8 @@
     .step-body {
         font-weight: 400;
         overflow: hidden;
-        opacity: 0;
-        translate: 0 -2rem;
+        opacity: 0.4;
+        translate: 0 -0.5rem;
         transition: all .3s linear;
 
         & .body {

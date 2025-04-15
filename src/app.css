@@ -158,3 +158,18 @@ a.link:hover {
 	text-decoration: underline;
 }
 
+
+
+/*  */
+.amber-glow{
+    filter: 
+        drop-shadow(0 0 0.5rem var(--color-white))
+        drop-shadow(0 0 1rem var(--color-white))
+        drop-shadow(0 0 1.5rem var(--color-white))
+        drop-shadow(0 0 2.5rem var(--color-yellow))
+        drop-shadow(0 0 4rem var(--color-yellow))
+        drop-shadow(0 0 5.5rem var(--color-yellow))
+        drop-shadow(0 0 6rem var(--color-yellow))
+        drop-shadow(0 0 9.5rem var(--color-yellow))
+    ;
+}

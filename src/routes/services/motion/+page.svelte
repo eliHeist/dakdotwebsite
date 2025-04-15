@@ -6,6 +6,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import AccordionItem from '$lib/components/ui/accordion-item.svelte';
 	import { Star } from 'lucide-svelte';
+	import WelcomeText from '$lib/components/services/welcomeText.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -17,18 +18,18 @@
 	});
 </script>
 
-<div class="content-grid pt-[10vh] md:pt-[20vh]" bind:this={spacer}>
-	<!-- Hero Section -->
-	<section class="text-center h-[50vh] grid place-content-center justify-items-center">
-		<h1 class="title-2">Motion & Video <br />Turn Stills to Stories</h1>
-	</section>
+<div class="hero full-width sticky top-0 h-screen grid place-content-center -z-10">
+    <img src="/svgs/yellow-half-tone.svg" alt="" class="object-cover h-full w-full lg:opacity-90 absolute -z-10">
+    <h1 class="title-3 [backdrop-filter:shadow(0_4px_4px_rgba(255,0,0,0.75)]">Turn Stills <br /> into Stories <br> with Motion</h1>
+</div>
+<div class="content-grid bg-black z-10" bind:this={spacer}>
 
-	<section class="py-8">
+	<section class="py-8 mt-28">
 		<div class="scroller" data-direction="right" data-speed="fast" data-animated="true">
 			<div class="scroller__inner gap-x-3">
 				{#each data.products as word}
 					<div class="px-3 flex gap-x-2 items-center w-max">
-						<Star class="fill-red stroke-red h-4" />
+						<Star class="fill-yellow stroke-yellow h-4" />
 						<span>{word}</span>
 					</div>
 				{/each}
@@ -48,9 +49,11 @@
 				</div>
 			</div>
 			<div class="sm:col-span-3 lg:col-span-4">
-				<p class="text-2xl lg:text-4xl font-medium fade-in-up">
-					<span class="opacity-0">Businesses</span>In today’s digital world, visual storytelling is key to engaging audiences. Our motion and video production services bring your brand’s vision to life through high-quality animations, motion graphics, VFX, and expert post-production. Whether you need captivating explainer videos, dynamic advertisements, or seamless video editing, we ensure that your content leaves a lasting impact.
-				</p>
+				<div class="text-2xl lg:text-4xl font-medium fade-in-up">
+                    <WelcomeText>
+                        <span class="opacity-0">Businesses</span>In today’s digital world, visual storytelling is key to engaging audiences. Our motion and video production services bring your brand’s vision to life through high-quality animations, motion graphics, VFX, and expert post-production. Whether you need captivating explainer videos, dynamic advertisements, or seamless video editing, we ensure that your content leaves a lasting impact.
+                    </WelcomeText>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -88,7 +91,7 @@
 					</p>
 					<a href="https://www.linkedin.com/in/kayima-oscar-0aa78023a/" class="grid">
 						<button
-							class="px-6 py-3 text-lg font-medium text-white bg-blue rounded-lg [text-decoration:none]"
+							class="px-6 py-3 text-lg font-medium text-black bg-yellow rounded-lg [text-decoration:none]"
 						>
 							Connect on LinkedIn
 						</button>

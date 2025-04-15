@@ -4,36 +4,24 @@
     
     let faq = [
         {
-            question: 'What is Dakdot?',
-            answer: 'Dakdot is a digital agency that specializes in web development, branding, and digital marketing.'
-        },
-        {
             question: 'How long does it take to build a website?',
-            answer: 'It depends on the complexity of the website. A simple website can take 2-3 weeks, while a more complex website can take 4-6 weeks.'
+            answer: 'It depends on the complexity and size of the website. A simple website can take 2-3 weeks, while a more complex or larger website can take 4-6 weeks.'
         },
         {
             question: 'How much does a website cost?',
-            answer: 'The cost of a website depends on the complexity of the website. A simple website can cost $1000-$2000, while a more complex website can cost $3000-$5000.'
+            answer: 'The cost of a website depends on the complexity of the website. A simple website can cost anywhere from 700,000/= to 1,100,000/=, while a more complex website can cost from 1,500,000/= to 3,000,000/=.'
         },
         {
             question: 'Do you offer branding services?',
-            answer: 'Yes, we offer branding services such as logo design, brand identity, and brand strategy.'
-        },
-        {
-            question: 'Do you offer digital marketing services?',
-            answer: 'Yes, we offer digital marketing services such as SEO, social media marketing, and email marketing.'
-        },
-        {
-            question: 'Do you offer web development services?',
-            answer: 'Yes, we offer web development services such as website design, website development, and website maintenance.'
+            answer: 'Yes, we offer full branding services such as logo design, brand identity, and brand strategy with brand guidelines.'
         },
         {
             question: 'Do you offer hosting services?',
-            answer: 'Yes, we offer hosting services such as domain registration, web hosting, and email hosting.'
+            answer: 'No, we do not offer hosting as an independent service, rather we handle the hosting services for our clients as part of our web development services.'
         },
         {
             question: 'Do you offer maintenance services?',
-            answer: 'Yes, we offer maintenance services such as website updates, security updates, and performance optimization.'
+            answer: 'Yes, we offer maintenance services such as website updates, security updates, and performance optimization overtime for our web development services.'
         },
         {
             question: 'Do you offer support services?',

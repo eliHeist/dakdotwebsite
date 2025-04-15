@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     {#if data.project.link}
-					<a href="{data.project.link.url}" target="_blank">
+					<a href="https://{data.project.link.url}" target="_blank">
 						<div class="plus-btn hover:bg-white hover:text-black">
 							<ArrowRight class="-rotate-45" />
 						</div>

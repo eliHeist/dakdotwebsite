@@ -41,7 +41,7 @@
     <div class="wrapper breakout @container">
         <div class="grid gap-6 projects_wrapper">
             {#each data.projects as project}
-            <a href="{`/work/${project.slug}`}">
+            <a href="{`/case-studies/${project.slug}`}">
                 <article class="project-card group">
                     <div class="thumb">
                         {#if project.thumb.type === 'video'}
@@ -73,7 +73,7 @@
 
     .projects_wrapper{
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
         justify-content: center;
     }
     

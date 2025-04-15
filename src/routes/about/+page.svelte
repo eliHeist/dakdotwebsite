@@ -22,9 +22,9 @@
 
 <div class="content-grid pt-[10vh] md:pt-[20vh]" bind:this={spacer}>
 	<!-- Hero Section -->
-	<section class="text-center h-[50vh] grid place-content-center justify-items-center">
+	<!-- <section class="text-center h-[50vh] grid place-content-center justify-items-center">
 		<h1 class="title-2">We are an Agency specialized in custom digital solutions</h1>
-	</section>
+	</section> -->
 </div>
 
 <div class="content-grid py-32">
@@ -77,19 +77,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="content-grid py-32">
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {#each data.services as service, i}
-        <div class="fade-in-up grid place-content-center rounded-3xl outline-0 outline-dark group hidden">
-            <img src={data.svgs[i]} alt={service.name} class="w-48 opacity-70 group-hover:opacity-100 transition-all duration-500" />
-        </div>
-        <div class="grid slide-in-up">
-            <WhatWeDoCard title={service.name} description={service.description}  />
-        </div>
-        {/each}
     </div>
 </div>
 

@@ -24,28 +24,18 @@
             scrollTrigger: {
                 trigger: split_type,
                 start: 'top 80%',
-                end: 'top 60%',
+                end: 'top 40%',
                 scrub: 2,
                 markers: false,
                 toggleActions: 'play play reverse reverse'
             },
-            opacity: 0.05,
+            opacity: 0.5,
             scaleY: 0.75,
             y: 10,
             transformOrigin: 'bottom',
             stagger: 0.1,
             ease: 'power1.out'
         });
-        gsap.from(scroller, {
-            scrollTrigger: {
-                trigger: split_type,
-                start: 'top 40%',
-                toggleActions: 'play play reverse reverse'
-            },
-            opacity: 0,
-            y: 20,
-            ease: 'power1.out'
-        })
 	}
 
 	$effect(() => {
