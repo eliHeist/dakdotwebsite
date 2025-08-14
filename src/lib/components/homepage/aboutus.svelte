@@ -23,15 +23,13 @@
         gsap.from(text.words, {
             scrollTrigger: {
                 trigger: split_type,
-                start: 'top 80%',
-                end: 'top 40%',
-                scrub: 2,
+                start: 'top 90%',
+                // end: 'top 28%',
+                // scrub: 2,
                 markers: false,
                 toggleActions: 'play play reverse reverse'
             },
-            opacity: 0.5,
-            scaleY: 0.75,
-            y: 10,
+            opacity: 0.1,
             transformOrigin: 'bottom',
             stagger: 0.1,
             ease: 'power1.out'
@@ -46,7 +44,7 @@
 <section class="about grid relative items-center bg-white text-dark">
 	<div class="absolutely content-grid items-center py-32">
 		<div class="text-3xl xl:text-5xl">
-			<div class="reveal-type text-justify">
+			<div class="reveal-type text-justify [line-height:120%]">
                 <span class="opacity-0">DAKDOT</span>
 				<span bind:this={split_type}>
                     We are passionate about transforming ideas into visually stunning and impactful solutions.
