@@ -200,17 +200,24 @@
 		</nav>
 
 		<div class="corner last">
-			<div class="flex justify-end">
-				<a href="/contact" class="cursor-pointer">
-					<button class="contact-button {$page.url.pathname.startsWith('/contact') ? 'active' : ''}">
-                        <div class="icon text-black">
-                            <Phone class="w-5 h-5 fill-black" />
-                        </div>
-                        <div class="text uppercase">
-                            <span>Contact us</span>
-                        </div>
-					</button>
-				</a>
+            <div class="flex justify-end">
+                <div class="relative inline-block group">
+                    <!-- Circle Button -->
+                    <a href="/contact"
+                        class="w-14 h-14 rounded-full bg-white flex items-center justify-center relative transition-colors duration-300 shadow-red-800 group-hover:shadow-2xl">
+                        <div class="absolute inset-0 size-14 rounded-full transition-all duration-300 border [border-width:0.25px;] border-transparent group-hover:border-white/20 group-hover:scale-[250%]"></div>
+                        <!-- Phone Icon (FontAwesome) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone-icon lucide-phone stroke-black group-hover:scale-105"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+                        <!-- Fly-out Badge -->
+                        <span 
+                            class="absolute mt-2 bg-white text-black text-xs font-semibold px-3 py-1 rounded-sm shadow-lg uppercase w-max [transform-origin:0_0]
+                            opacity-0 translate-y-0 translate-x-0 transition-all duration-300 ease-out scale-50
+                            group-hover:opacity-100 group-hover:translate-x-[-6rem] group-hover:scale-100">
+                            Contact Us
+                        </span>
+                    </a>
+    
+                </div>
 			</div>
 		</div>
 	</header>
@@ -438,10 +445,8 @@
             @apply grid place-content-center aspect-square rounded-full;
         }
 
-        & .text {
-            @apply grid place-content-center font-semibold;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
+        .ct-text {
+            @apply grid place-content-center font-semibold text-white rounded-sm px-2 py-1;
         }
         
         &:hover, &:focus, &.active {
@@ -450,11 +455,6 @@
             column-gap: .75rem;
             width: 100%;
 
-
-            & .icon {
-                /* background-color: var(--color-red); */
-            }
-            
             & .text {
                 width: max-content;
             }
