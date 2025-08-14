@@ -28,11 +28,12 @@
 </div>
 
 <div class="content-grid py-32">
-    <h2 class="title-3 mb-16">Who we are</h2>
+    <h2 class="title-3 mb-16">Who We Are</h2>
     <div class="max-w-xl mx-auto text-lead text-lg text-justify">
-        <p>At DakDot Creations, we believe in powerful digital solutions that drive business growth. Founded with a passion for creativity and technology, we have helped businesses across industries launch stunning websites, establish unforgettable brands, and scale through digital marketing.</p>
+        <p>DakDot Creations is a team of passionate designers, developers, and storytellers dedicated to helping businesses thrive in the digital age. We are driven by creativity, innovation, and a deep understanding of how technology can connect people to brands. Our mission is simple: to craft beautiful, functional, and impactful digital experiences that leave a lasting impression. We’re more than just a service provider — we’re your creative partner, committed to turning your ideas into reality.</p>
     </div>
 </div>
+
 
 <div class="content-grid py-32">
     <h2 class="title-3 mb-16">Why Choose Us?</h2>
@@ -44,7 +45,7 @@
                     <p>Years of experience</p>
                 </div>
                 <div class="content-alt overflow-hidden grid place-content-center">
-                    <p class="max-w-[80%] mx-auto">Our team is comprised of experienced professionals for Graphics design, Web Development, 3D Animation, Motion Graphics, Photography and Videography.</p>
+                    <p class="max-w-[80%] mx-auto">Our team is comprised of seasoned professionals with a deep understanding and expertise in the ever-evolving world of the design and development landscape.</p>
                 </div>
             </div>
             <div class="rounded-full bg-dark aspect-square grid text-center text-lead overflow-hidden transition-all [grid-template-rows:1fr_0fr] focus:[grid-template-rows:0fr_1fr] hover:[grid-template-rows:0fr_1fr]">
