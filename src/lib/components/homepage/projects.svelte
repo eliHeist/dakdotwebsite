@@ -204,6 +204,4 @@
 		}
 	}
 
-	.projects-list:has(.project:hover) {
-	}
 </style>

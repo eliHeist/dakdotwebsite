@@ -13,9 +13,15 @@ export const load: PageLoad = ({ params }) => {
             },
             {
                 id: "project-7",
-                name: "K closet",
-                categories: ["Web App", "Product Visualization"],
-                imageSrc: "/projects/7.jpg"
+                name: "Seromu Badge",
+                categories: ["School Badge"],
+                imageSrc: "/projects/seromujs/thumb.jpg"
+            },
+            {
+                id: "project-26",
+                name: "Kamy's Delights",
+                categories: ["Website"],
+                imageSrc: "/projects/kamysdelights/thumb (Small).jpg"
             },
             {
                 id: "project-8",
@@ -24,16 +30,10 @@ export const load: PageLoad = ({ params }) => {
                 imageSrc: "/projects/thupu/thumb.webp"
             },
             {
-                id: "project-26",
-                name: "Savanah",
-                categories: ["Brand Design", "Website"],
-                imageSrc: "/projects/26.jpg"
-            },
-            {
                 id: "project-52",
-                name: "UNESCO",
+                name: "Wekume Brand Design",
                 categories: ["Video Editing", "Product Visualization"],
-                imageSrc: "/projects/52.jpg"
+                imageSrc: "/projects/wekume/thumb.png"
             }
         ],
         services: [
@@ -51,13 +51,13 @@ export const load: PageLoad = ({ params }) => {
             },
             {
                 title: "Video",
-                details: "Your story deserves to be told in the most engaging way possible. From motion graphics and 3D animation to post-production editing and VFX, we create videos that captivate your audience and strengthen your brand message.",
+                details: "We specialize in professional video editing and production, focusing on creating polished and engaging content that tells your story effectively. From cutting and color grading to sound design and final mastering, we make your footage shine.",
                 icon: "/svgs/services/video.svg",
                 icon_colored: "/svgs/services/video-colored.svg"
             },
             {
-                title: "Marketing",
-                details: "Having a great product or service isn’t enough—you need the right strategy to reach your audience. We handle SEO, social media campaigns, paid ads, and content marketing to bring your brand in front of the right people at the right time.",
+                title: "Animation",
+                details: "We bring ideas to life through high-quality 3D animation and visualization. Whether it’s product renders, explainer videos, or immersive animated scenes, we craft visuals that engage, inform, and inspire.",
                 icon: "/svgs/services/marketing.svg",
                 icon_colored: "/svgs/services/marketing-colored.svg"
             }
