@@ -90,7 +90,7 @@
 					<p>
 						Have more questions or would love to say hi and talk. Feel free to connect on LinkedIn
 					</p>
-					<a href="https://www.linkedin.com/in/elijahtriumph/" class="grid">
+					<a target="_blank" href="https://www.linkedin.com/in/elijahtriumph/" class="grid">
 						<button
 							class="px-6 py-3 text-lg font-medium text-white bg-blue rounded-lg [text-decoration:none]"
 						>

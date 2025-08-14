@@ -39,11 +39,6 @@ export const load: PageLoad = () => {
                 "name": "Stationery & Print Design",
                 "description": "We design business cards, letterheads, brochures, packaging, and marketing materials that align with your brand’s visual identity and messaging.",
                 "svg": "/svgs/stationary.svg"
-            },
-            {
-                "name": "Digital Marketing",
-                "description": "We craft stunning social media graphics, digital ads, and content templates to help you maintain a strong and engaging online presence.",
-                "svg": "/svgs/digitalmarketing.svg"
             }
         ],
         "faq": [

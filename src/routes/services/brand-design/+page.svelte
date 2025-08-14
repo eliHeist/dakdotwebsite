@@ -71,7 +71,7 @@
 	</section>
 
 	<section class="py-32 breakout">
-		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 			{#each data.features as feature, i}
 				<FeatureCard title={feature.name} body={feature.description} icon={feature.svg} />
 			{/each}
@@ -92,7 +92,7 @@
 					<p>
 						Have more questions or would love to say hi and talk. Feel free to connect on LinkedIn
 					</p>
-					<a href="https://www.linkedin.com/in/a-martin-ssebaggala-a99a8a286/" class="grid">
+					<a target="_blank" href="https://www.linkedin.com/in/a-martin-ssebaggala-a99a8a286/" class="grid">
 						<button
 							class="px-6 py-3 text-lg font-medium text-white bg-blue rounded-lg [text-decoration:none]"
 						>
