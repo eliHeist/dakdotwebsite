@@ -5,11 +5,11 @@
     let faq = [
         {
             question: 'How long does it take to build a website?',
-            answer: 'It depends on the complexity and size of the website. A simple website can take 2-3 weeks, while a more complex or larger website can take 4-6 weeks.'
+            answer: 'It depends on the complexity and size of the website. A simple website can take 1-3 weeks, while a more complex or larger website can take 4-6 weeks.'
         },
         {
             question: 'How much does a website cost?',
-            answer: 'The cost of a website depends on the complexity of the website. A simple website can cost anywhere from 700,000/= to 1,100,000/=, while a more complex website can cost from 1,500,000/= to 3,000,000/=.'
+            answer: 'The cost of a website depends on the complexity of the website. A simple website can cost anywhere from 900,000/=, while a more complex website can cost from 2,500,000/='
         },
         {
             question: 'Do you offer branding services?',
