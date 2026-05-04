@@ -49,7 +49,7 @@
 			<div class="text-justify [line-height:120%]">
                 <span class="opacity-0">DAKDOT</span>
 				<span bind:this={split_type}>
-                    We're Dakdot. A creative and technology studio built to help businesses show up well and run well. We design brands, build websites, and create custom systems that streamline how your team works. Business solutions all under one roof.
+                    We're Dakdot. A creative and technology studio built to help businesses show up well and run well. We design brands, build websites, and create custom systems that streamline how your team works.  <br>Business solutions all under one roof.
                 </span>
 				<!-- <span class="font-bold">That’s so us, find out more below.</span> -->
 			</div>

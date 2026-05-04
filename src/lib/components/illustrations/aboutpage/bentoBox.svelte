@@ -1,21 +1,6 @@
 <script lang="ts">
 	import { Plus, Paintbrush, Handshake, Lightbulb, Puzzle, TrendingUp, Rocket, Layout, Target, Shield } from 'lucide-svelte';
 	import PulsingCircles from '../pulsingCircles.svelte';
-
-	let wrapper: HTMLElement;
-
-	$effect(() => {
-		wrapper.querySelectorAll('article').forEach((card, i) => {
-			card.addEventListener('click', () => {
-				card.classList.toggle('expanded');
-				wrapper.querySelectorAll('article').forEach((card, j) => {
-					if (i !== j) {
-						card.classList.remove('expanded');
-					}
-				});
-			});
-		});
-	});
 </script>
 
 <section class="py-32">

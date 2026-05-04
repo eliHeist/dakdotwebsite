@@ -8,7 +8,6 @@ export function addAnimation() {
     scrollers.forEach((scroller) => {
         // Add data-animated="true" to every `.scroller` on the page
         scroller.setAttribute('data-animated', 'true');
-        console.log(scroller);
 
         // Make an array from the elements within `.scroller-inner`
         const scrollerInner = scroller.querySelector('.scroller__inner') as HTMLElement;
