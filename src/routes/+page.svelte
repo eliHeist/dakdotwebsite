@@ -74,7 +74,7 @@
 	<div class="scroller" data-direction="right" data-speed="fast">
 		<div class="scroller__inner gap-4 text-xl">
             {#each wordsArray as word}
-                <li>{word}</li>
+                <span>{word}</span>
             {/each}
 		</div>
 	</div>
