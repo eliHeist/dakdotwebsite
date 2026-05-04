@@ -20,7 +20,7 @@
 
         const text = new SplitType(split_type, { types: 'chars,words' });
 
-        gsap.from(text.words, {
+        gsap.from(text.chars, {
             scrollTrigger: {
                 trigger: split_type,
                 start: 'top 90%',
@@ -29,9 +29,11 @@
                 markers: false,
                 toggleActions: 'play play reverse reverse'
             },
-            opacity: 0.1,
-            transformOrigin: 'bottom',
-            stagger: 0.1,
+            opacity: 0.01,
+            y: 10,
+            rotate: 10,
+            // transformOrigin: 'bottom',
+            stagger: 0.05,
             ease: 'power1.out'
         });
 	}
@@ -44,12 +46,10 @@
 <section class="about grid relative items-center bg-white text-dark">
 	<div class="absolutely content-grid items-center py-32">
 		<div class="text-3xl xl:text-5xl">
-			<div class="reveal-type text-justify [line-height:120%]">
+			<div class="text-justify [line-height:120%]">
                 <span class="opacity-0">DAKDOT</span>
 				<span bind:this={split_type}>
-                    We are passionate about transforming ideas into visually stunning and impactful solutions.
-				We creatively craft tailored services that help businesses grow, engage and inspire their
-				audiences. We are committed to excellence and making a real difference. That's so us.
+                    We're Dakdot. A creative and technology studio built to help businesses show up well and run well. We design brands, build websites, and create custom systems that streamline how your team works. Business solutions all under one roof.
                 </span>
 				<!-- <span class="font-bold">That’s so us, find out more below.</span> -->
 			</div>
