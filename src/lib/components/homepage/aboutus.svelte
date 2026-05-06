@@ -24,8 +24,8 @@
             scrollTrigger: {
                 trigger: split_type,
                 start: 'top 90%',
-                // end: 'top 28%',
-                // scrub: 2,
+                end: 'top 10%',
+                scrub: 5,
                 markers: false,
                 toggleActions: 'play play reverse reverse'
             },
@@ -45,11 +45,12 @@
 
 <section class="about grid relative items-center bg-white text-dark">
 	<div class="absolutely content-grid items-center py-32">
-		<div class="text-3xl xl:text-5xl">
+		<div class="text-3xl xl:text-5xl max-w-3xl mx-auto">
 			<div class="text-justify [line-height:120%]">
                 <span class="opacity-0">DAKDOT</span>
 				<span bind:this={split_type}>
-                    We're Dakdot. A creative and technology studio built to help businesses show up well and run well. We design brands, build websites, and create custom systems that streamline how your team works.  <br>Business solutions all under one roof.
+                    We're Dakdot. A creative and technology studio built to help businesses show up well and run well. We design brands, build websites, and create custom systems that streamline how your team works.  <br>
+                    <span class="font-bold text-primary italic">Business solutions all under one roof.</span>
                 </span>
 				<!-- <span class="font-bold">That’s so us, find out more below.</span> -->
 			</div>
