@@ -1,4 +1,4 @@
-import { INDUSTRIES, TAGS } from "../projects";
+import { INDUSTRIES, TAGS } from "./projects";
 
 export default {
     title: "Twewayo",
