@@ -4,6 +4,7 @@
 
 	import BentoBox from '$lib/components/illustrations/aboutpage/bentoBox.svelte';
 	import WhatWeDoCard from '$lib/components/ui/WhatWeDoCard.svelte';
+	import TeamSection from '$lib/components/TeamSection.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -82,6 +83,8 @@
 </div>
 
 <BentoBox />
+
+<TeamSection />
 
 <section class="content-grid py-32 text-center">
     <div class="bg-gradient-to-tr from-15% from-[#1F1C1C] to-[#1F1C1D] to-75% py-32 px-6 rounded-4xl grid place-content-center">
