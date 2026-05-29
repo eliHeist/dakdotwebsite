@@ -4,30 +4,30 @@
     let team = [
         {
             name: 'Oscar Kayima',
-            role: 'CEO & Animation Lead',
+            role: 'CGI Director',
             image: '/images/team/oscar-dd.webp',
-            bio: 'The visionary behind DakDot Creations, leading the company with a passion for excellence. With a background in animation and motion design, he oversees all projects to ensure they meet our standard. He also spear-heads our animation team, creating top tier animations that bring our clients, visions to life.',
+            bio: 'The Visionary: Turning concepts into photorealistic 3D assets and environments.',
             color: 'var(--color-yellow)'
         },
         {
             name: 'Allan Martin Ssebaggala',
-            role: 'Design Lead',
+            role: 'Art Director',
             image: '/images/team/martin-dd.webp',
-            bio: 'Martin is a talented designer with a keen eye for aesthetics and user experience. He leads our design team in creating visually stunning and user-friendly digital products.',
+            bio: 'The Stylist: Crafting the visual soul of every project through design and intentional aesthetic direction.',
             color: 'var(--color-blue)'
         },
         {
             name: 'Acuty Bruce Byereta',
-            role: 'Content Strategist',
+            role: 'Content Lead',
             image: '/images/team/bruce-dd.webp',
-            bio: 'Bruce is a skilled content strategist who crafts compelling narratives that resonate with audiences. He works closely with all the teams to ensure our content is authentic to each project.',
+            bio: 'The Storyteller: Weaving compelling narratives that connect with audiences and bring our projects to life.',
             color: 'var(--color-blue)'
         },
         {
             name: 'Elijah Triumph Angengeun',
-            role: 'Dev Lead',
+            role: 'Chief Technology Officer',
             image: '/images/team/elijah-dd.webp',
-            bio: 'Responsible for leading our development team and ensuring the successful delivery of our software projects. With expertise in web application development.',
+            bio: 'The Architect: Transforms ideas into high-performance digital systems.',
             color: 'var(--color-red)'
         }
     ];
