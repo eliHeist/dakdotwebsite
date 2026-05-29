@@ -48,7 +48,7 @@
                     <button class="absolute right-2 top-2 p-2 rotate-45 opacity-80 arrow-btn">
                         <ArrowUp class="size-6" />
                     </button>
-                    <p class="bio text-lg">{member.bio}</p>
+                    <p class="bio text-lg overflow-hidden">{member.bio}</p>
                 </div>
             </article>
             {/each}
