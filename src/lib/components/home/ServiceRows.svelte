@@ -386,7 +386,7 @@
 		background: var(--color-paper);
 	}
 	.sw i:nth-child(2) {
-		background: var(--color-mute);
+		background: var(--f);
 	}
 	.sw i:nth-child(3) {
 		background: #5b616b;
@@ -397,7 +397,7 @@
 		fill: var(--color-paper);
 	}
 	.mark .d {
-		fill: var(--color-ink);
+		fill: var(--f);
 		stroke: var(--color-paper);
 		stroke-width: 2.5;
 	}

@@ -10,8 +10,8 @@ colors:
   mute: "#9aa1ab"
   field-dev: "#db1f2b"
   on-dev: "#ffffff"
-  field-design: "#e9ecef"
-  on-design: "#0b0d10"
+  field-design: "#274595"
+  on-design: "#ffffff"
   field-motion: "#f2c230"
   on-motion: "#0b0d10"
   signal: "#db1f2b"
@@ -152,7 +152,7 @@ components:
 
 Dakdot is an ink-black studio page with one character on it. The dot in the wordmark is alive: a large paper disc with ink eyes that leans toward the pointer on a spring, squashes and stretches with its speed, blinks, boings when poked, and on scroll travels up to dock into the header logo, where it becomes the logo's dot again. Everything else on the page is quiet so that Dot and the type can be loud: a monochrome ink ground, paper text, one heavy grotesk set very large and very tight, and generous dark space between sections.
 
-Colour is not an accent here. It arrives only as whole fields, one per service: Web Development is flooded brand red, Motion is flooded yellow, Brand Design stays neutral as a paper field with ink text. Outside those fields the page is ink, paper and grey, with the single exception of the red action fill on the primary button. Motion is rich but quick, and it never costs content: every heading and block is visible before JavaScript runs, reveals arm only for content still below the fold, and reduced motion or `?still` gives a still Dot and a still page.
+Colour is not an accent here. It arrives only as whole fields, one per service: Web Development is flooded brand red, Motion is flooded yellow, Brand Design is flooded brand blue (#274595) with white text. Outside those fields the page is ink, paper and grey, with the single exception of the red action fill on the primary button. Motion is rich but quick, and it never costs content: every heading and block is visible before JavaScript runs, reveals arm only for content still below the fold, and reduced motion or `?still` gives a still Dot and a still page.
 
 The client rejected the previous direction for scattering colour and for its transit-line and route-map vocabulary. Thin hairline dividers remain part of this world (the work list and footer use them); route rails, line-coloured strokes and station metaphors do not.
 
@@ -177,7 +177,7 @@ A near-black ink ground and a cool paper white carry the page; three saturated f
 - **Motion Field Yellow** (field-motion, with on-motion ink text): the whole Motion service field. The same yellow is the global keyboard focus ring (focus-ring), which reads clearly on ink.
 
 ### Tertiary
-- **Design Field Paper** (field-design, with on-design ink text): the Brand Design field, deliberately neutral. The same paper field is reused for confirmation panels (the "Request received" state of the booking form).
+- **Design Field Blue** (field-design `#274595`, with on-design white text, about 8.7:1): the Brand Design field and Brand's small accent in illustrations (a swatch, the mark's dot).
 
 ### Neutral
 - **Ink** (ink): page, header-on-scroll and mobile-sheet background; eye colour on Dot.
@@ -192,7 +192,7 @@ A near-black ink ground and a cool paper white carry the page; three saturated f
 ### Named Rules
 **The Field Rule.** Colour lives on whole sections, never as scattered accents. A service gets its colour as a full rounded field with its paired text colour (`--color-field-*` / `--color-on-*`); text, borders, icons and decorations on ink stay ink, paper or grey. The only colours permitted outside a field are the signal fill on the primary action, the yellow focus ring, error red on form errors, and the WhatsApp mark's own green.
 
-**The Paired Text Rule.** Inside a field, every element (title, copy, chips, arrow circle, focus outline) is drawn in that field's `--color-on-*` colour or its inverse. Never place paper text on the Design or Motion fields, or ink text on the Development field.
+**The Paired Text Rule.** Inside a field, every element (title, copy, chips, arrow circle, focus outline) is drawn in that field's `--color-on-*` colour or its inverse. Never place paper text on the Motion field, or ink text on the Development field.
 
 ## Typography
 
@@ -275,7 +275,7 @@ The signature section: one full-bleed colour field per service.
 - **Label:** a floating label in mute that lifts 1.6rem and scales to 0.78 in paper when the field is focused or filled.
 - **Focus:** the underline turns paper and a 2px paper bar draws in from the left (0.5s). The global outline is suppressed on the input itself because the bar carries focus.
 - **Error:** underline and message in Error Red, message at 0.85rem below the field; the first invalid field receives focus.
-- **Success:** the form is replaced by a paper field panel (24px radius, ink text).
+- **Success:** the form is replaced by an ink-3 panel with a hairline border (24px radius, paper text).
 
 ### Navigation (Header)
 - **Bar:** fixed, 4.5rem, container-aligned; logo left, three text links, Light RollButton CTA right; gains an ink background after 8px of scroll.
@@ -312,7 +312,7 @@ The brand character: the dot from the Dakdot wordmark, alive.
 - **Do** set headings in Schibsted Grotesk 800 with negative tracking (-0.035em to -0.045em) and line height at or below 1.
 - **Do** reveal with `use:reveal` and `use:splitWords` from `$lib/actions/motion`, and gate any new motion on `stillMode()`.
 - **Do** use 1px hairlines (rule) to divide lists, and Hairline Strong (rule-strong) to outline interactive things at rest.
-- **Do** use the paper field for confirmation and quiet emphasis panels on ink.
+- **Do** use an ink-3 panel with a hairline for confirmation and quiet emphasis on ink.
 
 ### Don't:
 - **Don't** scatter colour as accents: no coloured headings, coloured borders, coloured icons or coloured tags on the ink ground.

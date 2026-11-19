@@ -58,6 +58,9 @@
 	.motion {
 		--acc: var(--color-field-motion);
 	}
+	.brand {
+		--acc: var(--color-field-design);
+	}
 	.art > * {
 		position: absolute;
 	}
@@ -171,7 +174,7 @@
 		scale: 1.12;
 	}
 	.dot {
-		fill: var(--color-ink);
+		fill: var(--acc);
 		stroke: var(--color-paper);
 		stroke-width: 3;
 		translate: 18px -18px;
@@ -214,7 +217,7 @@
 			opacity 0.4s var(--ease-out);
 	}
 	.sw i:nth-child(2) {
-		background: var(--color-mute);
+		background: var(--acc);
 		transition-delay: 60ms;
 	}
 	.sw i:nth-child(3) {

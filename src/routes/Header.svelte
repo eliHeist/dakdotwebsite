@@ -28,12 +28,9 @@
 
 	const is = (prefix: string) => $page.url.pathname.startsWith(prefix);
 
-	// Over a light colour field (Brand's paper, Motion's yellow) the bar turns ink until scrolled.
+	// Over the light colour field (Motion's yellow) the bar turns ink until scrolled.
 	const onLight = $derived(
-		!scrolled &&
-			!menuOpen &&
-			!svcOpen &&
-			['/services/brand-design', '/services/motion'].some((p) => $page.url.pathname.startsWith(p))
+		!scrolled && !menuOpen && !svcOpen && $page.url.pathname.startsWith('/services/motion')
 	);
 
 	const blurb: Record<LineId, string> = {

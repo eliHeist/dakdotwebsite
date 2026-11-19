@@ -2,7 +2,7 @@
 	import { parallax } from '$lib/actions/motion';
 </script>
 
-<!-- Ink on paper: an identity being built as a system. Illustrative only. -->
+<!-- White on Brand blue: an identity being built as a system. Illustrative only. -->
 <div class="scene anim" use:parallax aria-hidden="true">
 	<!-- Construction grid -->
 	<svg class="grid" viewBox="0 0 400 400" data-depth="4">
@@ -34,7 +34,7 @@
 	<!-- Swatches stepping into place -->
 	<div class="swatches" data-depth="30">
 		<span style="--c: var(--color-ink); --i:0"></span>
-		<span style="--c: #5b616b; --i:1"></span>
+		<span style="--c: var(--color-field-design); --i:1"></span>
 		<span style="--c: var(--color-mute); --i:2"></span>
 		<span style="--c: #ffffff; --i:3" class="ring"></span>
 	</div>
@@ -51,7 +51,7 @@
 		position: relative;
 		width: 100%;
 		aspect-ratio: 1.05;
-		color: var(--color-ink);
+		color: #ffffff;
 	}
 	.scene > * {
 		position: absolute;
@@ -63,7 +63,7 @@
 		height: 100%;
 	}
 	.grid line {
-		stroke: var(--color-ink);
+		stroke: #ffffff;
 		stroke-opacity: 0.12;
 		stroke-width: 1;
 		stroke-dasharray: 400;
@@ -80,7 +80,7 @@
 	}
 	.guide {
 		fill: none;
-		stroke: var(--color-ink);
+		stroke: #ffffff;
 		stroke-opacity: 0.35;
 		stroke-width: 1;
 		stroke-dasharray: 4 5;
@@ -90,25 +90,26 @@
 		animation: sweep 6s var(--ease-out) infinite;
 	}
 	.sweep line {
-		stroke: var(--color-ink);
+		stroke: #ffffff;
 		stroke-width: 1.5;
 	}
 	.sweep circle {
-		fill: var(--color-ink);
+		fill: #ffffff;
 	}
 	.solid {
-		fill: var(--color-ink);
+		fill: #ffffff;
 		transform-origin: 100px 100px;
 		animation: solid 6s var(--ease-out) infinite;
 	}
 	.dot {
-		fill: #ffffff;
-		stroke: var(--color-ink);
+		fill: var(--color-ink);
+		stroke: #ffffff;
 		stroke-width: 3;
 		animation: dot-in 6s var(--ease-out) infinite;
 	}
 
 	.spec {
+		color: var(--color-ink);
 		right: 2%;
 		top: 4%;
 		width: 40%;

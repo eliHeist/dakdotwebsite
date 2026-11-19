@@ -42,8 +42,8 @@
 	}: Props = $props();
 
 	const line = $derived(LINES[id]);
-	// Red carries white text; paper and yellow carry ink.
-	const darkField = $derived(id === 'web');
+	// Red and blue carry white text; yellow carries ink.
+	const darkField = $derived(id !== 'motion');
 	const btn = $derived(darkField ? 'light' : 'ink') as 'light' | 'ink';
 </script>
 

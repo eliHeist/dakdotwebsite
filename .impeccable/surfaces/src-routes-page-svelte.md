@@ -19,13 +19,13 @@ related_targets: []
 
 THESIS: An immersive, playful studio page in the spirit of Halo Lab. The Dakdot dot is alive: a cursor-reactive character that leads the first viewport, then docks into the logo as you scroll. The page refuses a projects-map hero, transit lines, and colour scattered everywhere.
 
-OWN-WORLD: Monochrome ink ground (#0b0d10) with paper text. Colour appears only as whole-section fields: Web Development owns brand red, Motion owns yellow, Design stays neutral (a paper field with ink text). One heavy grotesk (Schibsted Grotesk). Pill buttons with rolling labels and a magnetic pull; a contextual cursor; split-word reveals.
+OWN-WORLD: Monochrome ink ground (#0b0d10) with paper text. Colour appears only as whole-section fields: Web Development owns brand red, Motion owns yellow, Brand Design owns brand blue (#274595, white text; client change 2026-11-19, replacing the earlier neutral). One heavy grotesk (Schibsted Grotesk). Pill buttons with rolling labels and a magnetic pull; a contextual cursor; split-word reveals.
 
 STORY: The visitor meets Dot, which follows them, squashes, blinks and looks at the buttons. They read who Dakdot is, scroll through three colour-flooded service rows and the work list with its hover previews, then book a call or open WhatsApp.
 
 FIRST VIEWPORT: The living dot sits large at upper right, blended with `difference` so the headline inverts where they cross. The huge headline spans the lower left; the sub-copy plus "Book a call" and "WhatsApp us" sit bottom-left above the fold. Signature: Dot follows the pointer with spring squash-and-stretch, its pupils track the cursor, it blinks, and it docks into the header logo's dot on scroll. Motion is rich but quick, content is visible by default, and reduced motion gives a still Dot.
 
-FORM: Pinned by the client — seed: none (pinned) — "make one that is immersive like that of halo-lab, change the whole look to have more motion and look more like halo-lab … use colors on sections like dev sections use more red, motion yellow … discard the lines"; hero: "Living Dakdot dot"; Design colour: "neutral".
+FORM: Pinned by the client — seed: none (pinned) — "make one that is immersive like that of halo-lab, change the whole look to have more motion and look more like halo-lab … use colors on sections like dev sections use more red, motion yellow … discard the lines"; hero: "Living Dakdot dot"; Design colour: "neutral", later changed by the client to blue ("design should use the blue as its accent").
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 

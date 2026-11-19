@@ -30,14 +30,34 @@
 				? requestAnimationFrame(follow)
 				: 0;
 	}
-	function move(e: PointerEvent) {
-		x = e.clientX - 180;
-		y = e.clientY - 135;
-		if (!hovered) {
+	/** Aim the preview at a point; when it was hidden, jump there instead of gliding in. */
+	function place(cx: number, cy: number, snap: boolean) {
+		x = cx - 180;
+		y = cy - 135;
+		if (snap) {
 			px = x;
 			py = y;
+			tilt = 0;
+			if (frame) frame.style.transform = `translate3d(${px}px, ${py}px, 0)`;
 		}
 		if (!raf) raf = requestAnimationFrame(follow);
+	}
+	function move(e: PointerEvent) {
+		place(e.clientX, e.clientY, false);
+	}
+	// Entering a row (including when it scrolls under a still cursor) places the preview
+	// at the pointer straight away, rather than wherever it last was.
+	function enter(e: PointerEvent, s: Station) {
+		const wasHidden = !hovered;
+		hovered = s;
+		place(e.clientX, e.clientY, wasHidden);
+	}
+	// Keyboard focus: show the preview beside the focused row.
+	function focusRow(e: FocusEvent, s: Station) {
+		const wasHidden = !hovered;
+		hovered = s;
+		const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		place(r.left + r.width * 0.62, r.top + r.height / 2, wasHidden);
 	}
 	$effect(() => () => cancelAnimationFrame(raf));
 </script>
@@ -62,9 +82,9 @@
 						class="row"
 						class:muted={hovered && hovered.slug !== s.slug}
 						data-cursor={s.kind === 'product' ? 'Open' : 'View'}
-						onpointerenter={() => (hovered = s)}
+						onpointerenter={(e) => enter(e, s)}
 						onpointermove={move}
-						onfocus={() => (hovered = s)}
+						onfocus={(e) => focusRow(e, s)}
 						onblur={() => (hovered = null)}
 					>
 						<span class="title">{s.title}</span>

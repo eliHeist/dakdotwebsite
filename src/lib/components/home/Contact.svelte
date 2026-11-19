@@ -331,8 +331,9 @@
 		align-self: start;
 		padding: 2.5rem;
 		border-radius: 24px;
-		background: var(--color-field-design);
-		color: var(--color-on-design);
+		background: var(--color-ink-3);
+		border: 1px solid var(--color-rule);
+		color: var(--color-paper);
 	}
 	.done-h {
 		font-size: 2rem;

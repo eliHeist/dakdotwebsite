@@ -44,8 +44,8 @@
 	/* Section fields: colour lives on whole sections, never as scattered accents. */
 	--color-field-dev: #db1f2b;
 	--color-on-dev: #ffffff;
-	--color-field-design: #e9ecef;
-	--color-on-design: #0b0d10;
+	--color-field-design: #274595;
+	--color-on-design: #ffffff;
 	--color-field-motion: #f2c230;
 	--color-on-motion: #0b0d10;
 	/* Action fill: brand red one step deeper so white text clears 4.5:1. */
