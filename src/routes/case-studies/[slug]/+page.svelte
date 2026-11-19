@@ -1,175 +1,440 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { LINES } from '$lib/data/network';
+	import { reveal, splitWords } from '$lib/actions/motion';
+	import RollButton from '$lib/components/ui/RollButton.svelte';
 	import type { PageProps } from './$types';
-	import { ArrowRight } from 'lucide-svelte';
 
 	let { data }: PageProps = $props();
-
-	let spacer: HTMLElement;
-
-	$effect(() => {
-		let headerHeight = document.querySelector('.page-header')?.clientHeight;
-		console.log(headerHeight);
-		spacer.style.height = `${headerHeight}px`;
-	});
+	const s = $derived(data.study);
+	const next = $derived(data.next);
 </script>
 
-<div
-	class="min-h-screen relative grid overflow-hidden bg-cover bg-center"
-	style="background-image: url({data.project.splash.src});"
->
-	<div class="splash-content content-grid pb-16">
-		<div bind:this={spacer}></div>
-		<div class="breakoutx mt-32 grid md:grid-cols-2">
-			<div>
-				<div class="flex items-start gap-x-6">
-                    <div>
-                        <h2 class="lead-1">{data.project.title}</h2>
-                        <div class="flex gap-x-3">
-                            <span class="font-semibold">INDUSTRY:</span>
-                            <span class="uppercase">{data.project.industry.name}</span>
-                        </div>
-                    </div>
-                    {#if data.project.link}
-					<a href="https://{data.project.link.url}" target="_blank">
-						<div class="plus-btn hover:bg-white hover:text-black">
-							<ArrowRight class="-rotate-45" />
-						</div>
-					</a>
-                    {/if}
+<svelte:head>
+	<title>{s.title} | Dakdot</title>
+	<meta
+		name="description"
+		content={`${s.title}: ${s.lines.map((l) => LINES[l].name).join(' and ')} by Dakdot${s.industry ? ` for ${s.industry}` : ''}.`}
+	/>
+</svelte:head>
+
+{#key s.slug}
+	<article>
+		<header class="wrap head">
+			<a class="back" href="/case-studies">
+				<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4 3 8l4 4" /></svg>
+				All work
+			</a>
+			<h1 use:splitWords>{s.title}</h1>
+
+			<dl class="facts">
+				<div>
+					<dt>Services</dt>
+					<dd>{s.lines.map((l) => LINES[l].name).join(', ')}</dd>
 				</div>
-				<ul class="flex flex-wrap gap-3 mt-6">
-					{#each data.project.tags as tag}
-						<li class="uppercase text-sm p-1.5 bg-red-900 w-fit rounded-xs">
-							<span>{tag.name}</span>
-						</li>
-					{/each}
-				</ul>
-			</div>
-			<div>
-				<p class="text-lead text-lg">{@html data.project.overview}</p>
-			</div>
-		</div>
-		<div class="mt-16 grid">
-			{#if data.project.splash.type === 'image'}
-				<img
-					src={data.project.splash.src}
-					alt={data.project.title}
-					class="object-cover rounded-2xl w-full fade-in-up"
-                    class:apsect-video={!data.project.splash.fill}
-				/>
-			{/if}
-		</div>
-	</div>
-</div>
-<div class="hidden @xl:grid-cols-2 @5xl:grid-cols-3"></div>
-<div class="pb-32">
-	<div class="content-grid gap-y-12 @container">
-		{#each data.project.sections as section}
-			{#if section.type === 'images'}
-			<section class="grid gap-y-8 mt-12">
-				{#if section.title}
-				<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
+				{#if s.industry}
+					<div>
+						<dt>Industry</dt>
+						<dd>{s.industry}</dd>
+					</div>
 				{/if}
-				<div
-					class="grid gap-6"
-					class:@xl:grid-cols-2={section.cols === 2 || section.cols === 3}
-					class:@5xl:grid-cols-3={section.cols === 3}
-				>
-					{#each section.images as image}
-						<img
-							src={`${data.project.mediaPath}${image}`}
-							alt={image.alt}
-							class="object-cover rounded-2xl w-full fade-in-up"
-							class:aspect-square={section.fit}
-						/>
-					{/each}
-				</div>
-			</section>
-			{/if}
-			{#if section.type === 'images-sm'}
-			<section class="grid gap-y-8 mt-12">
-				{#if section.title}
-				<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
+				{#if s.client}
+					<div>
+						<dt>Client</dt>
+						<dd>{s.client}</dd>
+					</div>
 				{/if}
-				<div
-					class="grid gap-6 max-w-[60rem] mx-auto"
-					class:@xl:grid-cols-2={section.cols === 2 || section.cols === 3}
-					class:@5xl:grid-cols-3={section.cols === 3}
-				>
-					{#each section.images as image}
-						<img
-							src={`${data.project.mediaPath}${image}`}
-							alt={image.alt}
-							class="object-cover rounded-2xl w-full fade-in-up"
-							class:aspect-square={section.fit}
-						/>
-					{/each}
+				{#if s.year}
+					<div>
+						<dt>Year</dt>
+						<dd class="tnum">{s.year}</dd>
+					</div>
+				{/if}
+				{#if s.tags.length}
+					<div>
+						<dt>Deliverables</dt>
+						<dd>{s.tags.join(', ')}</dd>
+					</div>
+				{/if}
+			</dl>
+			{#if s.link}
+				<div class="visit">
+					<RollButton
+						label={`Visit ${s.link.label}`}
+						href={s.link.url}
+						external
+						variant="light"
+						cursor="Open"
+					/>
 				</div>
-			</section>
 			{/if}
-			{#if section.type === 'paragraph'}
-				<section class="grid gap-y-8 mt-12">
-					{#if section.title}
-					<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
+		</header>
+
+		{#if s.splash}
+			<figure class="wrap splash">
+				{#if s.splash.type === 'video'}
+					<video src={s.splash.src} poster={s.splash.poster} muted loop playsinline autoplay
+					></video>
+				{:else}
+					<img src={s.splash.src} alt={s.splash.alt ?? s.title} />
+				{/if}
+			</figure>
+		{/if}
+
+		{#if s.overviewHtml || s.overviewText || s.goals.length}
+			<section class="wrap two" aria-labelledby="ov-h">
+				<h2 id="ov-h">The brief</h2>
+				<div class="prose">
+					{#if s.overviewHtml}
+						<!-- Local, trusted content -->
+						<p>{@html s.overviewHtml}</p>
+					{:else if s.overviewText}
+						{#each s.overviewText as p}<p>{p}</p>{/each}
 					{/if}
-					<div class="max-w-xl mx-auto text-lead text-lg">
-						{@html section.body}
+					{#if s.goals.length}
+						<h3>What we set out to do</h3>
+						<ol class="goals">
+							{#each s.goals as g}<li>{g}</li>{/each}
+						</ol>
+					{/if}
+				</div>
+			</section>
+		{/if}
+
+		{#each s.sections as sec}
+			{#if sec.type === 'images'}
+				<section class="wrap images" class:narrow={sec.narrow}>
+					{#if sec.title}<h2 class="sec-h">{sec.title}</h2>{/if}
+					<div class="imgs cols-{sec.cols}">
+						{#each sec.images as img, i}
+							<img src={img.src} alt={img.alt} loading="lazy" use:reveal={(i % sec.cols) * 70} />
+						{/each}
 					</div>
 				</section>
-			{/if}
-			{#if section.type === 'list'}
-				<section class="grid gap-y-8 mt-12">
-					{#if section.title}
-					<h2 class="text-3xl text-gradient font-semibold text-center">{section.title}</h2>
-					{/if}
-					<div>
-						<ul class="text-lg space-y-6 max-w-xl mx-auto text-lead">
-							{#each section.list_items as item}
-								<li>{@html item}</li>
-							{/each}
-						</ul>
+			{:else if sec.type === 'paragraph'}
+				<section class="wrap two">
+					<h2>{sec.title ?? ''}</h2>
+					<div class="prose" use:reveal>
+						{#if sec.html}
+							<!-- Local, trusted content -->
+							{@html sec.html}
+						{:else if sec.text}
+							{#each sec.text as p}<p>{p}</p>{/each}
+						{/if}
 					</div>
+				</section>
+			{:else if sec.type === 'list'}
+				<section class="wrap two">
+					<h2>{sec.title ?? ''}</h2>
+					<ul class="prose list" use:reveal>
+						{#if sec.html}
+							<!-- Local, trusted content -->
+							{#each sec.html as item}<li>{@html item}</li>{/each}
+						{:else if sec.text}
+							{#each sec.text as item}<li>{item}</li>{/each}
+						{/if}
+					</ul>
 				</section>
 			{/if}
 		{/each}
-	</div>
-</div>
+
+		{#if next}
+			<nav class="wrap next" aria-label="Next project">
+				<a href={next.href} data-cursor="Next">
+					<span class="row">
+						<span class="title"><span class="next-word">Next:</span> {next.title}</span>
+						<span class="circle" aria-hidden="true">
+							<svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+						</span>
+					</span>
+					<span class="thumb" aria-hidden="true">
+						{#if next.thumb.type === 'image'}<img src={next.thumb.src} alt="" loading="lazy" />{/if}
+					</span>
+				</a>
+			</nav>
+		{/if}
+	</article>
+{/key}
 
 <style>
-    @reference "tailwindcss/theme";
-
-	.splash-content {
-		position: relative;
-		background-image: linear-gradient(to top, var(--color-black), #0c0c0cee);
-		backdrop-filter: blur(8px);
+	.wrap {
+		max-width: 88rem;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+	.head {
+		padding-top: clamp(7.5rem, 16vh, 11rem);
+		padding-bottom: 3rem;
+	}
+	.back {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-mute);
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.3s var(--ease-out);
+	}
+	.back svg {
+		width: 1rem;
+		height: 1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.6;
+		transition: translate 0.3s var(--ease-out);
+	}
+	.back:hover {
+		color: var(--color-paper);
+	}
+	.back:hover svg {
+		translate: -3px 0;
+	}
+	h1 {
+		margin-top: 1.5rem;
+		font-size: clamp(3rem, 9vw, 8.5rem);
+		font-weight: 800;
+		letter-spacing: -0.045em;
+		line-height: 0.92;
+		text-wrap: balance;
+	}
+	.facts {
+		margin-top: 2.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem 3rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--color-rule);
+	}
+	dt {
+		font-size: 0.85rem;
+		color: var(--color-mute);
+	}
+	dd {
+		margin-top: 0.25rem;
+		font-weight: 600;
+	}
+	.visit {
+		margin-top: 2rem;
 	}
 
-	.lead-1 {
-		font-size: 2.15rem;
-		text-transform: uppercase;
-		font-weight: 700;
-
-		color: var(--color-white);
+	.splash img,
+	.splash video {
+		width: 100%;
+		max-height: 88vh;
+		object-fit: cover;
+		border-radius: 24px;
+		display: block;
+		background: var(--color-ink-3);
 	}
 
-	img {
-		max-width: 100%;
-	}
-
-	.plus-btn {
-		@apply h-10 w-10 mt-1;
-		font-size: 1rem;
-		aspect-ratio: 1/1;
-		outline: 2px solid;
+	.two {
 		display: grid;
-		place-content: center;
+		grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+		gap: 1.5rem 4rem;
+		padding-top: 6rem;
+		padding-bottom: 2rem;
+	}
+	.two h2 {
+		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.05;
+	}
+	.prose {
+		font-size: 1.15rem;
+		line-height: 1.6;
+		color: var(--color-mute);
+		max-width: 62ch;
+	}
+	.prose :global(p + p) {
+		margin-top: 1rem;
+	}
+	.prose h3 {
+		margin-top: 2.5rem;
+		font-size: 1.15rem;
+		font-weight: 700;
+		color: var(--color-paper);
+	}
+	.goals {
+		margin-top: 1rem;
+		padding: 0;
+		list-style: none;
+		counter-reset: g;
+		display: grid;
+		gap: 0.9rem;
+	}
+	.goals li {
+		counter-increment: g;
+		display: grid;
+		grid-template-columns: 2rem 1fr;
+		gap: 0.5rem;
+	}
+	.goals li::before {
+		content: counter(g, decimal-leading-zero);
+		font-variant-numeric: tabular-nums;
+		color: var(--color-paper);
+		font-weight: 600;
+		font-size: 0.95rem;
+		padding-top: 0.15rem;
+	}
+	.list {
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 1rem;
+	}
+	.list li {
+		padding-left: 1.4rem;
+		position: relative;
+	}
+	.list li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.6em;
+		width: 8px;
+		height: 8px;
 		border-radius: 50%;
-		rotate: 0;
-		transition: all 0.375s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		background: var(--color-paper);
+	}
 
-        /* &:hover {
-            @apply
-        } */
+	.images {
+		padding-top: 1.5rem;
+	}
+	.images.narrow {
+		max-width: 64rem;
+	}
+	.sec-h {
+		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		margin: 4rem 0 1.5rem;
+	}
+	.imgs {
+		display: grid;
+		gap: 1.5rem;
+	}
+	.cols-2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.cols-3 {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.imgs img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 24px;
+		display: block;
+		background: var(--color-ink-3);
+	}
+
+	.next {
+		padding-top: 8rem;
+		padding-bottom: 4rem;
+	}
+	.next a {
+		position: relative;
+		display: block;
+		padding: 2.5rem 0;
+		border-top: 1px solid var(--color-rule);
+		border-bottom: 1px solid var(--color-rule);
+		color: inherit;
+		text-decoration: none;
+	}
+	.next-word {
+		color: var(--color-mute);
+	}
+	.row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		margin-top: 0.5rem;
+	}
+	.title {
+		font-size: clamp(2.5rem, 7vw, 6.5rem);
+		font-weight: 800;
+		letter-spacing: -0.045em;
+		line-height: 0.95;
+		transition: translate 0.6s var(--ease-out);
+	}
+	.next a:hover .title {
+		translate: 1rem 0;
+	}
+	.circle {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 4.5rem;
+		height: 4.5rem;
+		border-radius: 50%;
+		background: var(--color-paper);
+		color: var(--color-ink);
+		transition: scale 0.4s var(--ease-out);
+	}
+	.circle svg {
+		width: 1.5rem;
+		height: 1.5rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.8;
+		transition: rotate 0.4s var(--ease-out);
+	}
+	.next a:hover .circle {
+		scale: 1.1;
+	}
+	.next a:hover .circle svg {
+		rotate: -45deg;
+	}
+	.thumb {
+		position: absolute;
+		right: 7rem;
+		top: 50%;
+		width: 15rem;
+		aspect-ratio: 4 / 3;
+		border-radius: 14px;
+		overflow: hidden;
+		translate: 0 -50%;
+		opacity: 0;
+		scale: 0.85;
+		rotate: -4deg;
+		pointer-events: none;
+		transition:
+			opacity 0.35s var(--ease-out),
+			scale 0.5s var(--ease-out),
+			rotate 0.5s var(--ease-out);
+	}
+	.thumb img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.next a:hover .thumb {
+		opacity: 1;
+		scale: 1;
+		rotate: 3deg;
+	}
+
+	@media (max-width: 860px) {
+		.two {
+			grid-template-columns: 1fr;
+			padding-top: 4rem;
+		}
+		.cols-3 {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+		.thumb {
+			display: none;
+		}
+	}
+	@media (max-width: 560px) {
+		.cols-2,
+		.cols-3 {
+			grid-template-columns: 1fr;
+		}
+		.circle {
+			width: 3.25rem;
+			height: 3.25rem;
+		}
 	}
 </style>

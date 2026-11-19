@@ -1,0 +1,178 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://dakdot.com/schemas/projects-api.v1.json",
+	"title": "Dakdot projects API response (v1)",
+	"type": "object",
+	"required": ["version", "projects"],
+	"additionalProperties": false,
+	"properties": {
+		"version": { "const": 1 },
+		"projects": {
+			"type": "array",
+			"items": { "$ref": "#/$defs/project" }
+		}
+	},
+	"$defs": {
+		"lineId": { "enum": ["web", "brand", "motion"] },
+		"media": {
+			"type": "object",
+			"required": ["type", "src"],
+			"additionalProperties": false,
+			"properties": {
+				"type": { "enum": ["image", "video"] },
+				"src": {
+					"type": "string",
+					"description": "Absolute https URL (or a site-relative path for media hosted on the website)."
+				},
+				"alt": { "type": "string" },
+				"poster": { "type": "string", "description": "Poster image URL for video thumbs." }
+			}
+		},
+		"project": {
+			"type": "object",
+			"required": ["slug", "title", "lines", "thumb"],
+			"additionalProperties": false,
+			"properties": {
+				"slug": {
+					"type": "string",
+					"pattern": "^[a-z0-9-]+$",
+					"description": "Unique id. A remote project with the same slug as a local case study replaces it on the map."
+				},
+				"title": { "type": "string", "minLength": 1 },
+				"client": { "type": "string" },
+				"summary": {
+					"type": "string",
+					"maxLength": 200,
+					"description": "One sentence for the hover preview."
+				},
+				"lines": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/lineId" },
+					"minItems": 1,
+					"uniqueItems": true,
+					"description": "Service lines this project rides. Two or more makes it an interchange."
+				},
+				"industry": { "type": "string" },
+				"year": { "type": "integer", "minimum": 2000 },
+				"tags": {
+					"type": "array",
+					"items": { "type": "string" },
+					"description": "Deliverable labels, e.g. \"Web Application\", \"Logo\"."
+				},
+				"featured": {
+					"type": "boolean",
+					"default": false,
+					"description": "Featured projects appear on the homepage map."
+				},
+				"order": { "type": "number", "default": 500, "description": "Lower sorts first." },
+				"kind": {
+					"enum": ["case-study", "product"],
+					"default": "case-study",
+					"description": "\"product\" for live software shown by screenshots or a live link."
+				},
+				"thumb": { "$ref": "#/$defs/media" },
+				"url": {
+					"type": "string",
+					"description": "Where the station links. Defaults to /case-studies/<slug>. Use an https URL for an external live product."
+				},
+				"published": {
+					"type": "boolean",
+					"default": true,
+					"description": "false hides the project without deleting it."
+				},
+				"overview": {
+					"type": "string",
+					"description": "Case-study page: the brief, as plain text. Blank lines separate paragraphs. HTML is not rendered."
+				},
+				"goals": {
+					"type": "array",
+					"items": { "type": "string" },
+					"description": "Case-study page: what the project set out to do."
+				},
+				"link": {
+					"type": "object",
+					"required": ["url"],
+					"additionalProperties": false,
+					"properties": {
+						"url": {
+							"type": "string",
+							"pattern": "^https://",
+							"description": "Live site or product."
+						},
+						"label": {
+							"type": "string",
+							"description": "Button text after 'Visit', e.g. 'acme.com'."
+						}
+					}
+				},
+				"splash": {
+					"$ref": "#/$defs/media",
+					"description": "Case-study page hero media. Falls back to thumb."
+				},
+				"sections": {
+					"type": "array",
+					"description": "Case-study page body, rendered in order.",
+					"items": { "$ref": "#/$defs/section" }
+				}
+			}
+		},
+		"section": {
+			"oneOf": [
+				{
+					"type": "object",
+					"required": ["type", "images"],
+					"additionalProperties": false,
+					"properties": {
+						"type": { "const": "images" },
+						"title": { "type": "string" },
+						"cols": { "enum": [1, 2, 3], "default": 1 },
+						"narrow": {
+							"type": "boolean",
+							"default": false,
+							"description": "Constrain to a narrower column."
+						},
+						"images": {
+							"type": "array",
+							"minItems": 1,
+							"items": {
+								"type": "object",
+								"required": ["src", "alt"],
+								"additionalProperties": false,
+								"properties": {
+									"src": { "type": "string", "description": "Absolute https URL." },
+									"alt": {
+										"type": "string",
+										"description": "What the image shows, for screen readers."
+									}
+								}
+							}
+						}
+					}
+				},
+				{
+					"type": "object",
+					"required": ["type", "text"],
+					"additionalProperties": false,
+					"properties": {
+						"type": { "const": "paragraph" },
+						"title": { "type": "string" },
+						"text": {
+							"type": "string",
+							"description": "Plain text; blank lines separate paragraphs."
+						}
+					}
+				},
+				{
+					"type": "object",
+					"required": ["type", "items"],
+					"additionalProperties": false,
+					"properties": {
+						"type": { "const": "list" },
+						"title": { "type": "string" },
+						"items": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+					}
+				}
+			]
+		}
+	}
+}

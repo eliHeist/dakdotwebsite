@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T18:00:00.000Z",
+  "title": "Design System: Dakdot",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#0b0d10", "tonalRamp": ["#050608", "#0b0d10", "#1a1e25", "#262b33", "#3a404a", "#5d646f", "#9aa1ab", "#e9ecef"] },
+      "ink-3": { "role": "neutral", "displayName": "Ink Raised", "canonical": "#1a1e25", "tonalRamp": ["#050608", "#0b0d10", "#1a1e25", "#262b33", "#3a404a", "#5d646f", "#9aa1ab", "#e9ecef"] },
+      "rule": { "role": "neutral", "displayName": "Hairline", "canonical": "#262b33", "tonalRamp": ["#050608", "#0b0d10", "#1a1e25", "#262b33", "#3a404a", "#5d646f", "#9aa1ab", "#e9ecef"] },
+      "rule-strong": { "role": "neutral", "displayName": "Hairline Strong", "canonical": "#3a404a", "tonalRamp": ["#050608", "#0b0d10", "#1a1e25", "#262b33", "#3a404a", "#5d646f", "#9aa1ab", "#e9ecef"] },
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#e9ecef", "tonalRamp": ["#050608", "#0b0d10", "#1a1e25", "#262b33", "#3a404a", "#5d646f", "#9aa1ab", "#e9ecef"] },
+      "mute": { "role": "neutral", "displayName": "Mute", "canonical": "#9aa1ab", "tonalRamp": ["#050608", "#0b0d10", "#1a1e25", "#262b33", "#3a404a", "#5d646f", "#9aa1ab", "#e9ecef"] },
+      "field-dev": { "role": "primary", "displayName": "Web Development Field Red", "canonical": "#db1f2b", "tonalRamp": ["#3d080c", "#6b0e15", "#9c151f", "#c41724", "#db1f2b", "#e85a62", "#f29a9f", "#fbdfe1"] },
+      "on-dev": { "role": "primary", "displayName": "On Development White", "canonical": "#ffffff", "tonalRamp": ["#0b0d10", "#262b33", "#5d646f", "#9aa1ab", "#c9ced4", "#e9ecef", "#f5f6f7", "#ffffff"] },
+      "field-design": { "role": "tertiary", "displayName": "Design Field Blue", "canonical": "#274595", "tonalRamp": ["#0c1530", "#142250", "#1d3272", "#274595", "#4a65b0", "#7a90cc", "#b0bde3", "#e3e8f5"] },
+      "on-design": { "role": "tertiary", "displayName": "On Design White", "canonical": "#ffffff", "tonalRamp": ["#0b0d10", "#262b33", "#5d646f", "#9aa1ab", "#c9ced4", "#e9ecef", "#f5f6f7", "#ffffff"] },
+      "field-motion": { "role": "secondary", "displayName": "Motion Field Yellow", "canonical": "#f2c230", "tonalRamp": ["#3f3007", "#6e540c", "#a07c12", "#cc9f1a", "#f2c230", "#f6d46a", "#f9e4a3", "#fdf5dc"] },
+      "on-motion": { "role": "secondary", "displayName": "On Motion Ink", "canonical": "#0b0d10", "tonalRamp": ["#050608", "#0b0d10", "#1a1e25", "#262b33", "#3a404a", "#5d646f", "#9aa1ab", "#e9ecef"] },
+      "signal": { "role": "primary", "displayName": "Dakdot Signal Red", "canonical": "#db1f2b", "tonalRamp": ["#3d080c", "#6b0e15", "#9c151f", "#c41724", "#db1f2b", "#e85a62", "#f29a9f", "#fbdfe1"] },
+      "signal-hover": { "role": "primary", "displayName": "Signal Red Deep", "canonical": "#c41724", "tonalRamp": ["#3d080c", "#6b0e15", "#9c151f", "#c41724", "#db1f2b", "#e85a62", "#f29a9f", "#fbdfe1"] },
+      "error-text": { "role": "neutral", "displayName": "Error Red", "canonical": "#ff5a63", "tonalRamp": ["#4a0a0f", "#7a1219", "#b01d27", "#e0303b", "#ff5a63", "#ff8a90", "#ffb8bc", "#ffe6e7"] },
+      "focus-ring": { "role": "secondary", "displayName": "Focus Yellow", "canonical": "#f2c230", "tonalRamp": ["#3f3007", "#6e540c", "#a07c12", "#cc9f1a", "#f2c230", "#f6d46a", "#f9e4a3", "#fdf5dc"] },
+      "whatsapp": { "role": "neutral", "displayName": "WhatsApp Green", "canonical": "#25d366", "tonalRamp": ["#06371b", "#0b5e2f", "#128643", "#1aae58", "#25d366", "#62e08f", "#a1ecbb", "#dff9e8"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The hero headline, one per page, stacked lines; the last word may roll." },
+      "display-close": { "displayName": "Display Close", "purpose": "The closing call-to-action heading, capped at 12ch." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, balanced, split-word revealed." },
+      "title-field": { "displayName": "Title Field", "purpose": "Service name inside a colour field." },
+      "title-row": { "displayName": "Title Row", "purpose": "Project names in the work list." },
+      "lede": { "displayName": "Lede", "purpose": "Hero sub-copy and section ledes in mute, 40 to 44ch." },
+      "body": { "displayName": "Body", "purpose": "Descriptions, max about 48ch." },
+      "label": { "displayName": "Label", "purpose": "Button labels and row actions." },
+      "small": { "displayName": "Small", "purpose": "Chips, form errors, footer heads and base line." }
+    },
+    "shadows": [
+      { "name": "float", "value": "0 30px 60px -20px rgb(0 0 0 / 0.75)", "purpose": "Only the cursor-following project preview over the work list." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "The one easing for every transition (--ease-out)." },
+      { "name": "roll", "value": "0.5s", "purpose": "Rolling button labels and nav links (0.45s); label copy rolls up, duplicate rolls in." },
+      { "name": "reveal", "value": "opacity 0.7s, translate 0.9s from 2rem", "purpose": "Scroll reveal (.reveal-armed / .is-in), armed only below 90% of the viewport; optional per-item delay." },
+      { "name": "split-words", "value": "translate 0.9s from 105%, 55ms per word", "purpose": "Headline words rise from clipped boxes; armed only below the fold." },
+      { "name": "field-wipe", "value": "clip-path 1s, 60ms stagger", "purpose": "Service fields wipe in left to right instead of fading." },
+      { "name": "magnetic", "value": "strength 0.28, lerp 0.2", "purpose": "Buttons lean toward a fine pointer and spring back." },
+      { "name": "cursor-follow", "value": "lerp 0.22; badge scale 0.35s", "purpose": "Contextual cursor badge lag and grow-in." },
+      { "name": "dot-spring", "value": "k 0.09 to 0.34, damping 0.72; lean 0.1 capped 70px; stretch up to 0.28", "purpose": "Dot's spring toward rest, pointer lean, squash and stretch; tightens as it docks." },
+      { "name": "dot-blink", "value": "130ms lids, every 2.4 to 6.2s, 25% double", "purpose": "Dot's blink rhythm." },
+      { "name": "hero-settle", "value": "0.9s from 0.35 opacity and 0.25em, 70ms per line", "purpose": "Hero lines are visible from frame one and only settle upward." },
+      { "name": "stand-down", "value": "prefers-reduced-motion: reduce or ?still", "purpose": "stillMode() disables magnetic, reveals, split words, rolling word and Dot's life." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "560px" },
+      { "name": "md", "value": "760px" },
+      { "name": "lg", "value": "860px" },
+      { "name": "xl", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Signal red pill with rolling label, rotating arrow and magnetic pull; the main action.",
+      "html": "<a class=\"ds-btn ds-btn-primary\" href=\"#\"><span class=\"ds-roll\"><span>Book a call</span><span>Book a call</span></span><svg class=\"ds-arr\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:.65rem;border-radius:999px;font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;font-weight:600;font-size:1rem;padding:.9rem 1.45rem;text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:background .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),scale .2s cubic-bezier(.16,1,.3,1)}.ds-btn:active{scale:.97}.ds-btn:focus-visible{outline:2px solid var(--color-line-brand,#f2c230);outline-offset:3px}.ds-btn-primary{background:var(--color-signal,#db1f2b);color:#fff}.ds-btn-primary:hover{background:var(--color-signal-hover,#c41724)}.ds-roll{display:inline-grid;overflow:hidden;height:1.25em;line-height:1.25em}.ds-roll>span{grid-area:1/1;transition:translate .5s cubic-bezier(.16,1,.3,1)}.ds-roll>span+span{translate:0 100%}.ds-btn:hover .ds-roll>span,.ds-btn:focus-visible .ds-roll>span{translate:0 -100%}.ds-btn:hover .ds-roll>span+span,.ds-btn:focus-visible .ds-roll>span+span{translate:0 0}.ds-arr{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;transition:rotate .4s cubic-bezier(.16,1,.3,1)}.ds-btn:hover .ds-arr{rotate:-45deg}"
+    },
+    {
+      "name": "Light Button",
+      "kind": "button",
+      "refersTo": "button-light",
+      "description": "Paper pill with ink label; the header call to action.",
+      "html": "<a class=\"ds-btn-light\" href=\"#\"><span class=\"ds-roll-l\"><span>Book a call</span><span>Book a call</span></span><svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></a>",
+      "css": ".ds-btn-light{display:inline-flex;align-items:center;gap:.65rem;border-radius:999px;font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;font-weight:600;font-size:1rem;padding:.9rem 1.45rem;text-decoration:none;background:var(--color-paper,#e9ecef);color:var(--color-ink,#0b0d10);transition:background .3s cubic-bezier(.16,1,.3,1)}.ds-btn-light:hover{background:#fff}.ds-btn-light:focus-visible{outline:2px solid #f2c230;outline-offset:3px}.ds-roll-l{display:inline-grid;overflow:hidden;height:1.25em;line-height:1.25em}.ds-roll-l>span{grid-area:1/1;transition:translate .5s cubic-bezier(.16,1,.3,1)}.ds-roll-l>span+span{translate:0 100%}.ds-btn-light:hover .ds-roll-l>span{translate:0 -100%}.ds-btn-light:hover .ds-roll-l>span+span{translate:0 0}.ds-btn-light svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;transition:rotate .4s cubic-bezier(.16,1,.3,1)}.ds-btn-light:hover svg{rotate:-45deg}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Outlined pill on ink for secondary actions; optional leading icon (WhatsApp).",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\"><svg class=\"ds-wa\" viewBox=\"0 0 24 24\" fill=\"#25d366\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/></svg><span>WhatsApp us</span><svg class=\"ds-arr-g\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></a>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;gap:.65rem;border-radius:999px;font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;font-weight:600;font-size:1rem;padding:.9rem 1.45rem;text-decoration:none;background:transparent;color:var(--color-paper,#e9ecef);border:1px solid #3a404a;transition:border-color .3s cubic-bezier(.16,1,.3,1)}.ds-btn-ghost:hover{border-color:var(--color-paper,#e9ecef)}.ds-btn-ghost:focus-visible{outline:2px solid #f2c230;outline-offset:3px}.ds-wa{width:1.15em;height:1.15em}.ds-arr-g{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;transition:rotate .4s cubic-bezier(.16,1,.3,1)}.ds-btn-ghost:hover .ds-arr-g{rotate:-45deg}"
+    },
+    {
+      "name": "Service Field Row",
+      "kind": "card",
+      "refersTo": "field-dev",
+      "description": "Whole-section colour field for a service: name, copy, chips and an on-colour arrow circle. Swap the field/on pair for Design or Motion.",
+      "html": "<a class=\"ds-field\" href=\"#\" style=\"--f:var(--color-field-dev,#db1f2b);--on:var(--color-on-dev,#fff)\"><span class=\"ds-field-name\">Web Development</span><span class=\"ds-field-body\"><span>Custom web applications and business systems.</span><span class=\"ds-chips\"><span>Web applications</span><span>Websites</span></span></span><span class=\"ds-circle\"><svg viewBox=\"0 0 16 16\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></span></a>",
+      "css": ".ds-field{display:grid;grid-template-columns:4fr 5fr auto;gap:1rem 2rem;padding:2.5rem 2.25rem;border-radius:24px;background:var(--f);color:var(--on);text-decoration:none;font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif}.ds-field:focus-visible{outline:3px solid var(--on);outline-offset:-8px}.ds-field-name{font-size:clamp(2rem,3.6vw,3.25rem);font-weight:800;letter-spacing:-.035em;line-height:1;transition:translate .5s cubic-bezier(.16,1,.3,1)}.ds-field:hover .ds-field-name{translate:.6rem 0}.ds-field-body{display:grid;gap:1rem;line-height:1.55}.ds-chips{display:flex;flex-wrap:wrap;gap:.45rem}.ds-chips span{font-size:.85rem;font-weight:500;padding:.35rem .75rem;border-radius:999px;border:1px solid color-mix(in srgb,var(--on) 30%,transparent);transition:background .3s,color .3s}.ds-field:hover .ds-chips span{background:var(--on);color:var(--f)}.ds-circle{display:grid;place-items:center;width:3.25rem;height:3.25rem;border-radius:50%;background:var(--on);color:var(--f);transition:scale .4s cubic-bezier(.16,1,.3,1)}.ds-circle svg{width:1.2rem;height:1.2rem;fill:none;stroke:currentColor;stroke-width:1.8;transition:rotate .4s cubic-bezier(.16,1,.3,1)}.ds-field:hover .ds-circle{scale:1.12}.ds-field:hover .ds-circle svg{rotate:-45deg}"
+    },
+    {
+      "name": "Work List Row",
+      "kind": "custom",
+      "refersTo": "preview-float",
+      "description": "Hairline-divided project row; the name slides and the outlined circle fills paper on hover.",
+      "html": "<a class=\"ds-work\" href=\"#\"><span class=\"ds-work-t\">Thupu</span><span class=\"ds-work-m\">Brand Design · Food and Beverages</span><span class=\"ds-work-c\"><svg viewBox=\"0 0 16 16\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></span></a>",
+      "css": ".ds-work{display:grid;grid-template-columns:1.4fr 1fr auto;align-items:center;gap:1.5rem;padding:2rem 0;border-top:1px solid var(--color-rule,#262b33);border-bottom:1px solid var(--color-rule,#262b33);color:var(--color-paper,#e9ecef);text-decoration:none;font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif}.ds-work-t{font-size:clamp(1.75rem,3.6vw,3rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;transition:translate .5s cubic-bezier(.16,1,.3,1)}.ds-work:hover .ds-work-t,.ds-work:focus-visible .ds-work-t{translate:1rem 0}.ds-work-m{color:var(--color-mute,#9aa1ab);font-size:.95rem}.ds-work-c{display:grid;place-items:center;width:3rem;height:3rem;border-radius:50%;border:1px solid #3a404a;transition:background .35s,color .35s,border-color .35s}.ds-work-c svg{width:1.1rem;height:1.1rem;fill:none;stroke:currentColor;stroke-width:1.7;transition:rotate .4s cubic-bezier(.16,1,.3,1)}.ds-work:hover .ds-work-c{background:var(--color-paper,#e9ecef);border-color:var(--color-paper,#e9ecef);color:var(--color-ink,#0b0d10)}.ds-work:hover .ds-work-c svg{rotate:-45deg}"
+    },
+    {
+      "name": "Underline Input",
+      "kind": "input",
+      "refersTo": "input-underline",
+      "description": "Boxless field with a floating label and a paper focus bar that draws in from the left.",
+      "html": "<div class=\"ds-f\"><input id=\"ds-n\" placeholder=\" \"/><label for=\"ds-n\">Your name</label></div>",
+      "css": ".ds-f{position:relative;padding-top:1.1rem;font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif}.ds-f input{width:100%;background:transparent;border:0;border-bottom:1px solid #3a404a;border-radius:0;padding:.6rem 0;color:var(--color-paper,#e9ecef);font:inherit;font-size:1.15rem;caret-color:var(--color-field-dev,#db1f2b);transition:border-color .3s}.ds-f input:hover{border-color:var(--color-mute,#9aa1ab)}.ds-f input:focus{outline:none;border-color:var(--color-paper,#e9ecef)}.ds-f label{position:absolute;left:0;top:1.7rem;font-size:1.15rem;color:var(--color-mute,#9aa1ab);pointer-events:none;transform-origin:left top;transition:translate .35s cubic-bezier(.16,1,.3,1),scale .35s cubic-bezier(.16,1,.3,1),color .35s}.ds-f input:focus+label,.ds-f input:not(:placeholder-shown)+label{translate:0 -1.6rem;scale:.78;color:var(--color-paper,#e9ecef)}.ds-f::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--color-paper,#e9ecef);scale:0 1;transform-origin:left;transition:scale .5s cubic-bezier(.16,1,.3,1)}.ds-f:focus-within::after{scale:1 1}"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "description": "Fixed 4.5rem bar: logo, rolling text links with a current-page dot, Light CTA.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-logo\">dakdot</span><a class=\"ds-rl\" href=\"#\"><span>Work</span><span>Work</span></a><a class=\"ds-rl ds-cur\" href=\"#\"><span>Services</span><span>Services</span></a><a class=\"ds-rl\" href=\"#\"><span>About</span><span>About</span></a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:1.75rem;height:4.5rem;padding:0 1.5rem;background:var(--color-ink,#0b0d10);font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif}.ds-logo{margin-right:auto;font-weight:800;font-size:1.5rem;letter-spacing:-.04em;color:var(--color-paper,#e9ecef)}.ds-rl{position:relative;display:inline-grid;overflow:hidden;height:1.3em;line-height:1.3em;color:var(--color-paper,#e9ecef);text-decoration:none;font-weight:500}.ds-rl>span{grid-area:1/1;transition:translate .45s cubic-bezier(.16,1,.3,1)}.ds-rl>span+span{translate:0 100%}.ds-rl:hover>span,.ds-rl:focus-visible>span{translate:0 -100%}.ds-rl:hover>span+span,.ds-rl:focus-visible>span+span{translate:0 0}.ds-cur::after{content:'';position:absolute;left:50%;bottom:0;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--color-paper,#e9ecef)}"
+    },
+    {
+      "name": "Cursor Badge",
+      "kind": "custom",
+      "refersTo": "cursor-badge",
+      "description": "Paper pill that grows beside the pointer to name the action under it (data-cursor).",
+      "html": "<span class=\"ds-cursor\">Explore</span>",
+      "css": ".ds-cursor{display:inline-grid;place-items:center;min-width:4.25rem;height:4.25rem;padding:0 .9rem;border-radius:999px;background:var(--color-paper,#e9ecef);color:var(--color-ink,#0b0d10);font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.01em}"
+    },
+    {
+      "name": "Dot",
+      "kind": "custom",
+      "description": "The living logo dot: paper disc, difference blend, two ink oval eyes with paper pupils. Shown at rest.",
+      "html": "<div class=\"ds-dot-stage\"><div class=\"ds-dot\"><span class=\"ds-eye\"><span></span></span><span class=\"ds-eye\"><span></span></span></div></div>",
+      "css": ".ds-dot-stage{background:var(--color-ink,#0b0d10);padding:1.5rem;display:inline-block}.ds-dot{width:9rem;aspect-ratio:1;border-radius:50%;background:var(--color-paper,#e9ecef);mix-blend-mode:difference;display:flex;justify-content:center;align-items:center;gap:7%;cursor:pointer;transition:scale .3s cubic-bezier(.16,1,.3,1)}.ds-dot:hover{scale:1.04 .96}.ds-eye{width:10%;aspect-ratio:1/1.35;border-radius:50%;background:var(--color-ink,#0b0d10);display:grid;place-items:center;translate:0 -6%}.ds-eye span{width:38%;aspect-ratio:1;border-radius:50%;background:var(--color-paper,#e9ecef);margin:-18% 0 0 18%}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Living Dot",
+    "overview": "Dakdot is an ink-black studio page with one character on it. The dot in the wordmark is alive: a large paper disc with ink eyes that leans toward the pointer on a spring, squashes and stretches with its speed, blinks, boings when poked, and on scroll travels up to dock into the header logo, where it becomes the logo's dot again. Everything else on the page is quiet so that Dot and the type can be loud: a monochrome ink ground, paper text, one heavy grotesk set very large and very tight, and generous dark space between sections.\n\nColour is not an accent here. It arrives only as whole fields, one per service: Web Development is flooded brand red, Motion is flooded yellow, Brand Design stays neutral as a paper field with ink text. Outside those fields the page is ink, paper and grey, with the single exception of the red action fill on the primary button. Motion is rich but quick, and it never costs content: every heading and block is visible before JavaScript runs, reveals arm only for content still below the fold, and reduced motion or `?still` gives a still Dot and a still page.\n\nThe client rejected the previous direction for scattering colour and for its transit-line and route-map vocabulary. Thin hairline dividers remain part of this world (the work list and footer use them); route rails, line-coloured strokes and station metaphors do not.",
+    "keyCharacteristics": [
+      "Monochrome ink ground (ink) with paper text and mute grey secondary copy.",
+      "Colour only as whole-section fields with their own paired text colour.",
+      "One family, Schibsted Grotesk, headings at 800 with tight negative tracking.",
+      "Pill buttons with a rolling label, a rotating arrow and a magnetic pull.",
+      "A contextual cursor badge that names the action under the pointer.",
+      "Split-word and scroll reveals that arm only below the fold.",
+      "Dot, the living logo dot, as the brand character."
+    ],
+    "rules": [
+      { "name": "The Field Rule", "body": "Colour lives on whole sections, never as scattered accents. A service gets its colour as a full rounded field with its paired text colour (`--color-field-*` / `--color-on-*`); text, borders, icons and decorations on ink stay ink, paper or grey. The only colours permitted outside a field are the signal fill on the primary action, the yellow focus ring, error red on form errors, and the WhatsApp mark's own green.", "section": "colors" },
+      { "name": "The Paired Text Rule", "body": "Inside a field, every element (title, copy, chips, arrow circle, focus outline) is drawn in that field's `--color-on-*` colour or its inverse. Never place paper text on the Design or Motion fields, or ink text on the Development field.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "One family, Schibsted Grotesk, at every level. Hierarchy comes from size, weight 800 versus 400, and tracking, never from a second typeface.", "section": "typography" },
+      { "name": "The Tight Slab Rule", "body": "Any heading at headline size or above uses weight 800, negative tracking of at least -0.035em, and line height at or below 1.", "section": "typography" },
+      { "name": "The Flat Field Rule", "body": "Fields, buttons, chips and cards carry no shadow. Only something that physically follows the pointer above the page may cast one.", "section": "elevation" },
+      { "name": "The One Dot Rule", "body": "Dot appears once per page as the hero character, and otherwise only inside the wordmark (header logo, footer mark). Never duplicate it, recolour it, or give it a mouth, limbs or a costume; it is a paper disc with two ink eyes.", "section": "components" },
+      { "name": "The Dot Lives on Ink Rule", "body": "Dot's difference blend is tuned for ink and paper. Keep it over the ink ground, not over a colour field.", "section": "components" },
+      { "name": "The Visible-First Rule", "body": "Motion never hides content that would otherwise be seen. Hero lines are visible from the first frame and only settle upward (from 0.35 opacity, 0.25em). `reveal` and `splitWords` arm only elements still below 90% of the viewport when JavaScript runs; above-the-fold content and no-JS content are never hidden.", "section": "components" },
+      { "name": "The Stand-Down Rule", "body": "Under `prefers-reduced-motion: reduce`, or when the URL carries `?still`, every motion action stands down: no magnetic pull, no reveals or split words, no rolling headline word, and Dot stays a still dot with open eyes in the hero. Reduced motion additionally skips Lenis smooth scrolling, the hero line settle, the footer eyes, CSS label rolls and the cursor badge's lag. New motion gates on `stillMode()` so both signals are honoured. Static captures of the page are taken with `?still`.", "section": "components" }
+    ],
+    "dos": [
+      "**Do** put colour on whole sections only: a 24px-radius field in `--color-field-dev`, `--color-field-design` or `--color-field-motion`, with all its contents in the matching `--color-on-*`.",
+      "**Do** keep every section inside the 88rem container with the 1.5rem gutter so edges align with the header.",
+      "**Do** use RollButton for every button and pill link; Primary for the main action, Light in the header, Ghost for secondary actions on ink, Ink on paper or yellow fields.",
+      "**Do** give interactive elements a short `data-cursor` label that names the action.",
+      "**Do** set headings in Schibsted Grotesk 800 with negative tracking (-0.035em to -0.045em) and line height at or below 1.",
+      "**Do** reveal with `use:reveal` and `use:splitWords` from `$lib/actions/motion`, and gate any new motion on `stillMode()`.",
+      "**Do** use 1px hairlines (rule) to divide lists, and Hairline Strong (rule-strong) to outline interactive things at rest.",
+      "**Do** use the paper field for confirmation and quiet emphasis panels on ink."
+    ],
+    "donts": [
+      "**Don't** scatter colour as accents: no coloured headings, coloured borders, coloured icons or coloured tags on the ink ground.",
+      "**Don't** bring back the rejected transit vocabulary: route rails, line-coloured strokes, station dots or network maps.",
+      "**Don't** add a second typeface, or set large headings at lighter weights.",
+      "**Don't** add shadows to fields, buttons or cards; the only shadow is the floating preview's.",
+      "**Don't** hide content behind motion: never start above-the-fold content at opacity 0, and never let a reveal run when `stillMode()` is true.",
+      "**Don't** add a second living character or alter Dot's form.",
+      "**Don't** use WhatsApp green anywhere except inside the WhatsApp mark."
+    ]
+  }
+}

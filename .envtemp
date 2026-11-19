@@ -1,0 +1,22 @@
+# Copy this file to `.env` for local development, or set the same variables in your
+# host's environment settings (Vercel / Netlify / etc.). Never commit the real `.env`.
+
+# ---------- Contact form (SMTP) — required for "Book a call" to send email ----------
+# Your mail provider's SMTP server, e.g. smtp.gmail.com, smtp.zoho.com, mail.yourdomain.com
+EMAIL_HOST=
+# 587 (STARTTLS, recommended) or 465 (implicit TLS)
+EMAIL_PORT=587
+# The mailbox that sends the messages (usually a full email address)
+EMAIL_USER=
+# Its password. For Gmail/Google Workspace use an App Password, not your normal password.
+EMAIL_PASS=
+# Optional: the "From" shown on the emails. Defaults to EMAIL_USER. Many providers
+# require this to be the same mailbox as EMAIL_USER or a verified alias.
+EMAIL_FROM=
+# Optional: where call requests are delivered. Defaults to dakdotagency@gmail.com
+CONTACT_TO=
+
+# ---------- Projects API (optional) — see docs/projects-api.md ----------
+# Leave empty to use only the local case studies in src/lib/data/projects/
+PROJECTS_API_URL=
+PROJECTS_API_TOKEN=

@@ -1,263 +1,182 @@
 <script lang="ts">
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { stillMode } from '$lib/actions/motion';
+	import { CONTACT, SOCIALS, whatsappHref } from '$lib/data/contact';
+	import { LINE_IDS, LINES } from '$lib/data/network';
 
-	gsap.registerPlugin(ScrollTrigger);
+	const year = new Date().getFullYear();
 
-	let spacer: HTMLElement;
-	let footer: HTMLElement;
-	let textSVG: SVGElement;
+	// The wordmark's dot keeps an eye on you, too.
+	let mark: SVGSVGElement | undefined = $state();
+	let lookX = $state(0);
+	let lookY = $state(0);
+	let shut = $state(false);
 
-	const runAnimation = () => {
-		// Kill only footer-related GSAP animations
-		gsap.killTweensOf([
-			spacer,
-			textSVG,
-			'footer .lower-deck',
-			'footer .heading',
-			'footer .reveal-in',
-			'footer .slide-in-left'
-		]);
-
-		// Kill only ScrollTriggers related to the footer
-		ScrollTrigger.getAll().forEach((trigger) => {
-			if (trigger.trigger && footer.contains(trigger.trigger)) {
-				trigger.kill();
-			}
-		});
-
-		gsap.set(textSVG, { stroke: 'black', translateX: '70%' });
-
-		let timeline1 = gsap.timeline({
-			scrollTrigger: {
-				trigger: spacer,
-				start: 'top 100%',
-				end: 'top top',
-				scrub: 2
-			}
-		});
-		timeline1.to(textSVG, {
-			stroke: '#0C0C0C',
-			fill: '#0C0C0C',
-			translateX: '0%'
-		});
-
-		gsap.set('#svgcliprect', { width: '0%' });
-
-		let timeline2 = gsap.timeline({
-			scrollTrigger: {
-				trigger: spacer,
-				start: 'top 50%',
-				end: 'top 10%',
-				toggleActions: 'play play reverse reverse',
-				scrub: 1
-			}
-		});
-
-		gsap.set('footer .lower-deck', { opacity: 0.3, translateY: 100 });
-
-		timeline2.to('footer .lower-deck', { 
-            opacity: 1, 
-            translateY: 0, 
-            translateX: 0, 
-            duration: 1
-        });
-
-		timeline2.to(
-			'footer .heading',
-			{
-				clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-				translateX: '0%',
-				duration: 1
-			},
-			'-=0.75'
-		);
-
-		timeline2.to(
-			'footer .reveal-in',
-			{
-				clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-				translateX: '0%',
-				duration: 1,
-				stagger: 0.2
-			},
-			'-=0.5'
-		);
-
-		gsap.set('footer .slide-in-left', { translateX: 50, opacity: 0 });
-
-		timeline2.to(
-			'footer .slide-in-left',
-			{
-				translateX: 0,
-				opacity: 1,
-				duration: 0.5,
-				stagger: 0.4
-			},
-			'-=1'
-		);
-
-		timeline2.to('#svgcliprect', { width: '100%', duration: 5 }, '-=3');
-
-		ScrollTrigger.refresh(); // Refresh only footer-related ScrollTriggers
-	};
-
-	// Run on first load
-	$effect(() => {
-		runAnimation();
+	onMount(() => {
+		if (stillMode() || !mark) return;
+		const move = (e: PointerEvent) => {
+			const r = mark!.getBoundingClientRect();
+			const cx = r.left + (130.5 / 163) * r.width;
+			const cy = r.top + (23.5 / 36) * r.height;
+			const dx = e.clientX - cx,
+				dy = e.clientY - cy;
+			const len = Math.hypot(dx, dy) || 1;
+			const reach = Math.min(1, len / 300);
+			lookX = (dx / len) * reach;
+			lookY = (dy / len) * reach;
+		};
+		let t = 0;
+		const blink = () => {
+			shut = true;
+			setTimeout(() => (shut = false), 130);
+			t = window.setTimeout(blink, 3000 + Math.random() * 4000);
+		};
+		t = window.setTimeout(blink, 2500);
+		window.addEventListener('pointermove', move, { passive: true });
+		return () => {
+			clearTimeout(t);
+			window.removeEventListener('pointermove', move);
+		};
 	});
 </script>
 
-<!-- clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); -->
-<!-- clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); -->
-
-<footer bind:this={footer}
-	class="bg-white text-dark pt-24 pb-4 content-grid h-screen fixed inset-0 z-[5]"
->
-	<div class="breakout grid h-full">
-		<div class="grid lg:flex lg:flex-row-reverse lg:justify-between">
-			<div class="">
-				<h3 class="text-2xl lg:text-4xl font-medium heading">Contact Us</h3>
-				<div class="grid gap-y-3 text-lg mt-4 sm:mt-10">
-					<!-- <p class="text-lg">123 Main St, New York, NY 10001</p> -->
-					<p class="text-lg reveal-in">
-						<a href="tel:+256769345389" class="">+256 769 345 389</a>
-					</p>
-					<p class="text-lg reveal-in">
-						<a href="mailto:connect@dakdot.com" class=""> connect@dakdot.com </a>
-					</p>
-					<div class="flex gap-x-4">
-						<a target="_blank" href="https://x.com/dakdotcreations" class="slide-in-left">
-							<svg class="h-6 hover:fill-red" role="img" viewBox="0 0 24 24"
-								><title>X</title><path
-									d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
-								/></svg
-							>
-						</a>
-						<a target="_blank" href="https://www.instagram.com/dakdotcreations/" class="slide-in-left">
-							<svg class="h-6 hover:fill-red" viewBox="0 0 448 512"
-								><path
-									d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-								/></svg
-							>
-						</a>
-						<a target="_blank"
-							href="https://www.linkedin.com/company/dakdotcreations/"
-							class="slide-in-left"
-						>
-							<svg class="h-6 hover:fill-red" viewBox="0 0 448 512"
-								><path
-									d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z"
-								/></svg
-							>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div>
-				<h3 class="text-2xl lg:text-4xl font-medium heading">Navigate</h3>
-				<ul class="space-y-1.5 gap-x-12 grid grid-cols-2 mt-4 sm:mt-10 lg:text-lg">
-					<a href="/services/web-development/" class="reveal-in">Websites</a>
-					<a href="/services/web-development/" class="reveal-in">Web Development</a>
-					<a href="/services/brand-design/" class="reveal-in">Branding</a>
-					<a href="/services/brand-design/" class="reveal-in">Digital Marketing</a>
-					<a href="/services/motion/" class="reveal-in">Product Visualization</a>
-					<a href="/services/motion/" class="reveal-in">Animation</a>
-				</ul>
-			</div>
+<footer>
+	<div class="grid">
+		<div class="col">
+			<p class="h">Contact</p>
+			<a href="/contact">Book a call</a>
+			<a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
+			<a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a>
+			<a href="mailto:{CONTACT.email}">{CONTACT.email}</a>
 		</div>
-		<div class="svgWrapper mt-auto">
-			<svg bind:this={textSVG} class="w-full mt-auto dakSVG" viewBox="0 0 1357 236" fill="none">
-				<defs>
-					<clipPath id="darkSVG">
-						<rect id="svgcliprect" width="0%" height="100%" />
-					</clipPath>
-				</defs>
-				<g clip-path="url(#darkSVG)">
-					<path
-						d="M188.23 56.3301C178.89 39.2001 165.65 26.0401 148.52 16.8601C131.38 7.67008 111.02 3.08008 87.42 3.08008H0V232.4H88.34C111.63 232.4 131.79 227.84 148.83 218.7C165.86 209.57 179.02 196.44 188.3 179.3C197.59 162.17 202.23 141.7 202.23 117.89C202.23 94.0801 197.56 73.4701 188.23 56.3301ZM133.44 155.22C129.23 164.2 123.1 170.48 115.04 174.07C106.99 177.66 97.27 179.46 85.88 179.46H62.18V56.0201H84.03C96.04 56.0201 106.17 57.8501 114.43 61.4901C122.69 65.1301 128.97 71.4401 133.28 80.4201C137.59 89.4001 139.75 101.89 139.75 117.89C139.75 133.89 137.64 146.24 133.44 155.22Z"
-					/>
-					<path
-						d="M363.99 3.08008H279.03L204.69 232.4H274.26L286.82 188.38H357.43L370.6 232.4H441.09L363.99 3.08008ZM300.08 141.9C305.45 123.08 310.29 103.57 314.58 83.3401C316.67 73.4801 318.76 63.6401 320.83 53.8301C323.1 63.6401 325.43 73.4701 327.82 83.3401C332.71 103.57 337.94 123.08 343.53 141.9H300.08Z"
-					/>
-					<path
-						d="M680.41 232.4H607.16L553.4 142.71L525.12 175.12V232.4H462.95V3.08008H525.12V52.3301L524.03 110.61C527.69 103.8 531.87 96.8901 536.59 89.8801C541.98 81.8801 548.72 72.6001 556.83 62.0301L602.39 3.08008H676.11L595.92 101.8L680.41 232.4Z"
-					/>
-					<path
-						d="M890.49 56.3301C881.16 39.2001 867.92 26.0401 850.79 16.8601C833.65 7.67008 813.29 3.08008 789.69 3.08008H702.27V232.4H790.61C813.9 232.4 834.06 227.84 851.1 218.7C868.13 209.57 881.29 196.44 890.57 179.3C899.86 162.17 904.5 141.7 904.5 117.89C904.5 94.0801 899.83 73.4701 890.49 56.3301ZM835.71 155.22C831.5 164.2 825.37 170.48 817.31 174.07C809.26 177.66 799.54 179.46 788.15 179.46H764.45V56.0201H786.3C798.31 56.0201 808.44 57.8501 816.7 61.4901C824.96 65.1301 831.24 71.4401 835.55 80.4201C839.86 89.4001 842.01 101.89 842.01 117.89C842.01 133.89 839.91 146.24 835.71 155.22Z"
-					/>
-					<path
-						d="M1037.48 235.48C1016.65 235.48 997.8 230.97 980.92 221.94C964.04 212.91 950.68 199.65 940.83 182.16C930.98 164.67 926.05 143.25 926.05 117.9C926.05 92.5498 930.98 70.8098 940.83 53.2598C950.68 35.7198 964.04 22.4598 980.92 13.4798C997.8 4.49977 1016.65 0.00976562 1037.48 0.00976562C1058.31 0.00976562 1077.13 4.49977 1093.96 13.4798C1110.79 22.4598 1124.15 35.7198 1134.05 53.2598C1143.95 70.8098 1148.9 92.3498 1148.9 117.9C1148.9 143.45 1143.95 164.82 1134.05 182.31C1124.15 199.8 1110.78 213.04 1093.96 222.02C1077.13 231 1058.31 235.49 1037.48 235.49V235.48ZM1037.48 181.3C1047.84 181.3 1056.54 178.86 1063.57 173.99C1070.6 169.12 1075.91 161.96 1079.5 152.52C1083.09 143.08 1084.89 131.54 1084.89 117.89C1084.89 104.24 1083.1 92.5198 1079.5 83.0298C1075.91 73.5398 1070.6 66.3598 1063.57 61.4798C1056.54 56.6098 1047.84 54.1698 1037.48 54.1698C1027.12 54.1698 1018.57 56.6098 1011.55 61.4798C1004.52 66.3498 999.18 73.5398 995.54 83.0298C991.9 92.5198 990.08 104.14 990.08 117.89C990.08 131.64 991.9 143.08 995.54 152.52C999.18 161.96 1004.52 169.12 1011.55 173.99C1018.58 178.87 1027.22 181.3 1037.48 181.3Z"
-					/>
-					<path
-						d="M1157.68 53.2501V3.08008H1356.83V53.2501H1288.34V232.4H1226.16V53.2501H1157.67H1157.68Z"
-					/>
-				</g>
-				<g fill="none">
-					<path
-						d="M188.23 56.3301C178.89 39.2001 165.65 26.0401 148.52 16.8601C131.38 7.67008 111.02 3.08008 87.42 3.08008H0V232.4H88.34C111.63 232.4 131.79 227.84 148.83 218.7C165.86 209.57 179.02 196.44 188.3 179.3C197.59 162.17 202.23 141.7 202.23 117.89C202.23 94.0801 197.56 73.4701 188.23 56.3301ZM133.44 155.22C129.23 164.2 123.1 170.48 115.04 174.07C106.99 177.66 97.27 179.46 85.88 179.46H62.18V56.0201H84.03C96.04 56.0201 106.17 57.8501 114.43 61.4901C122.69 65.1301 128.97 71.4401 133.28 80.4201C137.59 89.4001 139.75 101.89 139.75 117.89C139.75 133.89 137.64 146.24 133.44 155.22Z"
-					/>
-					<path
-						d="M363.99 3.08008H279.03L204.69 232.4H274.26L286.82 188.38H357.43L370.6 232.4H441.09L363.99 3.08008ZM300.08 141.9C305.45 123.08 310.29 103.57 314.58 83.3401C316.67 73.4801 318.76 63.6401 320.83 53.8301C323.1 63.6401 325.43 73.4701 327.82 83.3401C332.71 103.57 337.94 123.08 343.53 141.9H300.08Z"
-					/>
-					<path
-						d="M680.41 232.4H607.16L553.4 142.71L525.12 175.12V232.4H462.95V3.08008H525.12V52.3301L524.03 110.61C527.69 103.8 531.87 96.8901 536.59 89.8801C541.98 81.8801 548.72 72.6001 556.83 62.0301L602.39 3.08008H676.11L595.92 101.8L680.41 232.4Z"
-					/>
-					<path
-						d="M890.49 56.3301C881.16 39.2001 867.92 26.0401 850.79 16.8601C833.65 7.67008 813.29 3.08008 789.69 3.08008H702.27V232.4H790.61C813.9 232.4 834.06 227.84 851.1 218.7C868.13 209.57 881.29 196.44 890.57 179.3C899.86 162.17 904.5 141.7 904.5 117.89C904.5 94.0801 899.83 73.4701 890.49 56.3301ZM835.71 155.22C831.5 164.2 825.37 170.48 817.31 174.07C809.26 177.66 799.54 179.46 788.15 179.46H764.45V56.0201H786.3C798.31 56.0201 808.44 57.8501 816.7 61.4901C824.96 65.1301 831.24 71.4401 835.55 80.4201C839.86 89.4001 842.01 101.89 842.01 117.89C842.01 133.89 839.91 146.24 835.71 155.22Z"
-					/>
-					<path
-						d="M1037.48 235.48C1016.65 235.48 997.8 230.97 980.92 221.94C964.04 212.91 950.68 199.65 940.83 182.16C930.98 164.67 926.05 143.25 926.05 117.9C926.05 92.5498 930.98 70.8098 940.83 53.2598C950.68 35.7198 964.04 22.4598 980.92 13.4798C997.8 4.49977 1016.65 0.00976562 1037.48 0.00976562C1058.31 0.00976562 1077.13 4.49977 1093.96 13.4798C1110.79 22.4598 1124.15 35.7198 1134.05 53.2598C1143.95 70.8098 1148.9 92.3498 1148.9 117.9C1148.9 143.45 1143.95 164.82 1134.05 182.31C1124.15 199.8 1110.78 213.04 1093.96 222.02C1077.13 231 1058.31 235.49 1037.48 235.49V235.48ZM1037.48 181.3C1047.84 181.3 1056.54 178.86 1063.57 173.99C1070.6 169.12 1075.91 161.96 1079.5 152.52C1083.09 143.08 1084.89 131.54 1084.89 117.89C1084.89 104.24 1083.1 92.5198 1079.5 83.0298C1075.91 73.5398 1070.6 66.3598 1063.57 61.4798C1056.54 56.6098 1047.84 54.1698 1037.48 54.1698C1027.12 54.1698 1018.57 56.6098 1011.55 61.4798C1004.52 66.3498 999.18 73.5398 995.54 83.0298C991.9 92.5198 990.08 104.14 990.08 117.89C990.08 131.64 991.9 143.08 995.54 152.52C999.18 161.96 1004.52 169.12 1011.55 173.99C1018.58 178.87 1027.22 181.3 1037.48 181.3Z"
-					/>
-					<path
-						d="M1157.68 53.2501V3.08008H1356.83V53.2501H1288.34V232.4H1226.16V53.2501H1157.67H1157.68Z"
-					/>
-				</g>
-			</svg>
+		<div class="col">
+			<p class="h">Services</p>
+			{#each LINE_IDS as id}<a href={LINES[id].href}>{LINES[id].name}</a>{/each}
 		</div>
-		<div class="flex justify-between items-center mt-auto">
-			<svg
-				class="h-8 lower-deck translate-x-[-100%]"
-				viewBox="0 0 58 71"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<g clip-path="url(#clip0_457_491)">
-					<path
-						d="M28 71C43.464 71 56 58.464 56 43C56 27.536 43.464 15 28 15C12.536 15 0 27.536 0 43C0 58.464 12.536 71 28 71Z"
-						fill="#0C0C0C"
-					/>
-					<path
-						d="M54 8C56.2091 8 58 6.20914 58 4C58 1.79086 56.2091 0 54 0C51.7909 0 50 1.79086 50 4C50 6.20914 51.7909 8 54 8Z"
-						fill="#0C0C0C"
-					/>
-				</g>
-				<defs>
-					<clipPath id="clip0_457_491">
-						<rect width="58" height="71" fill="white" />
-					</clipPath>
-				</defs>
-			</svg>
-			<p class="lower-deck translate-x-[100%]">© Copyright 2025</p>
+		<div class="col">
+			<p class="h">Studio</p>
+			<a href="/case-studies">Work</a>
+			<a href="/about">About</a>
+			<a href="/contact">Contact</a>
+		</div>
+		<div class="col">
+			<p class="h">Follow</p>
+			{#each SOCIALS as s}<a href={s.href} target="_blank" rel="noopener">{s.name}</a>{/each}
 		</div>
 	</div>
+
+	<svg
+		class="mark"
+		bind:this={mark}
+		viewBox="0 -2 163 40"
+		fill="currentColor"
+		role="img"
+		aria-label="Dakdot"
+	>
+		<path
+			d="M86 36H77.6025L70.175 25.0017L68.137 27.3336V33.6765C68.137 34.9609 67.1098 36 65.8453 36H61V2.32768C61 1.0433 62.0272 0 63.2917 0H68.137V19.3779H68.5421L76.5631 9.80533C76.9969 9.28576 77.6353 8.98649 78.3064 8.98649H85.5007L75.5564 20.7205L86 36Z"
+		/>
+		<path
+			d="M110.116 0C108.841 0 107.805 1.03982 107.805 2.31991V13.0039C107.562 12.8299 107.315 12.6642 107.059 12.5151C105.169 11.3717 102.958 10.7171 100.59 10.7171C95.9577 10.7171 91.9108 13.2276 89.7285 16.9685C88.627 18.841 88 21.0283 88 23.3565C88 27.1305 89.646 30.5192 92.2614 32.835C94.4808 34.8028 97.3933 36 100.59 36C101.613 36 102.608 35.8757 103.561 35.6479C105.157 35.2585 106.634 34.5625 107.929 33.6262V35.8799H112.694C113.969 35.8799 115 34.8442 115 33.5641V0H110.116ZM100.512 28.7296C97.5418 28.7296 95.1367 26.3144 95.1367 23.3358C95.1367 20.3572 97.5418 17.9379 100.512 17.9379C103.482 17.9379 105.883 20.353 105.883 23.3358C105.883 26.3185 103.478 28.7296 100.512 28.7296Z"
+		/>
+		<path
+			d="M22.1157 0C20.8409 0 19.8055 1.03982 19.8055 2.31991V13.0039C19.5621 12.8299 19.3146 12.6642 19.0588 12.5151C17.1694 11.3717 14.9583 10.7171 12.5904 10.7171C7.95767 10.7171 3.91077 13.2276 1.72849 16.9685C0.627038 18.841 0 21.0283 0 23.3565C0 27.1305 1.64599 30.5192 4.26142 32.835C6.48083 34.8028 9.39327 36 12.5904 36C13.6134 36 14.6076 35.8757 15.5606 35.6479C17.1571 35.2585 18.6339 34.5625 19.9293 33.6262V35.8799H24.694C25.9687 35.8799 27 34.8442 27 33.5641V0H22.1157ZM12.512 28.7296C9.54179 28.7296 7.13674 26.3144 7.13674 23.3358C7.13674 20.3572 9.54179 17.9379 12.512 17.9379C15.4822 17.9379 17.8831 20.353 17.8831 23.3358C17.8831 26.3185 15.4781 28.7296 12.512 28.7296Z"
+		/>
+		<path
+			d="M161.052 35.8496C161.052 35.8496 161.036 35.8538 161.028 35.8538C160.249 35.9499 159.506 36 158.8 36C156.157 36 154.136 35.3357 152.735 34.0071C151.335 32.6827 150.633 30.7776 150.633 28.3001V14.0241H147V8.45908H150.633V4.33964C150.633 3.04866 151.652 2 152.906 2H157.712V8.45908H162.644V14.0241H157.712V27.6692C157.712 28.5299 157.899 29.1649 158.268 29.5785C158.637 29.9879 159.254 30.1968 160.119 30.1968C160.387 30.1968 160.764 30.1592 161.251 30.0882C161.738 30.013 162.108 29.9462 162.359 29.8793L162.96 33.1005C163.2 34.4082 162.335 35.6866 161.052 35.8496Z"
+		/>
+		<path
+			d="M54.694 11.1188H49.9293V13.3476C48.6339 12.4217 47.1571 11.7334 45.5606 11.3482C44.6076 11.1229 43.6134 11 42.5904 11C39.3933 11 36.4808 12.184 34.2614 14.1301C31.646 16.4203 30 19.7676 30 23.5C30 27.2324 31.646 30.5797 34.2614 32.8699C36.4808 34.816 39.3933 36 42.5904 36C43.6134 36 44.6076 35.8771 45.5606 35.6518C47.1571 35.2666 48.6339 34.5783 49.9293 33.6524V35.8812H54.694C55.9687 35.8812 57 34.8569 57 33.591V13.409C57 12.1431 55.9687 11.1188 54.694 11.1188ZM42.5244 28.822C39.5542 28.822 37.1491 26.4294 37.1491 23.4836C37.1491 20.5379 39.5542 18.1452 42.5244 18.1452C45.4946 18.1452 47.8955 20.5338 47.8955 23.4836C47.8955 26.4335 45.4905 28.822 42.5244 28.822Z"
+		/>
+		<!-- Dot, with eyes -->
+		<circle cx="130.5" cy="23.5" r="12.5" />
+		<g class="eyes" class:shut>
+			{#each [126.6, 134.4] as ex}
+				<ellipse class="eye" cx={ex} cy="22.6" rx="1.75" ry="2.35" />
+				<circle class="glint" cx={ex + 0.55 + lookX * 0.7} cy={22.1 + lookY * 0.9} r="0.62" />
+			{/each}
+		</g>
+	</svg>
+
+	<div class="base">
+		<p class="tnum">© {year} Dakdot · Kampala, Uganda</p>
+		<a href="#main" class="top">Back to top</a>
+	</div>
 </footer>
-<div class="h-screen pointer-events-none" bind:this={spacer}></div>
 
 <style>
-	.heading {
-		width: fit-content;
-		clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-		transform: translateX(200px);
-		transition: all 1s ease-in-out;
+	footer {
+		max-width: 88rem;
+		margin: 0 auto;
+		width: 100%;
+		padding: 5rem 1.5rem 2rem;
+		border-top: 1px solid var(--color-rule);
 	}
-
-	.reveal-in {
-		width: fit-content;
-		transform: translateX(50px);
-		clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-		transition: all 0.5s ease-in-out;
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 2.5rem;
+	}
+	.col {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+		font-size: 0.98rem;
+	}
+	.h {
+		font-size: 0.85rem;
+		color: var(--color-mute);
+		margin-bottom: 0.4rem;
+	}
+	.col a,
+	.top {
+		color: var(--color-paper);
+		text-decoration: none;
+		background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% 1px;
+		transition: background-size 0.4s var(--ease-out);
+		padding-bottom: 1px;
+	}
+	.col a:hover,
+	.top:hover {
+		background-position: 0 100%;
+		background-size: 100% 1px;
+	}
+	.mark {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin-top: 5rem;
+		color: var(--color-paper);
+	}
+	.eye {
+		fill: var(--color-ink);
+		transform-box: fill-box;
+		transform-origin: center;
+		transition: scale 0.09s ease-in;
+	}
+	.shut .eye {
+		scale: 1 0.12;
+	}
+	.glint {
+		fill: var(--color-paper);
+		transition: opacity 0.09s;
+	}
+	.shut .glint {
+		opacity: 0;
+	}
+	.base {
+		margin-top: 2rem;
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		color: var(--color-mute);
+		font-size: 0.85rem;
+	}
+	@media (max-width: 760px) {
+		.grid {
+			grid-template-columns: 1fr 1fr;
+		}
 	}
 </style>

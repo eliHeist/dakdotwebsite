@@ -1,542 +1,631 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { setContext } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
+	import { building } from '$app/environment';
+	import Logo from '$lib/components/ui/Logo.svelte';
+	import RollButton from '$lib/components/ui/RollButton.svelte';
+	import ServiceArt from '$lib/components/ui/ServiceArt.svelte';
+	import { LINE_IDS, LINES, type LineId } from '$lib/data/network';
+	import { CONTACT, whatsappHref } from '$lib/data/contact';
 
-	import { Phone } from 'lucide-svelte';
-	import { gsap } from 'gsap';
-
-	import { service_links } from '$lib/data/links';
-
-	let header: HTMLElement;
-	let spacer: HTMLElement;
-	let hamburgerButton: HTMLButtonElement;
-	let smHeader: HTMLElement;
-	let brand_logo: SVGElement;
-
-	let navOpen = $state(false);
-
-	let lastScrollY = $state(0);
-	let isCollapsed = $state(false);
-
-	function handleScroll() {
-		const currentScrollY = window.scrollY;
-
-		if (currentScrollY > lastScrollY) {
-            // scrilling down, hide the header
-			isCollapsed = true;
-			const timelineIn = gsap.timeline({ease: 'power1.inOut'});
-			timelineIn.to(
-				brand_logo,
-				{
-					scale: 0.75,
-                    x: '-2rem',
-                    opacity: 0,
-                    y: '4rem',
-					duration: 0.3,
-				},
-				'<'
-			);
-			timelineIn.to(
-				hamburgerButton,
-				{
-					scale: 0.75,
-                    x: '2rem',
-                    opacity: 0,
-                    y: '4rem',
-					duration: 0.3,
-				},
-				'<'
-			);
-            gsap.to(header, {
-                top: '-4rem',
-            })
-		} else {
-			// Scrolling up, show the header
-			isCollapsed = false;
-			const timelineOut = gsap.timeline({ease: 'power1.inOut'});
-			timelineOut.to(
-				brand_logo,
-				{
-					scale: 1,
-                    x: '0rem',
-                    opacity: 1,
-                    y: '0rem',
-					duration: 0.3,
-				},
-				'<'
-			);
-			timelineOut.to(
-				hamburgerButton,
-				{
-					scale: 1,
-                    x: '0rem',
-                    opacity: 1,
-                    y: '0rem',
-					duration: 0.3,
-				},
-				'<'
-			);
-            gsap.to(header, {
-                top: '.5rem',
-            })
-		}
-
-		lastScrollY = currentScrollY;
-	}
+	let menuOpen = $state(false);
+	let svcOpen = $state(false);
+	/** 0 at the top of the page, 1 once the bar has fully become the island. */
+	let p = $state(0);
+	const scrolled = $derived(p > 0.04);
+	/** True for a moment after the services panel toggles, so that morph runs slower. */
+	let morphing = $state(false);
+	let morphTimer = 0;
+	const ISLAND_AT = 220; // px of scroll over which the bar shrinks into the island
+	let hot = $state<LineId | null>(null);
+	let shell: HTMLDivElement | undefined = $state();
+	let closeTimer = 0;
 
 	afterNavigate(() => {
-		navOpen = false;
+		menuOpen = false;
+		svcOpen = false;
 	});
+
+	const is = (prefix: string) => $page.url.pathname.startsWith(prefix);
+
+	// Over the light colour field (Motion's yellow) the bar turns ink until scrolled.
+	const onLight = $derived(
+		!scrolled && !menuOpen && !svcOpen && $page.url.pathname.startsWith('/services/motion')
+	);
+
+	const blurb: Record<LineId, string> = {
+		web: 'Web apps, business systems and fast websites that run real operations.',
+		brand: 'Identities built as systems: logos, type, colour and guidelines.',
+		motion: 'Animation, 3D and video that explain what you do.'
+	};
+
+	const fine = () => matchMedia('(hover: hover) and (pointer: fine)').matches;
+	function openSvc() {
+		clearTimeout(closeTimer);
+		svcOpen = true;
+	}
+	function closeSoon() {
+		clearTimeout(closeTimer);
+		closeTimer = window.setTimeout(() => {
+			svcOpen = false;
+			hot = null;
+		}, 160);
+	}
+	function onFocusOut(e: FocusEvent) {
+		if (shell && !shell.contains(e.relatedTarget as Node)) svcOpen = false;
+	}
 
 	$effect(() => {
-		setContext('header_height', header.clientHeight);
-
-		const dropdown = document.querySelector('.dropdown');
-		const dropdownLinks = document.querySelectorAll('.dropdown-wrapper');
-
-		dropdownLinks.forEach((link) => {
-			const targetID = link.getAttribute('data-target') as string;
-
-			if (!targetID) return;
-
-			const targetDropdown = document.getElementById(targetID) as HTMLElement;
-
-			link.addEventListener('mouseover', () => {
-				if (targetDropdown.classList.contains('show')) return;
-				targetDropdown.classList.add('show');
-			});
-			targetDropdown.addEventListener('mouseover', () => {
-				if (targetDropdown.classList.contains('show')) return;
-				targetDropdown.classList.add('show');
-			});
-
-			link.addEventListener('mouseleave', (event) => {
-				targetDropdown.classList.remove('show');
-			});
-			targetDropdown.addEventListener('mouseleave', () => {
-				targetDropdown.classList.remove('show');
-			});
-		});
-
-		gsap.set(brand_logo, {
-			scale: 0.75,
-			x: '-2rem',
-            opacity: 0,
-            y: '4rem',
-		});
-		gsap.set(
-			hamburgerButton,
-			{
-				scale: 0.75,
-				x: '2rem',
-                opacity: 0,
-                y: '4rem',
-			}
-		);
-        gsap.set(header, {
-                top: '.5rem',
-        })
-
-		window.addEventListener('scroll', handleScroll);
+		document.documentElement.style.overflow = menuOpen ? 'hidden' : '';
 	});
+
+	// Opening or closing the panel gets a slower, deliberate morph; scrolling stays tight.
+	let lastSvc = false;
+	$effect(() => {
+		if (svcOpen === lastSvc) return;
+		lastSvc = svcOpen;
+		morphing = true;
+		clearTimeout(morphTimer);
+		morphTimer = window.setTimeout(() => (morphing = false), 950);
+	});
+
+	let raf = 0;
+	function onScroll() {
+		if (pinned || raf) return;
+		raf = requestAnimationFrame(() => {
+			raf = 0;
+			p = Math.min(1, Math.max(0, window.scrollY / ISLAND_AT));
+		});
+	}
+	$effect(() => {
+		if (!pinned) p = Math.min(1, Math.max(0, window.scrollY / ISLAND_AT));
+	});
+
+	// Review aid for static captures: ?nav=island or ?nav=services pins a header state.
+	// Read at render time (skipped while prerendering, where the query is unavailable).
+	const pin = building ? null : $page.url.searchParams.get('nav');
+	const pinned = pin === 'island' || pin === 'services';
+	if (pinned) {
+		p = 1;
+		svcOpen = pin === 'services';
+		if (pin === 'services') hot = 'web';
+	}
 </script>
 
-<div
-	class="hidden sm:grid content-grid fixed top-2 left-0 right-0 page-header py-2 z-20"
-	bind:this={header}
+<svelte:window
+	onscroll={onScroll}
+	onkeydown={(e) => {
+		if (e.key === 'Escape') {
+			menuOpen = false;
+			svcOpen = false;
+		}
+	}}
+/>
+
+<header
+	class="page-header"
+	class:island={scrolled && !menuOpen}
+	class:svc-open={svcOpen}
+	class:open={menuOpen}
+	class:on-light={onLight}
+	class:morphing
+	style="--p: {menuOpen ? 0 : p.toFixed(3)}"
 >
-	<header class="breakout z-[2]">
-		<div class="corner">
-            <div>
-                <a href="/" aria-labelledby="dakdot">
-                    <svg
-                        class="brand_logo h-6 transition-all duration-500 ease-in-out"
-                        viewBox="0 0 163 36"
-                        fill="#fdfefd"
-                    >
-                        <path
-                            d="M86 36H77.6025L70.175 25.0017L68.137 27.3336V33.6765C68.137 34.9609 67.1098 36 65.8453 36H61V2.32768C61 1.0433 62.0272 0 63.2917 0H68.137V19.3779H68.5421L76.5631 9.80533C76.9969 9.28576 77.6353 8.98649 78.3064 8.98649H85.5007L75.5564 20.7205L86 36Z"
-                        />
-                        <path
-                            d="M110.116 0C108.841 0 107.805 1.03982 107.805 2.31991V13.0039C107.562 12.8299 107.315 12.6642 107.059 12.5151C105.169 11.3717 102.958 10.7171 100.59 10.7171C95.9577 10.7171 91.9108 13.2276 89.7285 16.9685C88.627 18.841 88 21.0283 88 23.3565C88 27.1305 89.646 30.5192 92.2614 32.835C94.4808 34.8028 97.3933 36 100.59 36C101.613 36 102.608 35.8757 103.561 35.6479C105.157 35.2585 106.634 34.5625 107.929 33.6262V35.8799H112.694C113.969 35.8799 115 34.8442 115 33.5641V0H110.116ZM100.512 28.7296C97.5418 28.7296 95.1367 26.3144 95.1367 23.3358C95.1367 20.3572 97.5418 17.9379 100.512 17.9379C103.482 17.9379 105.883 20.353 105.883 23.3358C105.883 26.3185 103.478 28.7296 100.512 28.7296Z"
-                        />
-                        <path
-                            d="M22.1157 0C20.8409 0 19.8055 1.03982 19.8055 2.31991V13.0039C19.5621 12.8299 19.3146 12.6642 19.0588 12.5151C17.1694 11.3717 14.9583 10.7171 12.5904 10.7171C7.95767 10.7171 3.91077 13.2276 1.72849 16.9685C0.627038 18.841 0 21.0283 0 23.3565C0 27.1305 1.64599 30.5192 4.26142 32.835C6.48083 34.8028 9.39327 36 12.5904 36C13.6134 36 14.6076 35.8757 15.5606 35.6479C17.1571 35.2585 18.6339 34.5625 19.9293 33.6262V35.8799H24.694C25.9687 35.8799 27 34.8442 27 33.5641V0H22.1157ZM12.512 28.7296C9.54179 28.7296 7.13674 26.3144 7.13674 23.3358C7.13674 20.3572 9.54179 17.9379 12.512 17.9379C15.4822 17.9379 17.8831 20.353 17.8831 23.3358C17.8831 26.3185 15.4781 28.7296 12.512 28.7296Z"
-                        />
-                        <path
-                            d="M161.052 35.8496C161.052 35.8496 161.036 35.8538 161.028 35.8538C160.249 35.9499 159.506 36 158.8 36C156.157 36 154.136 35.3357 152.735 34.0071C151.335 32.6827 150.633 30.7776 150.633 28.3001V14.0241H147V8.45908H150.633V4.33964C150.633 3.04866 151.652 2 152.906 2H157.712V8.45908H162.644V14.0241H157.712V27.6692C157.712 28.5299 157.899 29.1649 158.268 29.5785C158.637 29.9879 159.254 30.1968 160.119 30.1968C160.387 30.1968 160.764 30.1592 161.251 30.0882C161.738 30.013 162.108 29.9462 162.359 29.8793L162.96 33.1005C163.2 34.4082 162.335 35.6866 161.052 35.8496Z"
-                        />
-                        <path
-                            d="M130.5 36C137.404 36 143 30.4036 143 23.5C143 16.5964 137.404 11 130.5 11C123.596 11 118 16.5964 118 23.5C118 30.4036 123.596 36 130.5 36Z"
-                        />
-                        <path
-                            d="M54.694 11.1188H49.9293V13.3476C48.6339 12.4217 47.1571 11.7334 45.5606 11.3482C44.6076 11.1229 43.6134 11 42.5904 11C39.3933 11 36.4808 12.184 34.2614 14.1301C31.646 16.4203 30 19.7676 30 23.5C30 27.2324 31.646 30.5797 34.2614 32.8699C36.4808 34.816 39.3933 36 42.5904 36C43.6134 36 44.6076 35.8771 45.5606 35.6518C47.1571 35.2666 48.6339 34.5783 49.9293 33.6524V35.8812H54.694C55.9687 35.8812 57 34.8569 57 33.591V13.409C57 12.1431 55.9687 11.1188 54.694 11.1188ZM42.5244 28.822C39.5542 28.822 37.1491 26.4294 37.1491 23.4836C37.1491 20.5379 39.5542 18.1452 42.5244 18.1452C45.4946 18.1452 47.8955 20.5338 47.8955 23.4836C47.8955 26.4335 45.4905 28.822 42.5244 28.822Z"
-                        />
-                    </svg>
-                </a>
-            </div>
+	<div
+		class="shell"
+		bind:this={shell}
+		onpointerleave={() => fine() && closeSoon()}
+		onpointerenter={() => clearTimeout(closeTimer)}
+		onfocusout={onFocusOut}
+		role="presentation"
+	>
+		<div class="bar">
+			<a href="/" class="brand" aria-label="Dakdot home"><Logo class="logo" /></a>
+
+			<nav aria-label="Main">
+				<ul>
+					<li>
+						<a
+							href="/case-studies"
+							class="roll-link"
+							aria-current={is('/case-studies') ? 'page' : undefined}
+						>
+							<span aria-hidden="true">Work</span><span aria-hidden="true">Work</span><span
+								class="sr">Work</span
+							>
+						</a>
+					</li>
+					<li>
+						<button
+							type="button"
+							class="roll-link svc-btn"
+							aria-expanded={svcOpen}
+							aria-controls="svc-panel"
+							aria-current={is('/services') ? 'page' : undefined}
+							onpointerenter={() => fine() && openSvc()}
+							onclick={() => (svcOpen = !svcOpen)}
+						>
+							<span aria-hidden="true">Services</span><span aria-hidden="true">Services</span><span
+								class="sr">Services</span
+							>
+							<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" /></svg>
+						</button>
+					</li>
+					<li>
+						<a href="/about" class="roll-link" aria-current={is('/about') ? 'page' : undefined}>
+							<span aria-hidden="true">About</span><span aria-hidden="true">About</span><span
+								class="sr">About</span
+							>
+						</a>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="cta">
+				<RollButton label="Book a call" href="/contact" variant={onLight ? 'ink' : 'light'} />
+			</div>
+
+			<button
+				class="toggle"
+				type="button"
+				aria-expanded={menuOpen}
+				aria-controls="mobile-menu"
+				onclick={() => (menuOpen = !menuOpen)}
+			>
+				<span class="burger" aria-hidden="true"><i></i><i></i></span>
+				{menuOpen ? 'Close' : 'Menu'}
+			</button>
 		</div>
 
-		<nav class="hidden sm:flex page-header-blur">
-			<ul>
-				<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-					<a href="/">Home</a>
-				</li>
-				<li aria-current={$page.url.pathname.startsWith('/about') ? 'page' : undefined}>
-					<a href="/about">About</a>
-				</li>
-                <li aria-current={$page.url.pathname.startsWith('/case-studies') ? 'page' : undefined}>
-                    <a href="/case-studies">Case Studies</a>
-                </li>
-				<li
-					class="dropdown-wrapper"
-					data-target="service_links"
-					aria-current={$page.url.pathname.startsWith('/services') ? 'page' : undefined}
-				>
-					<a href="#">Services</a>
-				</li>
-			</ul>
-		</nav>
-
-		<div class="corner last">
-            <div class="flex justify-end">
-                <div class="relative inline-block group">
-                    <!-- Circle Button -->
-                    <a href="/contact"
-                        class="w-14 h-14 rounded-full bg-white flex items-center justify-center relative transition-colors duration-300 shadow-red-800 group-hover:shadow-2xl">
-                        <div class="absolute inset-0 size-14 rounded-full transition-all duration-300 border [border-width:0.25px;] border-transparent group-hover:border-white/20 group-hover:scale-[250%]"></div>
-                        <!-- Phone Icon (FontAwesome) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone-icon lucide-phone stroke-black group-hover:scale-105"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
-                        <!-- Fly-out Badge -->
-                        <span 
-                            class="absolute mt-2 bg-white text-black text-xs font-semibold px-3 py-1 rounded-sm shadow-lg uppercase w-max [transform-origin:0_0]
-                            opacity-0 translate-y-0 translate-x-0 transition-all duration-300 ease-out scale-50
-                            group-hover:opacity-100 group-hover:translate-x-[-6rem] group-hover:scale-100">
-                            Contact Us
-                        </span>
-                    </a>
-    
-                </div>
+		<!-- The island grows downward to reveal the services. -->
+		<div id="svc-panel" class="panel" inert={!svcOpen}>
+			<div class="panel-in">
+				<ul class="tiles">
+					{#each LINE_IDS as id, i}
+						<li style="--i:{i}">
+							<a
+								href={LINES[id].href}
+								class="tile"
+								onpointerenter={() => (hot = id)}
+								onpointerleave={() => (hot = null)}
+								onfocus={() => (hot = id)}
+								onblur={() => (hot = null)}
+							>
+								<ServiceArt {id} active={hot === id} />
+								<span class="t-name">
+									{LINES[id].name}
+									<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+								</span>
+								<span class="t-blurb">{blurb[id]}</span>
+							</a>
+						</li>
+					{/each}
+				</ul>
+				<div class="panel-foot">
+					<span>Not sure which one you need?</span>
+					<a href="/contact">Tell us about your project</a>
+				</div>
 			</div>
 		</div>
-	</header>
-	<div class="dropdowns relative">
-		<div
-			id="service_links"
-			class="bg-dark text-white outline-2 outline-dark-lead/20 rounded-xl shadow-lg p-6 w-full max-w-2xl dropdown absolute"
-		>
-			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-				{#each service_links as { name, color, url, icon }}
-					<a href={url} class="link">
-						<div class="flex items-center space-x-3">
-							<div class="bg-dark text-{color} p-2 rounded-lg">
-								<svelte:component this={icon} />
-							</div>
-							<span class="">{name}</span>
-						</div>
-					</a>
+
+		<div id="mobile-menu" class="sheet" hidden={!menuOpen}>
+			<ul class="big">
+				{#each [{ label: 'Home', href: '/' }, { label: 'Work', href: '/case-studies' }, { label: 'About', href: '/about' }] as l, i}
+					<li style="--i:{i}"><a href={l.href}>{l.label}</a></li>
 				{/each}
+			</ul>
+			<ul class="svc">
+				{#each LINE_IDS as id}
+					<li><a href={LINES[id].href}>{LINES[id].name}</a></li>
+				{/each}
+			</ul>
+			<div class="sheet-foot">
+				<RollButton label="Book a call" href="/contact" />
+				<a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
+				<a href="mailto:{CONTACT.email}">{CONTACT.email}</a>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="opacity-0 bg-blue bg-yellow text-blue text-yellow dropdown show">
-	<element class="link"> </element>
-</div>
-
-<div
-	class="sm-header content-grid fixed bottom-8 left-0 right-0 sm:hidden z-[102]"
-	bind:this={smHeader}
->
-	<header class="flex justify-between">
-		<div class="corner">
-			<a href="/" aria-labelledby="dakdot">
-				<svg
-					bind:this={brand_logo}
-					class="brand_logo fill-white h-6 transition-all duration-500 ease-in-out"
-					viewBox="0 0 163 36"
-				>
-					<path
-						d="M86 36H77.6025L70.175 25.0017L68.137 27.3336V33.6765C68.137 34.9609 67.1098 36 65.8453 36H61V2.32768C61 1.0433 62.0272 0 63.2917 0H68.137V19.3779H68.5421L76.5631 9.80533C76.9969 9.28576 77.6353 8.98649 78.3064 8.98649H85.5007L75.5564 20.7205L86 36Z"
-					/>
-					<path
-						d="M110.116 0C108.841 0 107.805 1.03982 107.805 2.31991V13.0039C107.562 12.8299 107.315 12.6642 107.059 12.5151C105.169 11.3717 102.958 10.7171 100.59 10.7171C95.9577 10.7171 91.9108 13.2276 89.7285 16.9685C88.627 18.841 88 21.0283 88 23.3565C88 27.1305 89.646 30.5192 92.2614 32.835C94.4808 34.8028 97.3933 36 100.59 36C101.613 36 102.608 35.8757 103.561 35.6479C105.157 35.2585 106.634 34.5625 107.929 33.6262V35.8799H112.694C113.969 35.8799 115 34.8442 115 33.5641V0H110.116ZM100.512 28.7296C97.5418 28.7296 95.1367 26.3144 95.1367 23.3358C95.1367 20.3572 97.5418 17.9379 100.512 17.9379C103.482 17.9379 105.883 20.353 105.883 23.3358C105.883 26.3185 103.478 28.7296 100.512 28.7296Z"
-					/>
-					<path
-						d="M22.1157 0C20.8409 0 19.8055 1.03982 19.8055 2.31991V13.0039C19.5621 12.8299 19.3146 12.6642 19.0588 12.5151C17.1694 11.3717 14.9583 10.7171 12.5904 10.7171C7.95767 10.7171 3.91077 13.2276 1.72849 16.9685C0.627038 18.841 0 21.0283 0 23.3565C0 27.1305 1.64599 30.5192 4.26142 32.835C6.48083 34.8028 9.39327 36 12.5904 36C13.6134 36 14.6076 35.8757 15.5606 35.6479C17.1571 35.2585 18.6339 34.5625 19.9293 33.6262V35.8799H24.694C25.9687 35.8799 27 34.8442 27 33.5641V0H22.1157ZM12.512 28.7296C9.54179 28.7296 7.13674 26.3144 7.13674 23.3358C7.13674 20.3572 9.54179 17.9379 12.512 17.9379C15.4822 17.9379 17.8831 20.353 17.8831 23.3358C17.8831 26.3185 15.4781 28.7296 12.512 28.7296Z"
-					/>
-					<path
-						d="M161.052 35.8496C161.052 35.8496 161.036 35.8538 161.028 35.8538C160.249 35.9499 159.506 36 158.8 36C156.157 36 154.136 35.3357 152.735 34.0071C151.335 32.6827 150.633 30.7776 150.633 28.3001V14.0241H147V8.45908H150.633V4.33964C150.633 3.04866 151.652 2 152.906 2H157.712V8.45908H162.644V14.0241H157.712V27.6692C157.712 28.5299 157.899 29.1649 158.268 29.5785C158.637 29.9879 159.254 30.1968 160.119 30.1968C160.387 30.1968 160.764 30.1592 161.251 30.0882C161.738 30.013 162.108 29.9462 162.359 29.8793L162.96 33.1005C163.2 34.4082 162.335 35.6866 161.052 35.8496Z"
-					/>
-					<path
-						d="M130.5 36C137.404 36 143 30.4036 143 23.5C143 16.5964 137.404 11 130.5 11C123.596 11 118 16.5964 118 23.5C118 30.4036 123.596 36 130.5 36Z"
-					/>
-					<path
-						d="M54.694 11.1188H49.9293V13.3476C48.6339 12.4217 47.1571 11.7334 45.5606 11.3482C44.6076 11.1229 43.6134 11 42.5904 11C39.3933 11 36.4808 12.184 34.2614 14.1301C31.646 16.4203 30 19.7676 30 23.5C30 27.2324 31.646 30.5797 34.2614 32.8699C36.4808 34.816 39.3933 36 42.5904 36C43.6134 36 44.6076 35.8771 45.5606 35.6518C47.1571 35.2666 48.6339 34.5783 49.9293 33.6524V35.8812H54.694C55.9687 35.8812 57 34.8569 57 33.591V13.409C57 12.1431 55.9687 11.1188 54.694 11.1188ZM42.5244 28.822C39.5542 28.822 37.1491 26.4294 37.1491 23.4836C37.1491 20.5379 39.5542 18.1452 42.5244 18.1452C45.4946 18.1452 47.8955 20.5338 47.8955 23.4836C47.8955 26.4335 45.4905 28.822 42.5244 28.822Z"
-					/>
-				</svg>
-			</a>
-		</div>
-        <div></div>
-		<button
-			class="hamburger-btn grid grid-flow-col md:hidden"
-			bind:this={hamburgerButton}
-			onclick={() => (navOpen = !navOpen)}
-			title="Menu button"
-			aria-label="menu"
-		>
-			<svg class="hamburger w-10" fill="none" viewbox="-10 -10 120 120">
-				<path class="line" d="m 20 40 h 60 a 1 1 0 0 1 0 20 h -60 a 1 1 0 0 1 0 -40 h 30 v 70"
-				></path>
-			</svg>
-		</button>
-	</header>
-</div>
-<div class="sm-nav z-[100]" class:open={navOpen}>
-	<ul class="text-black gap-y-3">
-		<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-			<a href="/">Home</a>
-		</li>
-		<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-			<a href="/about">About</a>
-		</li>
-		<li aria-current={$page.url.pathname.startsWith('/case-studies') ? 'page' : undefined}>
-			<a href="/case-studies">Case Studies</a>
-		</li>
-		<li
-			class="dropdown-wrapper"
-			data-target="service_links"
-			aria-current={$page.url.pathname.startsWith('/services') ? 'page' : undefined}
-		>
-			<a href="#">Services</a>
-		</li>
-		<div class="grid grid-cols-2 gap-x-3 text-base">
-			{#each service_links as { name, color, url, icon }}
-				<a href={url} class="link py-1.5">
-					<div class="flex items-center space-x-3">
-						<span class="">{name}</span>
-					</div>
-				</a>
-			{/each}
-		</div>
-		<li aria-current={$page.url.pathname.startsWith('/contact') ? 'page' : undefined}>
-			<a href="/contact">Contact</a>
-		</li>
-	</ul>
-</div>
+</header>
 
 <style>
-	@reference "tailwindcss/theme";
-
-	.dropdown {
-		translate: -50% -2rem;
-		left: 50%;
-		transform-origin: top;
-		pointer-events: none;
-		scale: 0.75;
-		/* clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%); */
-		transition: all 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-		/* transition: clip-path 0.25s ease-in-out; */
-		opacity: 0;
-
-		& .link {
-			translate: 0 1rem;
-			transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-		}
-
-		&.show {
-			pointer-events: all;
-			scale: 1;
-			translate: -50% 0.1rem;
-			opacity: 1;
-			/* clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); */
-
-			& .link {
-				translate: 0 0;
-			}
-		}
-	}
-
 	header {
-		display: grid;
-		grid-template-columns: 1fr auto 1fr;
+		position: fixed;
+		inset: 0 0 auto 0;
+		z-index: 100;
+		padding: 0.6rem 0.75rem 0;
+		pointer-events: none;
 	}
 
-	.corner {
-		display: grid;
+	/*
+	 * One shell morphs with scroll. --p runs 0 → 1 over the first ~220px:
+	 *   p = 0  full-width bar, transparent
+	 *   p = 1  compact centred island
+	 * In either state, Services grows the shell downward into the panel.
+	 */
+	header {
+		--dur: 0.2s;
+		--min: 33rem;
+	}
+	header.morphing {
+		/* Opening/closing the panel is a deliberate, slower morph. */
+		--dur: 0.9s;
+	}
+	.shell {
+		pointer-events: auto;
+		max-width: calc(88rem - (88rem - var(--min)) * var(--p));
+		margin: 0 auto;
+		border-radius: calc(28px + 972px * var(--p));
+		border: 1px solid rgb(38 43 51 / var(--p));
+		background: rgb(26 30 37 / var(--p));
+		overflow: hidden;
+		transition:
+			max-width var(--dur) var(--ease-out),
+			border-radius var(--dur) var(--ease-out),
+			background var(--dur) var(--ease-out),
+			border-color var(--dur) var(--ease-out);
+	}
+	.svc-open .shell {
+		max-width: 60rem;
+		border-radius: 28px;
+		background: var(--color-ink-3);
+		border-color: var(--color-rule);
+	}
+	.open .shell {
+		max-width: none;
+		border-radius: 20px;
+		background: var(--color-ink);
+	}
+
+	.bar {
+		height: calc(3.75rem - 0.5rem * var(--p));
+		/* The right padding closes to zero so the CTA sits flush with the island's edge. */
+		padding: 0 calc(0.75rem * (1 - var(--p))) 0 calc(1.25rem - 0.15rem * var(--p));
+		display: flex;
+		align-items: center;
+		gap: calc(2rem - 0.75rem * var(--p));
+		transition:
+			height var(--dur) var(--ease-out),
+			gap var(--dur) var(--ease-out),
+			padding var(--dur) var(--ease-out);
+	}
+	.brand {
+		color: var(--color-paper);
+		margin-right: auto;
+		transition: color 0.3s var(--ease-out);
+	}
+	.brand :global(.logo) {
+		height: calc(1.6rem - 0.35rem * var(--p));
+		width: auto;
+		transition: height var(--dur) var(--ease-out);
+	}
+	:global(html.dot-away) .brand :global(.dot) {
+		opacity: 0;
+	}
+
+	nav ul {
+		display: flex;
+		gap: calc(1.75rem - 0.65rem * var(--p));
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		transition: gap var(--dur) var(--ease-out);
+	}
+
+	/* The CTA grows to the bar's full height as it becomes the island, sharing its radius. */
+	.cta {
+		align-self: stretch;
+		display: flex;
 		align-items: center;
 	}
-
-	nav {
-		--background: theme(--color-black);
-		justify-content: center;
-		border-radius: 2rem;
-		border: 2px solid var(--color-dark-lead);
-		padding: 0 1.5rem;
-		backdrop-filter: blur(5px);
-		background-color: #0c0c0c8e;
+	.cta :global(.btn) {
+		height: calc(3rem + (100% - 3rem) * var(--p));
+		border-radius: 999px;
+		transition:
+			height var(--dur) var(--ease-out),
+			background 0.3s var(--ease-out);
+	}
+	.svc-open .cta :global(.btn) {
+		border-radius: 27px;
+	}
+	.roll-link {
 		position: relative;
-		transition: padding 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-		&:hover {
-			padding: 0 2rem;
-		}
-
-        ul {
-            position: relative;
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            list-style: none;
-            
-            li {
-                position: relative;
-                height: 100%;
-                
-                &[aria-current='page'] {
-                    font-weight: 900;
-
-                    &::before {
-                        --size: 6px;
-                        content: '';
-                        width: 0;
-                        height: 0;
-                        position: absolute;
-                        top: 0;
-                        left: calc(50% - var(--size));
-                        border: var(--size) solid transparent;
-                        border-top: var(--size) solid var(--color-red);
-                    }
-                }
-
-                a {
-                    display: flex;
-                    height: 100%;
-                    align-items: center;
-                    padding: 0 0.5rem;
-                    color: var(--color-white);
-                    font-weight: 500;
-                    font-size: 0.8rem;
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    text-decoration: none;
-                    transition: color 0.2s linear;
-                }
-            }
-        }
-	}
-
-	path {
-		fill: var(--background);
-	}
-
-    .contact-button {
-        @apply bg-white text-black rounded-full grid h-12 w-12 p-1 cursor-pointer;
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        grid-template-columns: auto 0fr;
-        transform-origin: left;
-        /* column-gap: .75rem; */
-
-        & .icon {
-            @apply grid place-content-center aspect-square rounded-full;
-        }
-
-        .ct-text {
-            @apply grid place-content-center font-semibold text-white rounded-sm px-2 py-1;
-        }
-        
-        &:hover, &:focus, &.active {
-            @apply pr-6;
-            grid-template-columns: auto 1fr;
-            column-gap: .75rem;
-            width: 100%;
-
-            & .text {
-                width: max-content;
-            }
-        }
-    }
-
-	a:hover {
-		color: var(--color-red);
-	}
-
-	.hamburger-btn {
-		@apply bg-white overflow-hidden rounded-full ml-auto;
+		display: inline-grid;
+		grid-auto-flow: column;
+		align-items: center;
+		overflow: hidden;
+		height: 1.3em;
+		line-height: 1.3em;
+		color: var(--color-paper);
+		text-decoration: none;
+		font: inherit;
+		font-weight: 500;
+		background: none;
+		border: 0;
+		padding: 0;
 		cursor: pointer;
-        width: fit-content;
-
-		& svg {
-			@apply stroke-[10];
-			stroke: var(--color-black);
-			stroke-linecap: round;
-			stroke-linejoin: round;
-			transition:
-				translate 0.5s,
-				rotate 0.5s;
-		}
-		& .line {
-			stroke-dasharray: 60 31 60 300;
-			transition: 0.5s;
-		}
-
-		&.open .hamburger {
-			translate: 2px -3px;
-			rotate: 0.125turn;
-		}
-
-		&.open .line {
-			stroke-dasharray: 60 105 60 300;
-			stroke-dashoffset: -90;
-		}
+		transition: color 0.3s var(--ease-out);
+	}
+	.roll-link > span:not(.sr) {
+		grid-area: 1 / 1;
+		transition: translate 0.45s var(--ease-out);
+	}
+	.roll-link > span:nth-child(2) {
+		translate: 0 100%;
+	}
+	.roll-link:hover > span:nth-child(1),
+	.roll-link:focus-visible > span:nth-child(1) {
+		translate: 0 -100%;
+	}
+	.roll-link:hover > span:nth-child(2),
+	.roll-link:focus-visible > span:nth-child(2) {
+		translate: 0 0;
+	}
+	.svc-btn {
+		grid-template-columns: auto auto;
+		column-gap: 0.3rem;
+	}
+	.svc-btn svg {
+		grid-column: 2;
+		width: 0.85rem;
+		height: 0.85rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.7;
+		transition: rotate 0.4s var(--ease-out);
+	}
+	.svc-btn[aria-expanded='true'] svg {
+		rotate: 180deg;
+	}
+	.roll-link[aria-current='page']::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+		width: 5px;
+		height: 5px;
+		margin-left: -2.5px;
+		border-radius: 50%;
+		background: currentColor;
+	}
+	.svc-btn[aria-current='page']::after {
+		left: calc(50% - 0.55rem);
+	}
+	.sr {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+	.on-light .brand,
+	.on-light .roll-link,
+	.on-light .toggle {
+		color: var(--color-ink);
+	}
+	.on-light .toggle {
+		border-color: color-mix(in srgb, var(--color-ink) 35%, transparent);
 	}
 
-	.sm-nav {
-		position: fixed;
-		inset: 0;
-		background-color: var(--color-white);
-		pointer-events: none;
-		clip-path: circle(0% at 94% 92%);
-		transition: clip-path 500ms ease-in;
-        padding: 0 1rem;
+	/* ---------- Services panel ---------- */
+	.panel {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.55s var(--ease-out);
+	}
+	.svc-open .panel {
+		grid-template-rows: 1fr;
+	}
+	.panel-in {
+		min-height: 0;
+		overflow: hidden;
+		padding: 0 0.75rem;
+		opacity: 0;
+		transition:
+			opacity 0.3s var(--ease-out),
+			padding 0.55s var(--ease-out);
+	}
+	.svc-open .panel-in {
+		opacity: 1;
+		padding: 0.5rem 0.75rem 0.75rem;
+		transition-delay: 0.08s, 0s;
+	}
+	.tiles {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.5rem;
+	}
+	.tiles li {
+		translate: 0 12px;
+		opacity: 0;
+		transition:
+			translate 0.55s var(--ease-out),
+			opacity 0.4s var(--ease-out);
+		transition-delay: calc(var(--i) * 50ms);
+	}
+	.svc-open .tiles li {
+		translate: 0 0;
+		opacity: 1;
+		transition-delay: calc(0.1s + var(--i) * 60ms);
+	}
+	.tile {
+		display: grid;
+		gap: 0.5rem;
+		padding: 0.6rem 0.6rem 1rem;
+		border-radius: 20px;
+		color: var(--color-paper);
+		text-decoration: none;
+		transition: background 0.3s var(--ease-out);
+	}
+	.tile:hover,
+	.tile:focus-visible {
+		background: var(--color-ink);
+	}
+	.t-name {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		margin-top: 0.35rem;
+		padding: 0 0.35rem;
+		font-size: 1.1rem;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+	}
+	.t-name svg {
+		width: 1rem;
+		height: 1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.7;
+		opacity: 0;
+		translate: -6px 0;
+		transition:
+			opacity 0.3s var(--ease-out),
+			translate 0.4s var(--ease-out);
+	}
+	.tile:hover .t-name svg,
+	.tile:focus-visible .t-name svg {
+		opacity: 1;
+		translate: 0 0;
+	}
+	.t-blurb {
+		padding: 0 0.35rem;
+		font-size: 0.88rem;
+		line-height: 1.45;
+		color: var(--color-mute);
+	}
+	.panel-foot {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-top: 0.5rem;
+		padding: 0.9rem 0.95rem 0.25rem;
+		border-top: 1px solid var(--color-rule);
+		font-size: 0.92rem;
+		color: var(--color-mute);
+	}
+	.panel-foot a {
+		color: var(--color-paper);
+		font-weight: 600;
+	}
 
-		&.open {
-			pointer-events: auto;
-			clip-path: circle(135% at 94% 92%);
+	/* ---------- Mobile ---------- */
+	.toggle {
+		display: none;
+		align-items: center;
+		gap: 0.6rem;
+		font: inherit;
+		font-weight: 600;
+		color: var(--color-paper);
+		background: none;
+		border: 1px solid var(--color-rule-strong);
+		border-radius: 999px;
+		padding: 0.5rem 1rem;
+		cursor: pointer;
+		transition: color 0.3s var(--ease-out);
+	}
+	.burger {
+		display: grid;
+		gap: 4px;
+		width: 16px;
+	}
+	.burger i {
+		height: 2px;
+		border-radius: 1px;
+		background: currentColor;
+		transition:
+			rotate 0.35s var(--ease-out),
+			translate 0.35s var(--ease-out);
+	}
+	.open .burger i:first-child {
+		translate: 0 3px;
+		rotate: 45deg;
+	}
+	.open .burger i:last-child {
+		translate: 0 -3px;
+		rotate: -45deg;
+	}
+	.sheet {
+		height: calc(100svh - 5rem);
+		overflow-y: auto;
+		padding: 1rem 1.25rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+	.sheet[hidden] {
+		display: none;
+	}
+	.sheet ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.big a {
+		display: block;
+		padding: 0.25rem 0;
+		color: var(--color-paper);
+		text-decoration: none;
+		font-size: clamp(2.75rem, 13vw, 4rem);
+		font-weight: 800;
+		letter-spacing: -0.04em;
+		line-height: 1.05;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.big li {
+			animation: in 0.6s var(--ease-out) both;
+			animation-delay: calc(var(--i) * 50ms);
 		}
+	}
+	@keyframes in {
+		from {
+			translate: 0 0.6em;
+			opacity: 0.3;
+		}
+	}
+	.svc {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	.svc a {
+		display: inline-block;
+		padding: 0.45rem 0.9rem;
+		border: 1px solid var(--color-rule-strong);
+		border-radius: 999px;
+		color: var(--color-paper);
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+	.sheet-foot {
+		margin-top: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.75rem;
+	}
+	.sheet-foot > a {
+		color: var(--color-mute);
+		text-decoration: none;
+	}
 
-		& ul {
-			height: 80svh;
-			color: var(--color-black);
-			display: grid;
-			align-content: flex-end;
-			row-gap: 0.75rem;
-			font-size: 1.25rem;
-
-			& li {
-				padding: 0.375rem 0;
-
-				&[aria-current='page'] {
-					font-weight: 900;
-
-					&::before {
-						--size: 6px;
-						content: '';
-						width: 0;
-						height: 0;
-						position: absolute;
-						top: 1em;
-						left: -1rem;
-						transform: translateY(-50%) rotate(-90deg);
-						border: var(--size) solid transparent;
-						border-top: var(--size) solid var(--color-red);
-					}
-				}
-			}
+	@media (max-width: 760px) {
+		nav,
+		.cta,
+		.panel {
+			display: none;
+		}
+		.toggle {
+			display: inline-flex;
+			margin-right: calc(0.4rem * var(--p));
+		}
+		header {
+			--min: 22rem;
 		}
 	}
 </style>

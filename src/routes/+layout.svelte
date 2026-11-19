@@ -1,63 +1,71 @@
 <script lang="ts">
 	import Header from './Header.svelte';
+	import Footer from './Footer.svelte';
+	import Cursor from '$lib/components/ui/Cursor.svelte';
 	import '../app.css';
-	import '../app.ts';
 
 	import Lenis from 'lenis';
-	import { gsap } from 'gsap';
-	import Footer from './Footer.svelte';
-
-    import { page } from "$app/stores";
-    import { fly } from "svelte/transition";
+	import { stillMode } from '$lib/actions/motion';
 
 	$effect(() => {
-		// const ScrollTrigger = (await import('gsap/ScrollTrigger')).default;
-
-		// Initialize a new Lenis instance for smooth scrolling
-		const lenis = new Lenis({
-            duration: 1.5,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        });
-
-        function raf(time:number) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
-        requestAnimationFrame(raf);
+		// Reduced motion or ?still: the whole site renders at rest.
+		if (stillMode()) {
+			document.documentElement.classList.add('still');
+			return;
+		}
+		// Smooth scrolling stays short.
+		const lenis = new Lenis({ duration: 0.9 });
+		let id = 0;
+		const raf = (time: number) => {
+			lenis.raf(time);
+			id = requestAnimationFrame(raf);
+		};
+		id = requestAnimationFrame(raf);
+		return () => {
+			cancelAnimationFrame(id);
+			lenis.destroy();
+		};
 	});
 
-	let { children, data } = $props();
+	let { children } = $props();
 </script>
 
-<div class="app bg-black">
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="app">
 	<Header />
-
-    <!-- <div class="fixed inset-0 h-screen w-screen bg-dark z-50"
-    in:fly={{ y: "-100%", duration: 1000 }}
-    out:fly={{ y: "100%", duration: 500 }}>
-
-    </div> -->
-	<main class="bg-black z-10"> 
+	<main id="main">
 		{@render children()}
 	</main>
-
-    {#key $page.url.pathname}
-    <Footer />
-    {/key}
-    
+	<Footer />
 </div>
+
+<Cursor />
 
 <style>
 	.app {
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		background: var(--color-ink);
 	}
-
 	main {
 		flex: 1;
 		width: 100%;
-		box-sizing: border-box;
+	}
+	.skip {
+		position: absolute;
+		left: 1rem;
+		top: -3rem;
+		z-index: 300;
+		padding: 0.6rem 1rem;
+		border-radius: 8px;
+		background: var(--color-paper);
+		color: var(--color-ink);
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.skip:focus {
+		top: 1rem;
 	}
 </style>
