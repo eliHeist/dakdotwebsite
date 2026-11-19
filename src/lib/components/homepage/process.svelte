@@ -31,7 +31,7 @@
 
 		items.forEach((item: any) => {
 			const bar = item.querySelector('.bar') as HTMLElement;
-            const circle = item.querySelector('svg circle') as HTMLElement;
+			const circle = item.querySelector('svg circle') as HTMLElement;
 
 			let timeline = gsap.timeline({
 				scrollTrigger: {
@@ -121,30 +121,30 @@
 		}
 
 		.counter-wrapper {
-            --_size: 2.5rem;
-            width: var(--_size);
-            height: var(--_size);
-            position: relative;
+			--_size: 2.5rem;
+			width: var(--_size);
+			height: var(--_size);
+			position: relative;
 			svg {
 				transform: rotate(-90deg);
-                width: var(--_size);
+				width: var(--_size);
 
-                circle {
-                    fill: none;
-                    stroke: var(--color-white);
-                    stroke-width: 4;
-                    stroke-dasharray: 251.2; /* Circumference of the circle */
-                    stroke-dashoffset: 251.2;
-                    animation: draw 2s linear forwards;
-                }
+				circle {
+					fill: none;
+					stroke: var(--color-white);
+					stroke-width: 4;
+					stroke-dasharray: 251.2; /* Circumference of the circle */
+					stroke-dashoffset: 251.2;
+					animation: draw 2s linear forwards;
+				}
 			}
 
-            .number {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
+			.number {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
 		}
 	}
 	/* @keyframes draw {

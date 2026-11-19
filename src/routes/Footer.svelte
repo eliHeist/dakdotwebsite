@@ -1,129 +1,181 @@
 <script lang="ts">
-	import Logo from '$lib/components/network/Logo.svelte';
+	import { onMount } from 'svelte';
 	import { CONTACT, SOCIALS, whatsappHref } from '$lib/data/contact';
 	import { LINE_IDS, LINES } from '$lib/data/network';
 
 	const year = new Date().getFullYear();
+
+	// The wordmark's dot keeps an eye on you, too.
+	let mark: SVGSVGElement | undefined = $state();
+	let lookX = $state(0);
+	let lookY = $state(0);
+	let shut = $state(false);
+
+	onMount(() => {
+		if (matchMedia('(prefers-reduced-motion: reduce)').matches || !mark) return;
+		const move = (e: PointerEvent) => {
+			const r = mark!.getBoundingClientRect();
+			const cx = r.left + (130.5 / 163) * r.width;
+			const cy = r.top + (23.5 / 36) * r.height;
+			const dx = e.clientX - cx,
+				dy = e.clientY - cy;
+			const len = Math.hypot(dx, dy) || 1;
+			const reach = Math.min(1, len / 300);
+			lookX = (dx / len) * reach;
+			lookY = (dy / len) * reach;
+		};
+		let t = 0;
+		const blink = () => {
+			shut = true;
+			setTimeout(() => (shut = false), 130);
+			t = window.setTimeout(blink, 3000 + Math.random() * 4000);
+		};
+		t = window.setTimeout(blink, 2500);
+		window.addEventListener('pointermove', move, { passive: true });
+		return () => {
+			clearTimeout(t);
+			window.removeEventListener('pointermove', move);
+		};
+	});
 </script>
 
 <footer>
-	<div class="rails" aria-hidden="true">
-		{#each LINE_IDS as id}<span style="background: var({LINES[id].colorVar})"></span>{/each}
-	</div>
-
 	<div class="grid">
-		<div class="col talk">
+		<div class="col">
 			<p class="h">Contact</p>
 			<a href="/#book">Book a call</a>
 			<a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
 			<a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a>
 			<a href="mailto:{CONTACT.email}">{CONTACT.email}</a>
 		</div>
-
 		<div class="col">
-			<p class="h">Lines</p>
-			{#each LINE_IDS as id}
-				<a href={LINES[id].href}>{LINES[id].name}</a>
-				{#each LINES[id].capabilities as cap}<span class="cap">{cap}</span>{/each}
-			{/each}
+			<p class="h">Services</p>
+			{#each LINE_IDS as id}<a href={LINES[id].href}>{LINES[id].name}</a>{/each}
 		</div>
-
 		<div class="col">
 			<p class="h">Studio</p>
 			<a href="/case-studies">Work</a>
 			<a href="/about">About</a>
 			<a href="/contact">Contact</a>
 		</div>
-
 		<div class="col">
 			<p class="h">Follow</p>
 			{#each SOCIALS as s}<a href={s.href} target="_blank" rel="noopener">{s.name}</a>{/each}
 		</div>
 	</div>
 
+	<svg
+		class="mark"
+		bind:this={mark}
+		viewBox="0 -2 163 40"
+		fill="currentColor"
+		role="img"
+		aria-label="Dakdot"
+	>
+		<path
+			d="M86 36H77.6025L70.175 25.0017L68.137 27.3336V33.6765C68.137 34.9609 67.1098 36 65.8453 36H61V2.32768C61 1.0433 62.0272 0 63.2917 0H68.137V19.3779H68.5421L76.5631 9.80533C76.9969 9.28576 77.6353 8.98649 78.3064 8.98649H85.5007L75.5564 20.7205L86 36Z"
+		/>
+		<path
+			d="M110.116 0C108.841 0 107.805 1.03982 107.805 2.31991V13.0039C107.562 12.8299 107.315 12.6642 107.059 12.5151C105.169 11.3717 102.958 10.7171 100.59 10.7171C95.9577 10.7171 91.9108 13.2276 89.7285 16.9685C88.627 18.841 88 21.0283 88 23.3565C88 27.1305 89.646 30.5192 92.2614 32.835C94.4808 34.8028 97.3933 36 100.59 36C101.613 36 102.608 35.8757 103.561 35.6479C105.157 35.2585 106.634 34.5625 107.929 33.6262V35.8799H112.694C113.969 35.8799 115 34.8442 115 33.5641V0H110.116ZM100.512 28.7296C97.5418 28.7296 95.1367 26.3144 95.1367 23.3358C95.1367 20.3572 97.5418 17.9379 100.512 17.9379C103.482 17.9379 105.883 20.353 105.883 23.3358C105.883 26.3185 103.478 28.7296 100.512 28.7296Z"
+		/>
+		<path
+			d="M22.1157 0C20.8409 0 19.8055 1.03982 19.8055 2.31991V13.0039C19.5621 12.8299 19.3146 12.6642 19.0588 12.5151C17.1694 11.3717 14.9583 10.7171 12.5904 10.7171C7.95767 10.7171 3.91077 13.2276 1.72849 16.9685C0.627038 18.841 0 21.0283 0 23.3565C0 27.1305 1.64599 30.5192 4.26142 32.835C6.48083 34.8028 9.39327 36 12.5904 36C13.6134 36 14.6076 35.8757 15.5606 35.6479C17.1571 35.2585 18.6339 34.5625 19.9293 33.6262V35.8799H24.694C25.9687 35.8799 27 34.8442 27 33.5641V0H22.1157ZM12.512 28.7296C9.54179 28.7296 7.13674 26.3144 7.13674 23.3358C7.13674 20.3572 9.54179 17.9379 12.512 17.9379C15.4822 17.9379 17.8831 20.353 17.8831 23.3358C17.8831 26.3185 15.4781 28.7296 12.512 28.7296Z"
+		/>
+		<path
+			d="M161.052 35.8496C161.052 35.8496 161.036 35.8538 161.028 35.8538C160.249 35.9499 159.506 36 158.8 36C156.157 36 154.136 35.3357 152.735 34.0071C151.335 32.6827 150.633 30.7776 150.633 28.3001V14.0241H147V8.45908H150.633V4.33964C150.633 3.04866 151.652 2 152.906 2H157.712V8.45908H162.644V14.0241H157.712V27.6692C157.712 28.5299 157.899 29.1649 158.268 29.5785C158.637 29.9879 159.254 30.1968 160.119 30.1968C160.387 30.1968 160.764 30.1592 161.251 30.0882C161.738 30.013 162.108 29.9462 162.359 29.8793L162.96 33.1005C163.2 34.4082 162.335 35.6866 161.052 35.8496Z"
+		/>
+		<path
+			d="M54.694 11.1188H49.9293V13.3476C48.6339 12.4217 47.1571 11.7334 45.5606 11.3482C44.6076 11.1229 43.6134 11 42.5904 11C39.3933 11 36.4808 12.184 34.2614 14.1301C31.646 16.4203 30 19.7676 30 23.5C30 27.2324 31.646 30.5797 34.2614 32.8699C36.4808 34.816 39.3933 36 42.5904 36C43.6134 36 44.6076 35.8771 45.5606 35.6518C47.1571 35.2666 48.6339 34.5783 49.9293 33.6524V35.8812H54.694C55.9687 35.8812 57 34.8569 57 33.591V13.409C57 12.1431 55.9687 11.1188 54.694 11.1188ZM42.5244 28.822C39.5542 28.822 37.1491 26.4294 37.1491 23.4836C37.1491 20.5379 39.5542 18.1452 42.5244 18.1452C45.4946 18.1452 47.8955 20.5338 47.8955 23.4836C47.8955 26.4335 45.4905 28.822 42.5244 28.822Z"
+		/>
+		<!-- Dot, with eyes -->
+		<circle cx="130.5" cy="23.5" r="12.5" />
+		<g class="eyes" class:shut>
+			{#each [126.6, 134.4] as ex}
+				<ellipse class="eye" cx={ex} cy="22.6" rx="1.75" ry="2.35" />
+				<circle class="glint" cx={ex + 0.55 + lookX * 0.7} cy={22.1 + lookY * 0.9} r="0.62" />
+			{/each}
+		</g>
+	</svg>
+
 	<div class="base">
-		<Logo class="flogo" />
 		<p class="tnum">© {year} Dakdot · Kampala, Uganda</p>
+		<a href="#main" class="top">Back to top</a>
 	</div>
 </footer>
 
 <style>
 	footer {
-		border-top: 1px solid var(--color-rule);
-		margin-top: 2rem;
-		padding: 0 1.5rem 2rem;
-	}
-	.rails {
-		max-width: 85rem;
+		max-width: 88rem;
 		margin: 0 auto;
-		display: grid;
-		gap: 6px;
-		padding-top: 6px;
-	}
-	.rails span {
-		height: 3px;
-		border-radius: 2px;
+		width: 100%;
+		padding: 5rem 1.5rem 2rem;
+		border-top: 1px solid var(--color-rule);
 	}
 	.grid {
-		max-width: 85rem;
-		margin: 0 auto;
-		padding: 4rem 0 3rem;
 		display: grid;
-		grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 2.5rem;
 	}
 	.col {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 0.45rem;
-		font-size: 0.95rem;
+		gap: 0.5rem;
+		font-size: 0.98rem;
 	}
 	.h {
 		font-size: 0.85rem;
 		color: var(--color-mute);
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.4rem;
 	}
-	.col a {
+	.col a,
+	.top {
 		color: var(--color-paper);
 		text-decoration: none;
+		background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% 1px;
+		transition: background-size 0.4s var(--ease-out);
+		padding-bottom: 1px;
 	}
-	.col a:hover {
-		text-decoration: underline;
+	.col a:hover,
+	.top:hover {
+		background-position: 0 100%;
+		background-size: 100% 1px;
 	}
-	.cap {
-		color: var(--color-mute);
-		font-size: 0.82rem;
-		padding-left: 0.75rem;
+	.mark {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin-top: 5rem;
+		color: var(--color-paper);
 	}
-	.cap + a {
-		margin-top: 0.6rem;
+	.eye {
+		fill: var(--color-ink);
+		transform-box: fill-box;
+		transform-origin: center;
+		transition: scale 0.09s ease-in;
+	}
+	.shut .eye {
+		scale: 1 0.12;
+	}
+	.glint {
+		fill: var(--color-paper);
+		transition: opacity 0.09s;
+	}
+	.shut .glint {
+		opacity: 0;
 	}
 	.base {
-		max-width: 85rem;
-		margin: 0 auto;
-		padding-top: 2rem;
-		border-top: 1px solid var(--color-rule);
+		margin-top: 2rem;
 		display: flex;
-		align-items: end;
 		justify-content: space-between;
 		gap: 1rem;
 		flex-wrap: wrap;
 		color: var(--color-mute);
 		font-size: 0.85rem;
 	}
-	.base :global(.flogo) {
-		height: clamp(2.5rem, 7vw, 5.5rem);
-		width: auto;
-		color: var(--color-paper);
-	}
-
-	@media (max-width: 820px) {
+	@media (max-width: 760px) {
 		.grid {
 			grid-template-columns: 1fr 1fr;
-		}
-		.talk {
-			grid-column: 1 / -1;
 		}
 	}
 </style>

@@ -6,40 +6,40 @@
 
 	gsap.registerPlugin(ScrollTrigger);
 
-    let split_type:HTMLElement
-    let scroller:HTMLElement
+	let split_type: HTMLElement;
+	let scroller: HTMLElement;
 
 	function animation() {
-        // Kill previous animations and ScrollTriggers for this element
-        gsap.killTweensOf(split_type);
-        ScrollTrigger.getAll().forEach(trigger => {
-            if (trigger.trigger === split_type) {
-                trigger.kill();
-            }
-        });
+		// Kill previous animations and ScrollTriggers for this element
+		gsap.killTweensOf(split_type);
+		ScrollTrigger.getAll().forEach((trigger) => {
+			if (trigger.trigger === split_type) {
+				trigger.kill();
+			}
+		});
 
-        const text = new SplitType(split_type, { types: 'chars,words' });
+		const text = new SplitType(split_type, { types: 'chars,words' });
 
-        gsap.from(text.chars, {
-            scrollTrigger: {
-                trigger: split_type,
-                start: 'top 90%',
-                end: 'top 10%',
-                scrub: 5,
-                markers: false,
-                toggleActions: 'play play reverse reverse'
-            },
-            opacity: 0.01,
-            y: 10,
-            rotate: 10,
-            // transformOrigin: 'bottom',
-            stagger: 0.05,
-            ease: 'power1.out'
-        });
+		gsap.from(text.chars, {
+			scrollTrigger: {
+				trigger: split_type,
+				start: 'top 90%',
+				end: 'top 10%',
+				scrub: 5,
+				markers: false,
+				toggleActions: 'play play reverse reverse'
+			},
+			opacity: 0.01,
+			y: 10,
+			rotate: 10,
+			// transformOrigin: 'bottom',
+			stagger: 0.05,
+			ease: 'power1.out'
+		});
 	}
 
 	$effect(() => {
-		animation()
+		animation();
 	});
 </script>
 
@@ -47,11 +47,13 @@
 	<div class="absolutely content-grid items-center py-32">
 		<div class="text-3xl xl:text-5xl max-w-3xl mx-auto">
 			<div class="text-justify [line-height:120%]">
-                <span class="opacity-0">DAKDOT</span>
+				<span class="opacity-0">DAKDOT</span>
 				<span bind:this={split_type}>
-                    We're Dakdot. A creative and technology studio built to help businesses show up well and run well. We design brands, build websites, and create custom systems that streamline how your team works.  <br>
-                    <span class="font-bold text-primary italic">Business solutions all under one roof.</span>
-                </span>
+					We're Dakdot. A creative and technology studio built to help businesses show up well and
+					run well. We design brands, build websites, and create custom systems that streamline how
+					your team works. <br />
+					<span class="font-bold text-primary italic">Business solutions all under one roof.</span>
+				</span>
 				<!-- <span class="font-bold">That’s so us, find out more below.</span> -->
 			</div>
 			<!-- <p class="text-gradient font-semibold mt-4"></p> -->

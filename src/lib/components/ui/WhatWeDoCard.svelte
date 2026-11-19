@@ -4,11 +4,11 @@
 		'We build high-performance websites and applications tailored to your business needs.';
 	export let icon = '/icons/web-dev.svg';
 
-	let card:HTMLElement;
+	let card: HTMLElement;
 	let x = 50,
 		y = 50;
 
-	function updateMousePosition(event:MouseEvent) {
+	function updateMousePosition(event: MouseEvent) {
 		if (!card) return;
 		const { left, top, width, height } = card.getBoundingClientRect();
 		x = ((event.clientX - left) / width) * 100;
@@ -37,22 +37,22 @@
 </div>
 
 <style>
-    .card-2 {
-        padding: 2rem;
-        border-radius: 1.5rem;
-        display: grid;
-        align-items: flex-start;
-        align-content: flex-start;
-        min-height: 15rem;
-        outline: 2px solid var(--color-dark);
+	.card-2 {
+		padding: 2rem;
+		border-radius: 1.5rem;
+		display: grid;
+		align-items: flex-start;
+		align-content: flex-start;
+		min-height: 15rem;
+		outline: 2px solid var(--color-dark);
 
-        h3 {
-            font-size: 1.5rem;
-            padding-bottom: 1.5rem;
-        }
+		h3 {
+			font-size: 1.5rem;
+			padding-bottom: 1.5rem;
+		}
 
-        p{
-            color: var(--color-lead);
-        }
-    }
+		p {
+			color: var(--color-lead);
+		}
+	}
 </style>

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { getContext } from 'svelte';
+	import { getContext } from 'svelte';
 	import Button from '../ui/button.svelte';
 	import { gsap } from 'gsap';
-    import { ChevronDown } from "lucide-svelte";
+	import { ChevronDown } from 'lucide-svelte';
 
 	let preloaderElement: HTMLElement;
 	let heroElement: HTMLElement;
@@ -13,11 +13,11 @@
 	let heroText: HTMLElement;
 	let follower1: SVGElement;
 	let follower2: SVGElement;
-    let spacer: HTMLElement;
+	let spacer: HTMLElement;
 
 	$effect(() => {
-        let headerHeight = document.querySelector(".page-header")?.clientHeight || 0;
-        heroElement.style.paddingTop = `${headerHeight}px`;
+		let headerHeight = document.querySelector('.page-header')?.clientHeight || 0;
+		heroElement.style.paddingTop = `${headerHeight}px`;
 		let svg = preloaderElement.querySelector('svg');
 		svg?.classList.remove('animate-spin');
 
@@ -37,12 +37,16 @@
 			},
 			'<'
 		);
-		animation.to(preloaderElement, {
-			opacity: 0,
-			y: '100%',
-			duration: 1,
-			ease: 'power1.inOut'
-		}, '-=0.5');
+		animation.to(
+			preloaderElement,
+			{
+				opacity: 0,
+				y: '100%',
+				duration: 1,
+				ease: 'power1.inOut'
+			},
+			'-=0.5'
+		);
 
 		gsap.set(heroSVGSection, { opacity: 0, y: '50%' });
 		gsap.set(heroSVGBackDrop, { opacity: 0 });
@@ -57,10 +61,14 @@
 			},
 			'-=1'
 		);
-		animation.to('.hero-text-reveal', {
-			y: 0,
-			duration: 1
-		}, '');
+		animation.to(
+			'.hero-text-reveal',
+			{
+				y: 0,
+				duration: 1
+			},
+			''
+		);
 		animation.to(
 			'.hero-text-reveal',
 			{
@@ -70,26 +78,34 @@
 			},
 			'<'
 		);
-        animation.from('.hero-next', {
-            opacity: 0,
-            y: 100,
-            duration: 1,
-            stagger: 0.5
-        },);
+		animation.from('.hero-next', {
+			opacity: 0,
+			y: 100,
+			duration: 1,
+			stagger: 0.5
+		});
 		animation.to(heroSVGBackDrop, {
 			opacity: 1,
 			duration: 2
 		});
-		animation.to(follower1, {
-			scale: 1.2,
-			y: 0,
-			duration: 3
-		}, '<');
-		animation.to(follower2, {
-			scale: 1.2,
-			y: 0,
-			duration: 3
-		}, '-=2.5');
+		animation.to(
+			follower1,
+			{
+				scale: 1.2,
+				y: 0,
+				duration: 3
+			},
+			'<'
+		);
+		animation.to(
+			follower2,
+			{
+				scale: 1.2,
+				y: 0,
+				duration: 3
+			},
+			'-=2.5'
+		);
 
 		document.addEventListener('mousemove', (e) => {
 			const { clientX: x, clientY: y } = e;
@@ -107,26 +123,26 @@
 			win_height: number,
 			clientX: number,
 			clientY: number,
-            flip: boolean = false
+			flip: boolean = false
 		) {
 			// get the value 20% of the follower's width and its height too
-            let transform_x = follower.clientWidth * 0.2;
-            let transform_y = follower.clientHeight * 0.2;
+			let transform_x = follower.clientWidth * 0.2;
+			let transform_y = follower.clientHeight * 0.2;
 
-            // get the x and y percentage of the cursor position from the mid point of the window
-            let mid_x = win_width / 2;
-            let mid_y = win_height / 2;
+			// get the x and y percentage of the cursor position from the mid point of the window
+			let mid_x = win_width / 2;
+			let mid_y = win_height / 2;
 
-            let x_percent = (mid_x - clientX) / mid_x;
-            let y_percent = (mid_y - clientY) / mid_y;
+			let x_percent = (mid_x - clientX) / mid_x;
+			let y_percent = (mid_y - clientY) / mid_y;
 
-            let x_transform = x_percent * transform_x;
-            let y_transform = y_percent * transform_y;
+			let x_transform = x_percent * transform_x;
+			let y_transform = y_percent * transform_y;
 
-            if (flip) {
-                x_transform = -x_transform;
-                y_transform = -y_transform;
-            }
+			if (flip) {
+				x_transform = -x_transform;
+				y_transform = -y_transform;
+			}
 			follower.style.transform = `translate3d(${x_transform}px, ${y_transform}px, 0)`;
 		}
 	});
@@ -163,8 +179,12 @@
 	</div>
 </section>
 
-<section class="grid items-end h-[100svh] full-width relative overflow-hidden" bind:this={heroElement}>
-	<svg class="absolute top-[5svh] lg:top-[0vh] -left-[20vw] sm:left-0 z-[0] w-[60vw] sm:w-[40vw] opacity-0 glowing"
+<section
+	class="grid items-end h-[100svh] full-width relative overflow-hidden"
+	bind:this={heroElement}
+>
+	<svg
+		class="absolute top-[5svh] lg:top-[0vh] -left-[20vw] sm:left-0 z-[0] w-[60vw] sm:w-[40vw] opacity-0 glowing"
 		fill="none"
 		bind:this={follower1}
 		viewBox="0 0 660 596"
@@ -185,7 +205,8 @@
 		</defs>
 	</svg>
 
-	<svg class="absolute top-[10svh] lg:top-[5vh] -right-[15vw] sm:right-[5vw] z-[0] w-[50vw] sm:w-[30vw] opacity-0 glowing"
+	<svg
+		class="absolute top-[10svh] lg:top-[5vh] -right-[15vw] sm:right-[5vw] z-[0] w-[50vw] sm:w-[30vw] opacity-0 glowing"
 		viewBox="0 0 568 497"
 		fill="none"
 		bind:this={follower2}
@@ -208,9 +229,12 @@
 
 	<div class="content-grid absolute top-[20vh] left-0 right-0 hidden glowing"></div>
 	<div class="grid content-grid h-[70vh] content-end sm:h-[60vh]">
-        <div bind:this={spacer}></div>
+		<div bind:this={spacer}></div>
 		<div class="relative lg:max-w-[80vw] mx-auto xl:mb-20">
-			<div class="absolute left-0 right-0 -top-24 sm:-top-40 olg:-top-64 translate-y-40" bind:this={heroSVGSection}>
+			<div
+				class="absolute left-0 right-0 -top-24 sm:-top-40 olg:-top-64 translate-y-40"
+				bind:this={heroSVGSection}
+			>
 				<svg class="w-full main-svg hero-svg-shadow" viewBox="0 0 905 470" fill="none">
 					<g filter="url(#filter0_f_414_113)">
 						<path
@@ -250,21 +274,27 @@
 				<div
 					class="grid text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-7xl text-white font-light [line-height:100%]"
 				>
-					<h2 class="font-bold hero-text-reveal">Your Digital <br/>Growth Partner!</h2>
+					<h2 class="font-bold hero-text-reveal">Your Digital <br />Growth Partner!</h2>
 					<!-- <h2 class="font-bold hero-text-reveal">Brand Design</h2>
 					<h3 class="hero-text-reveal">with excellence</h3> -->
 				</div>
 				<p class="mt-4 text-lg text-lead max-w-[90%] sm:max-w-[80%] mx-auto hero-next">
-					We design, develop, and brand businesses for success. Whether you need a high-performing web app, a powerful brand identity, or expert digital marketing, we craft strategies that turn visitors into loyal customers.
+					We design, develop, and brand businesses for success. Whether you need a high-performing
+					web app, a powerful brand identity, or expert digital marketing, we craft strategies that
+					turn visitors into loyal customers.
 				</p>
 				<div class="mt-12">
 					<a href="#clients">
-                        <div class="grid gap-3 place-content-center justify-items-center text-center mx-auto hero-next">
-                            <span class="w-max">Browse More</span>
-                            <div class="rounded-full border-2 border-white/50 h-8 w-8 grid place-content-center animation-down">
-                                <ChevronDown class="w-6 h-6" />
-                            </div>
-                        </div>
+						<div
+							class="grid gap-3 place-content-center justify-items-center text-center mx-auto hero-next"
+						>
+							<span class="w-max">Browse More</span>
+							<div
+								class="rounded-full border-2 border-white/50 h-8 w-8 grid place-content-center animation-down"
+							>
+								<ChevronDown class="w-6 h-6" />
+							</div>
+						</div>
 					</a>
 				</div>
 			</div>
@@ -301,8 +331,8 @@
 	.glowing {
 		/* create a glowing animation that is infinite and uses opacity from 0.5 to 1 */
 		animation: glowing 5s infinite;
-        scale: 0;
-        /* transform: translateY(50%); */
+		scale: 0;
+		/* transform: translateY(50%); */
 	}
 
 	@keyframes glowing {
@@ -313,27 +343,27 @@
 		/* 50% {
 			opacity: 0.8;
 		} */
-        60% {
-            opacity: 0.9;
-        }
+		60% {
+			opacity: 0.9;
+		}
 		100% {
 			opacity: 0.5;
 		}
 	}
 
-    .animation-down {
-        animation: down 4s infinite;
-    }
+	.animation-down {
+		animation: down 4s infinite;
+	}
 
-    @keyframes down {
-        0% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(2rem);
-        }
-        100% {
-            transform: translateY(0);
-        }
-    }
+	@keyframes down {
+		0% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(2rem);
+		}
+		100% {
+			transform: translateY(0);
+		}
+	}
 </style>

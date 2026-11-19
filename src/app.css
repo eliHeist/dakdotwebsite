@@ -42,6 +42,13 @@
 	--color-line-web: #ee2531;
 	--color-line-brand: #f2c230;
 	--color-line-motion: #3a6ff2;
+	/* Section fields: colour lives on whole sections, never as scattered accents. */
+	--color-field-dev: #db1f2b;
+	--color-on-dev: #ffffff;
+	--color-field-design: #e9ecef;
+	--color-on-design: #0b0d10;
+	--color-field-motion: #f2c230;
+	--color-on-motion: #0b0d10;
 	/* Action fill: brand red one step deeper so white text clears 4.5:1. */
 	--color-signal: #db1f2b;
 	--color-signal-hover: #c41724;
@@ -100,6 +107,38 @@ a {
 }
 .tnum {
 	font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Motion vocabulary (armed by $lib/actions/motion.ts) ---------- */
+.reveal-armed {
+	opacity: 0;
+	translate: 0 2rem;
+	transition:
+		opacity 0.7s var(--ease-out),
+		translate 0.9s var(--ease-out);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-armed.is-in {
+	opacity: 1;
+	translate: 0 0;
+}
+.w {
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: bottom;
+	padding-bottom: 0.08em;
+	margin-bottom: -0.08em;
+}
+.w > span {
+	display: inline-block;
+	transition: translate 0.9s var(--ease-out);
+	transition-delay: calc(var(--i) * 55ms);
+}
+.split-armed .w > span {
+	translate: 0 105%;
+}
+.split-armed.is-in .w > span {
+	translate: 0 0;
 }
 
 @layer components {

@@ -2,7 +2,7 @@
 	import { Star, Computer } from 'lucide-svelte';
 	import { gsap } from 'gsap';
 
-    let { services } = $props();
+	let { services } = $props();
 
 	let tags = [
 		{ name: 'UI/UX Design' },
@@ -28,21 +28,21 @@
 				What we <br />Do for You?
 			</h2>
 		</header>
-        <div class="grid gap-6 md:grid-cols-2">
-            {#each services as service, index}
-                <div class="card fade-in-up">
-                    <div class="icons">
-                        <div class="icon">
-                            <img class="default" src={service.icon} alt={service.title}>
-                            <img class="hover" src={service.icon_colored} alt={service.title}>
-                        </div>
-                    </div>
-                    <h3>{service.title}</h3>
-                    <div class=""></div>
-                    <p>{service.details}</p>
-                </div>
-            {/each}
-        </div>
+		<div class="grid gap-6 md:grid-cols-2">
+			{#each services as service, index}
+				<div class="card fade-in-up">
+					<div class="icons">
+						<div class="icon">
+							<img class="default" src={service.icon} alt={service.title} />
+							<img class="hover" src={service.icon_colored} alt={service.title} />
+						</div>
+					</div>
+					<h3>{service.title}</h3>
+					<div class=""></div>
+					<p>{service.details}</p>
+				</div>
+			{/each}
+		</div>
 	</div>
 	<section class="py-20 bg-black">
 		<div class="scroller" data-direction="right" data-speed="fast">
@@ -70,75 +70,77 @@
 
 <style>
 	.card {
-        --gap: 1.5rem;
-        --icon: 4rem;
-        --img: 55%;
-        --duration: .35s;
+		--gap: 1.5rem;
+		--icon: 4rem;
+		--img: 55%;
+		--duration: 0.35s;
 
-		border-radius: calc(var(--gap)/1.5);
-        background-color: var(--color-white);
+		border-radius: calc(var(--gap) / 1.5);
+		background-color: var(--color-white);
 		display: grid;
-        column-gap: var(--gap);
-        row-gap: calc(var(--gap)/1.5);
-        padding: var(--gap);
-        grid-template-columns: auto 1fr;
+		column-gap: var(--gap);
+		row-gap: calc(var(--gap) / 1.5);
+		padding: var(--gap);
+		grid-template-columns: auto 1fr;
 
-        .icons {
-            .icon{
-                height: var(--icon);
-                width: var(--icon);
-                background-color: var(--color-white);
-                border-radius: 50%;
-                position: relative;
-                overflow: hidden;
-                border: 1px solid var(--color-dark);
+		.icons {
+			.icon {
+				height: var(--icon);
+				width: var(--icon);
+				background-color: var(--color-white);
+				border-radius: 50%;
+				position: relative;
+				overflow: hidden;
+				border: 1px solid var(--color-dark);
 
-                img{
-                    width: var(--img);
-                    height: var(--img);
-                    object-fit: contain;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    translate: -50% -50%;
-                    transition: top var(--duration) cubic-bezier(0.175, 0.885, 0.32, 1.275), left var(--duration) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				img {
+					width: var(--img);
+					height: var(--img);
+					object-fit: contain;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					translate: -50% -50%;
+					transition:
+						top var(--duration) cubic-bezier(0.175, 0.885, 0.32, 1.275),
+						left var(--duration) cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-                    &.hover{
-                        left: -20%;
-                        top: 120%;
-                    }
-                }
-            }
-        }
+					&.hover {
+						left: -20%;
+						top: 120%;
+					}
+				}
+			}
+		}
 
-        h3{
-            font-size: 2rem;
-            margin: auto 0;
-            color: var(--color-dark);
-        }
+		h3 {
+			font-size: 2rem;
+			margin: auto 0;
+			color: var(--color-dark);
+		}
 
-        p{
-            color: var(--color-lead);
-            color: var(--color-dark-lead);
-        }
+		p {
+			color: var(--color-lead);
+			color: var(--color-dark-lead);
+		}
 
-        &:hover{
-            .icons{
-                img{
-                    &.default{
-                        left: 120%;
-                        top: -20%;
-                    }
-                    &.hover{
-                        left: 50%;
-                        top: 50%;
-                    }
-                }
-            }
-        }
+		&:hover {
+			.icons {
+				img {
+					&.default {
+						left: 120%;
+						top: -20%;
+					}
+					&.hover {
+						left: 50%;
+						top: 50%;
+					}
+				}
+			}
+		}
 
-        @media (min-width: 1024px) {
-            --gap: 2.25rem;
-        }
+		@media (min-width: 1024px) {
+			--gap: 2.25rem;
+		}
 	}
 </style>

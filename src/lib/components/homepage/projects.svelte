@@ -24,7 +24,7 @@
 					start: '-50 95%',
 					end: '+=500',
 					scrub: 1,
-                    toggleActions: 'play play reverse reverse',
+					toggleActions: 'play play reverse reverse'
 				}
 			});
 
@@ -36,18 +36,21 @@
 				},
 				'<'
 			);
-			tl.to(details, {
-				opacity: 1,
-				ease: 'power1.inOut'
-			},
-            '<');
+			tl.to(
+				details,
+				{
+					opacity: 1,
+					ease: 'power1.inOut'
+				},
+				'<'
+			);
 			tl.to(
 				categories,
 				{
 					x: 0,
 					opacity: 1,
 					stagger: 0.1,
-                    duration: 3,
+					duration: 3,
 					ease: 'power1.inOut'
 				},
 				'<'
@@ -92,25 +95,25 @@
 	<h2 class="title-1 text-center">Featured <br />work</h2>
 	<div class="project-list mt-16" bind:this={container}>
 		{#each projects as project, i}
-        <div class="project-{i + 1} p-6 border border-lead/20 grid slide-in-up">
-            <a href="#" class="h-full grid">
-                <div class="project @container flex flex-col">
-                    <figure class="rounded-xl flex-1 overflow-hidden">
-                        <img src={project.imageSrc} alt={project.name} class="h-full w-full object-cover" />
-                    </figure>
-                    <div class="project-details mt-3 flex items-center gap-x-3 justify-between">
-                        <h3 class="font-medium text-lg">{project.name}</h3>
-                        <div class="flex overflow-hidden gap-x-1.5 @max-sm:hidden categories">
-                            {#each project.categories as category}
-                                <div class="category p-1.5 bg-dark rounded-md">
-                                    <span>{category}</span>
-                                </div>
-                            {/each}
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
+			<div class="project-{i + 1} p-6 border border-lead/20 grid slide-in-up">
+				<a href="#" class="h-full grid">
+					<div class="project @container flex flex-col">
+						<figure class="rounded-xl flex-1 overflow-hidden">
+							<img src={project.imageSrc} alt={project.name} class="h-full w-full object-cover" />
+						</figure>
+						<div class="project-details mt-3 flex items-center gap-x-3 justify-between">
+							<h3 class="font-medium text-lg">{project.name}</h3>
+							<div class="flex overflow-hidden gap-x-1.5 @max-sm:hidden categories">
+								{#each project.categories as category}
+									<div class="category p-1.5 bg-dark rounded-md">
+										<span>{category}</span>
+									</div>
+								{/each}
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
 		{/each}
 	</div>
 </section>
@@ -126,18 +129,18 @@
 			'c'
 			'd'
 			'e';
-        
-        border-collapse: collapse;
 
-        & a{
-            text-decoration: none;
-        }
+		border-collapse: collapse;
+
+		& a {
+			text-decoration: none;
+		}
 	}
 
 	.project-1 {
-        grid-area: a;
-        border-top-right-radius: 1.5rem;
-        border-top-left-radius: 1.5rem;
+		grid-area: a;
+		border-top-right-radius: 1.5rem;
+		border-top-left-radius: 1.5rem;
 	}
 
 	.project-2 {
@@ -154,8 +157,8 @@
 
 	.project-5 {
 		grid-area: e;
-        border-bottom-right-radius: 1.5rem;
-        border-bottom-left-radius: 1.5rem;
+		border-bottom-right-radius: 1.5rem;
+		border-bottom-left-radius: 1.5rem;
 	}
 
 	@media (min-width: 40rem) {
@@ -168,12 +171,12 @@
 				'd e';
 		}
 
-        .project-4 {
-            border-bottom-left-radius: 1.5rem;
-        }
-        .project-5 {
-            border-bottom-left-radius: 0rem;
-        }
+		.project-4 {
+			border-bottom-left-radius: 1.5rem;
+		}
+		.project-5 {
+			border-bottom-left-radius: 0rem;
+		}
 	}
 
 	@media (min-width: 48rem) {
@@ -185,12 +188,12 @@
 				'a a a a c c'
 				'd d d e e e';
 		}
-        .project-1 {
-            border-top-right-radius: 0rem;
-        }
-        .project-2 {
-            border-top-right-radius: 1.5rem;
-        }
+		.project-1 {
+			border-top-right-radius: 0rem;
+		}
+		.project-2 {
+			border-top-right-radius: 1.5rem;
+		}
 	}
 
 	@media (min-width: 64rem) {
@@ -203,5 +206,4 @@
 				'd d d e e e';
 		}
 	}
-
 </style>

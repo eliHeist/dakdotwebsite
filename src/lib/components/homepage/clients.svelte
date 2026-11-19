@@ -1,7 +1,5 @@
 <script lang="ts">
-	$effect(() => {
-		
-	});
+	$effect(() => {});
 </script>
 
 <section id="clients" class="py-20 bg-black">
@@ -19,6 +17,6 @@
 
 <style>
 	img {
-        height: 3.5rem;
-    }
+		height: 3.5rem;
+	}
 </style>

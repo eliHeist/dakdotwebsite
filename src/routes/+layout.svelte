@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
-	import Cursor from '$lib/components/network/Cursor.svelte';
+	import Cursor from '$lib/components/ui/Cursor.svelte';
 	import '../app.css';
 	import '../app.ts';
 

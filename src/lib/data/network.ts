@@ -1,5 +1,6 @@
 /**
- * The Dakdot network: service lines and the project "stations" that ride them.
+ * Dakdot services ("lines") and the projects ("stations") filed under them.
+ * The names are kept for the projects API contract (`lines` field).
  *
  * Stations come from two sources, merged by slug (remote wins):
  *  1. Local case-study modules in `src/lib/data/projects/*.ts`
@@ -17,8 +18,10 @@ export type ServiceLine = {
 	summary: string;
 	/** Service page this line terminates at. */
 	href: string;
-	/** CSS custom property holding the line colour. */
+	/** CSS custom property for the section field this service owns. */
 	colorVar: string;
+	/** CSS custom property for text set on that field. */
+	onColorVar: string;
 	/** Capabilities shown when the line has no stations yet. */
 	capabilities: string[];
 };
@@ -29,7 +32,8 @@ export const LINES: Record<LineId, ServiceLine> = {
 		name: 'Web Development',
 		summary: 'Web apps, platforms and sites',
 		href: '/services/web-development',
-		colorVar: '--color-line-web',
+		colorVar: '--color-field-dev',
+		onColorVar: '--color-on-dev',
 		capabilities: ['Web applications', 'Business systems', 'Booking platforms', 'Websites']
 	},
 	brand: {
@@ -37,7 +41,8 @@ export const LINES: Record<LineId, ServiceLine> = {
 		name: 'Brand Design',
 		summary: 'Identities built as systems',
 		href: '/services/brand-design',
-		colorVar: '--color-line-brand',
+		colorVar: '--color-field-design',
+		onColorVar: '--color-on-design',
 		capabilities: ['Identity systems', 'Logos & emblems', 'Packaging', 'Guidelines']
 	},
 	motion: {
@@ -45,7 +50,8 @@ export const LINES: Record<LineId, ServiceLine> = {
 		name: 'Motion',
 		summary: 'Animation and 3D',
 		href: '/services/motion',
-		colorVar: '--color-line-motion',
+		colorVar: '--color-field-motion',
+		onColorVar: '--color-on-motion',
 		capabilities: ['3D animation', 'Product visualisation', 'Explainers', 'Video']
 	}
 };

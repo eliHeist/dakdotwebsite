@@ -29,9 +29,6 @@
 		display: block;
 	}
 	.dot {
-		transition: fill 0.3s var(--ease-out);
-	}
-	:global(a:hover) > svg .dot {
-		fill: var(--color-line-web);
+		transition: opacity 0.25s var(--ease-out);
 	}
 </style>
