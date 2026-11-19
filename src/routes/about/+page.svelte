@@ -1,11 +1,8 @@
 <script lang="ts">
-	import ServiceRows from '$lib/components/home/ServiceRows.svelte';
+	import ServiceSpotlight from '$lib/components/home/ServiceSpotlight.svelte';
 	import RollButton from '$lib/components/ui/RollButton.svelte';
 	import { TEAM, TEAM_ORDER } from '$lib/data/team';
-	import { loadLocalStations } from '$lib/data/network';
 	import { reveal, splitWords } from '$lib/actions/motion';
-
-	const stations = loadLocalStations();
 	const team = TEAM_ORDER.map((id) => TEAM[id]);
 
 	const values = [
@@ -58,7 +55,7 @@
 	</ul>
 </section>
 
-<ServiceRows {stations} />
+<ServiceSpotlight />
 
 <section class="wrap" aria-labelledby="team-h">
 	<h2 id="team-h" class="sec-h" use:splitWords>The people behind the work</h2>

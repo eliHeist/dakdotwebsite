@@ -1,94 +1,202 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { afterNavigate } from '$app/navigation';
+	import { building } from '$app/environment';
 	import Logo from '$lib/components/ui/Logo.svelte';
 	import RollButton from '$lib/components/ui/RollButton.svelte';
-	import { LINE_IDS, LINES } from '$lib/data/network';
+	import ServiceArt from '$lib/components/ui/ServiceArt.svelte';
+	import { LINE_IDS, LINES, type LineId } from '$lib/data/network';
 	import { CONTACT, whatsappHref } from '$lib/data/contact';
 
 	let menuOpen = $state(false);
+	let svcOpen = $state(false);
 	let scrolled = $state(false);
+	let hot = $state<LineId | null>(null);
+	let shell: HTMLDivElement | undefined = $state();
+	let closeTimer = 0;
 
-	afterNavigate(() => (menuOpen = false));
+	afterNavigate(() => {
+		menuOpen = false;
+		svcOpen = false;
+	});
 
 	const is = (prefix: string) => $page.url.pathname.startsWith(prefix);
 
-	// Over a light colour field (Brand's paper, Motion's yellow) the header turns ink until scrolled.
+	// Over a light colour field (Brand's paper, Motion's yellow) the bar turns ink until scrolled.
 	const onLight = $derived(
 		!scrolled &&
 			!menuOpen &&
+			!svcOpen &&
 			['/services/brand-design', '/services/motion'].some((p) => $page.url.pathname.startsWith(p))
 	);
 
-	const links = [
-		{ label: 'Work', href: '/case-studies' },
-		{ label: 'Services', href: '/#services' },
-		{ label: 'About', href: '/about' }
-	];
+	const blurb: Record<LineId, string> = {
+		web: 'Web apps, business systems and fast websites that run real operations.',
+		brand: 'Identities built as systems: logos, type, colour and guidelines.',
+		motion: 'Animation, 3D and video that explain what you do.'
+	};
+
+	const fine = () => matchMedia('(hover: hover) and (pointer: fine)').matches;
+	function openSvc() {
+		clearTimeout(closeTimer);
+		svcOpen = true;
+	}
+	function closeSoon() {
+		clearTimeout(closeTimer);
+		closeTimer = window.setTimeout(() => {
+			svcOpen = false;
+			hot = null;
+		}, 160);
+	}
+	function onFocusOut(e: FocusEvent) {
+		if (shell && !shell.contains(e.relatedTarget as Node)) svcOpen = false;
+	}
 
 	$effect(() => {
 		document.documentElement.style.overflow = menuOpen ? 'hidden' : '';
 	});
+
+	// Review aid for static captures: ?nav=island or ?nav=services pins a header state.
+	// Read at render time (skipped while prerendering, where the query is unavailable).
+	const pin = building ? null : $page.url.searchParams.get('nav');
+	const pinned = pin === 'island' || pin === 'services';
+	if (pinned) {
+		scrolled = true;
+		svcOpen = pin === 'services';
+		if (pin === 'services') hot = 'web';
+	}
 </script>
 
 <svelte:window
-	onscroll={() => (scrolled = window.scrollY > 8)}
-	onkeydown={(e) => e.key === 'Escape' && (menuOpen = false)}
+	onscroll={() => !pinned && (scrolled = window.scrollY > 24)}
+	onkeydown={(e) => {
+		if (e.key === 'Escape') {
+			menuOpen = false;
+			svcOpen = false;
+		}
+	}}
 />
 
-<header class="page-header" class:scrolled class:open={menuOpen} class:on-light={onLight}>
-	<div class="bar">
-		<a href="/" class="brand" aria-label="Dakdot home"><Logo class="logo" /></a>
+<header
+	class="page-header"
+	class:island={scrolled && !menuOpen}
+	class:svc-open={svcOpen}
+	class:open={menuOpen}
+	class:on-light={onLight}
+>
+	<div
+		class="shell"
+		bind:this={shell}
+		onpointerleave={() => fine() && closeSoon()}
+		onpointerenter={() => clearTimeout(closeTimer)}
+		onfocusout={onFocusOut}
+		role="presentation"
+	>
+		<div class="bar">
+			<a href="/" class="brand" aria-label="Dakdot home"><Logo class="logo" /></a>
 
-		<nav aria-label="Main">
-			<ul>
-				{#each links as l}
+			<nav aria-label="Main">
+				<ul>
 					<li>
 						<a
-							href={l.href}
+							href="/case-studies"
 							class="roll-link"
-							aria-current={l.href.startsWith('/#') ? undefined : is(l.href) ? 'page' : undefined}
+							aria-current={is('/case-studies') ? 'page' : undefined}
 						>
-							<span aria-hidden="true">{l.label}</span>
-							<span aria-hidden="true">{l.label}</span>
-							<span class="sr">{l.label}</span>
+							<span aria-hidden="true">Work</span><span aria-hidden="true">Work</span><span
+								class="sr">Work</span
+							>
 						</a>
 					</li>
-				{/each}
-			</ul>
-		</nav>
+					<li>
+						<button
+							type="button"
+							class="roll-link svc-btn"
+							aria-expanded={svcOpen}
+							aria-controls="svc-panel"
+							aria-current={is('/services') ? 'page' : undefined}
+							onpointerenter={() => fine() && openSvc()}
+							onclick={() => (svcOpen = !svcOpen)}
+						>
+							<span aria-hidden="true">Services</span><span aria-hidden="true">Services</span><span
+								class="sr">Services</span
+							>
+							<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" /></svg>
+						</button>
+					</li>
+					<li>
+						<a href="/about" class="roll-link" aria-current={is('/about') ? 'page' : undefined}>
+							<span aria-hidden="true">About</span><span aria-hidden="true">About</span><span
+								class="sr">About</span
+							>
+						</a>
+					</li>
+				</ul>
+			</nav>
 
-		<div class="cta">
-			<RollButton label="Book a call" href="/contact" variant={onLight ? 'ink' : 'light'} />
+			<div class="cta">
+				<RollButton label="Book a call" href="/contact" variant={onLight ? 'ink' : 'light'} />
+			</div>
+
+			<button
+				class="toggle"
+				type="button"
+				aria-expanded={menuOpen}
+				aria-controls="mobile-menu"
+				onclick={() => (menuOpen = !menuOpen)}
+			>
+				<span class="burger" aria-hidden="true"><i></i><i></i></span>
+				{menuOpen ? 'Close' : 'Menu'}
+			</button>
 		</div>
 
-		<button
-			class="toggle"
-			type="button"
-			aria-expanded={menuOpen}
-			aria-controls="mobile-menu"
-			onclick={() => (menuOpen = !menuOpen)}
-		>
-			<span class="burger" aria-hidden="true"><i></i><i></i></span>
-			{menuOpen ? 'Close' : 'Menu'}
-		</button>
-	</div>
+		<!-- The island grows downward to reveal the services. -->
+		<div id="svc-panel" class="panel" inert={!svcOpen}>
+			<div class="panel-in">
+				<ul class="tiles">
+					{#each LINE_IDS as id, i}
+						<li style="--i:{i}">
+							<a
+								href={LINES[id].href}
+								class="tile"
+								onpointerenter={() => (hot = id)}
+								onpointerleave={() => (hot = null)}
+								onfocus={() => (hot = id)}
+								onblur={() => (hot = null)}
+							>
+								<ServiceArt {id} active={hot === id} />
+								<span class="t-name">
+									{LINES[id].name}
+									<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+								</span>
+								<span class="t-blurb">{blurb[id]}</span>
+							</a>
+						</li>
+					{/each}
+				</ul>
+				<div class="panel-foot">
+					<span>Not sure which one you need?</span>
+					<a href="/contact">Tell us about your project</a>
+				</div>
+			</div>
+		</div>
 
-	<div id="mobile-menu" class="sheet" hidden={!menuOpen}>
-		<ul class="big">
-			{#each [{ label: 'Home', href: '/' }, ...links] as l, i}
-				<li style="--i:{i}"><a href={l.href}>{l.label}</a></li>
-			{/each}
-		</ul>
-		<ul class="svc">
-			{#each LINE_IDS as id}
-				<li><a href={LINES[id].href}>{LINES[id].name}</a></li>
-			{/each}
-		</ul>
-		<div class="sheet-foot">
-			<RollButton label="Book a call" href="/contact" />
-			<a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
-			<a href="mailto:{CONTACT.email}">{CONTACT.email}</a>
+		<div id="mobile-menu" class="sheet" hidden={!menuOpen}>
+			<ul class="big">
+				{#each [{ label: 'Home', href: '/' }, { label: 'Work', href: '/case-studies' }, { label: 'About', href: '/about' }] as l, i}
+					<li style="--i:{i}"><a href={l.href}>{l.label}</a></li>
+				{/each}
+			</ul>
+			<ul class="svc">
+				{#each LINE_IDS as id}
+					<li><a href={LINES[id].href}>{LINES[id].name}</a></li>
+				{/each}
+			</ul>
+			<div class="sheet-foot">
+				<RollButton label="Book a call" href="/contact" />
+				<a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
+				<a href="mailto:{CONTACT.email}">{CONTACT.email}</a>
+			</div>
 		</div>
 	</div>
 </header>
@@ -98,46 +206,77 @@
 		position: fixed;
 		inset: 0 0 auto 0;
 		z-index: 100;
-		transition: background 0.35s var(--ease-out);
+		padding: 0.6rem 0.75rem 0;
+		pointer-events: none;
 	}
-	header.scrolled,
-	header.open {
-		background: var(--color-ink);
-	}
-	header.on-light .brand,
-	header.on-light .roll-link,
-	header.on-light .toggle {
-		color: var(--color-ink);
-	}
-	header.on-light .toggle {
-		border-color: color-mix(in srgb, var(--color-ink) 35%, transparent);
-	}
-	header.on-light .roll-link[aria-current='page']::after {
-		background: var(--color-ink);
-	}
-	.brand,
-	.roll-link,
-	.toggle {
-		transition: color 0.3s var(--ease-out);
-	}
-	.bar {
+
+	/*
+	 * One shell morphs between three states:
+	 *   top   – full-width bar, transparent
+	 *   island – compact pill, centred (after scrolling)
+	 *   open  – either state grown downward into the services panel
+	 */
+	.shell {
+		pointer-events: auto;
 		max-width: 88rem;
 		margin: 0 auto;
-		height: 4.5rem;
-		padding: 0 1.5rem;
+		border-radius: 28px;
+		border: 1px solid transparent;
+		background: transparent;
+		overflow: hidden;
+		transition:
+			max-width 0.6s var(--ease-out),
+			border-radius 0.6s var(--ease-out),
+			background 0.4s var(--ease-out),
+			border-color 0.4s var(--ease-out);
+	}
+	.island .shell {
+		max-width: 33rem;
+		border-radius: 999px;
+		background: var(--color-ink-3);
+		border-color: var(--color-rule);
+	}
+	.svc-open .shell {
+		max-width: 60rem;
+		border-radius: 28px;
+		background: var(--color-ink-3);
+		border-color: var(--color-rule);
+	}
+	.open .shell {
+		max-width: none;
+		border-radius: 20px;
+		background: var(--color-ink);
+	}
+
+	.bar {
+		height: 3.75rem;
+		padding: 0 0.75rem 0 1.25rem;
 		display: flex;
 		align-items: center;
 		gap: 2rem;
+		transition:
+			gap 0.6s var(--ease-out),
+			height 0.5s var(--ease-out),
+			padding 0.5s var(--ease-out);
+	}
+	.island .bar {
+		height: 3.25rem;
+		gap: 1.25rem;
+		padding: 0 0.4rem 0 1.1rem;
 	}
 	.brand {
 		color: var(--color-paper);
 		margin-right: auto;
+		transition: color 0.3s var(--ease-out);
 	}
 	.brand :global(.logo) {
 		height: 1.6rem;
 		width: auto;
+		transition: height 0.5s var(--ease-out);
 	}
-	/* While Dot is out in the hero, the logo's own dot is empty. */
+	.island .brand :global(.logo) {
+		height: 1.25rem;
+	}
 	:global(html.dot-away) .brand :global(.dot) {
 		opacity: 0;
 	}
@@ -148,16 +287,28 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
+		transition: gap 0.6s var(--ease-out);
+	}
+	.island nav ul {
+		gap: 1.1rem;
 	}
 	.roll-link {
 		position: relative;
 		display: inline-grid;
+		grid-auto-flow: column;
+		align-items: center;
 		overflow: hidden;
 		height: 1.3em;
 		line-height: 1.3em;
 		color: var(--color-paper);
 		text-decoration: none;
+		font: inherit;
 		font-weight: 500;
+		background: none;
+		border: 0;
+		padding: 0;
+		cursor: pointer;
+		transition: color 0.3s var(--ease-out);
 	}
 	.roll-link > span:not(.sr) {
 		grid-area: 1 / 1;
@@ -174,6 +325,22 @@
 	.roll-link:focus-visible > span:nth-child(2) {
 		translate: 0 0;
 	}
+	.svc-btn {
+		grid-template-columns: auto auto;
+		column-gap: 0.3rem;
+	}
+	.svc-btn svg {
+		grid-column: 2;
+		width: 0.85rem;
+		height: 0.85rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.7;
+		transition: rotate 0.4s var(--ease-out);
+	}
+	.svc-btn[aria-expanded='true'] svg {
+		rotate: 180deg;
+	}
 	.roll-link[aria-current='page']::after {
 		content: '';
 		position: absolute;
@@ -183,7 +350,10 @@
 		height: 5px;
 		margin-left: -2.5px;
 		border-radius: 50%;
-		background: var(--color-paper);
+		background: currentColor;
+	}
+	.svc-btn[aria-current='page']::after {
+		left: calc(50% - 0.55rem);
 	}
 	.sr {
 		position: absolute;
@@ -192,7 +362,123 @@
 		overflow: hidden;
 		clip-path: inset(50%);
 	}
+	.on-light .brand,
+	.on-light .roll-link,
+	.on-light .toggle {
+		color: var(--color-ink);
+	}
+	.on-light .toggle {
+		border-color: color-mix(in srgb, var(--color-ink) 35%, transparent);
+	}
 
+	/* ---------- Services panel ---------- */
+	.panel {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.55s var(--ease-out);
+	}
+	.svc-open .panel {
+		grid-template-rows: 1fr;
+	}
+	.panel-in {
+		min-height: 0;
+		overflow: hidden;
+		padding: 0 0.75rem;
+		opacity: 0;
+		transition:
+			opacity 0.3s var(--ease-out),
+			padding 0.55s var(--ease-out);
+	}
+	.svc-open .panel-in {
+		opacity: 1;
+		padding: 0.5rem 0.75rem 0.75rem;
+		transition-delay: 0.08s, 0s;
+	}
+	.tiles {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.5rem;
+	}
+	.tiles li {
+		translate: 0 12px;
+		opacity: 0;
+		transition:
+			translate 0.55s var(--ease-out),
+			opacity 0.4s var(--ease-out);
+		transition-delay: calc(var(--i) * 50ms);
+	}
+	.svc-open .tiles li {
+		translate: 0 0;
+		opacity: 1;
+		transition-delay: calc(0.1s + var(--i) * 60ms);
+	}
+	.tile {
+		display: grid;
+		gap: 0.5rem;
+		padding: 0.6rem 0.6rem 1rem;
+		border-radius: 20px;
+		color: var(--color-paper);
+		text-decoration: none;
+		transition: background 0.3s var(--ease-out);
+	}
+	.tile:hover,
+	.tile:focus-visible {
+		background: var(--color-ink);
+	}
+	.t-name {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		margin-top: 0.35rem;
+		padding: 0 0.35rem;
+		font-size: 1.1rem;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+	}
+	.t-name svg {
+		width: 1rem;
+		height: 1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.7;
+		opacity: 0;
+		translate: -6px 0;
+		transition:
+			opacity 0.3s var(--ease-out),
+			translate 0.4s var(--ease-out);
+	}
+	.tile:hover .t-name svg,
+	.tile:focus-visible .t-name svg {
+		opacity: 1;
+		translate: 0 0;
+	}
+	.t-blurb {
+		padding: 0 0.35rem;
+		font-size: 0.88rem;
+		line-height: 1.45;
+		color: var(--color-mute);
+	}
+	.panel-foot {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-top: 0.5rem;
+		padding: 0.9rem 0.95rem 0.25rem;
+		border-top: 1px solid var(--color-rule);
+		font-size: 0.92rem;
+		color: var(--color-mute);
+	}
+	.panel-foot a {
+		color: var(--color-paper);
+		font-weight: 600;
+	}
+
+	/* ---------- Mobile ---------- */
 	.toggle {
 		display: none;
 		align-items: center;
@@ -203,8 +489,9 @@
 		background: none;
 		border: 1px solid var(--color-rule-strong);
 		border-radius: 999px;
-		padding: 0.55rem 1rem;
+		padding: 0.5rem 1rem;
 		cursor: pointer;
+		transition: color 0.3s var(--ease-out);
 	}
 	.burger {
 		display: grid;
@@ -227,11 +514,10 @@
 		translate: 0 -3px;
 		rotate: -45deg;
 	}
-
 	.sheet {
-		height: calc(100svh - 4.5rem);
+		height: calc(100svh - 5rem);
 		overflow-y: auto;
-		padding: 1rem 1.5rem 2rem;
+		padding: 1rem 1.25rem 1.5rem;
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
@@ -294,11 +580,15 @@
 
 	@media (max-width: 760px) {
 		nav,
-		.cta {
+		.cta,
+		.panel {
 			display: none;
 		}
 		.toggle {
 			display: inline-flex;
+		}
+		.island .shell {
+			max-width: 22rem;
 		}
 	}
 </style>

@@ -78,9 +78,20 @@
 		const ease = (t: number) => 1 - Math.pow(1 - t, 3);
 		const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
+		// The header morphs into an island on scroll, so the dock target is tracked live.
+		const logoDotEl = () => document.querySelector<SVGGraphicsElement>('header .brand .dot');
 		const frame = (now: number) => {
 			const dt = Math.min(2, (now - t0) / 16.67);
 			t0 = now;
+			const ld = logoDotEl();
+			if (ld) {
+				const r = ld.getBoundingClientRect();
+				if (r.width) {
+					dockX = r.left + r.width / 2;
+					dockY = r.top + r.height / 2;
+					dockD = r.width;
+				}
+			}
 
 			const p = clamp(scrollY / dockEnd, 0, 1);
 			const e = ease(p);
