@@ -115,11 +115,14 @@
 		background: #fff;
 	}
 	.ghost {
-		border-color: #3a404a;
+		border-color: var(--color-rule-strong);
 		color: var(--color-paper);
 	}
 	.ghost:hover {
 		border-color: var(--color-paper);
+	}
+	.ink:hover {
+		background: var(--color-ink-3);
 	}
 	.ink {
 		background: var(--color-ink);

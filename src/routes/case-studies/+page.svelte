@@ -1,147 +1,261 @@
 <script lang="ts">
-    import { getContext } from 'svelte';
+	import { LINE_IDS, LINES, lineCounts, type LineId } from '$lib/data/network';
+	import { reveal, splitWords } from '$lib/actions/motion';
+	import RollButton from '$lib/components/ui/RollButton.svelte';
 	import type { PageProps } from './$types';
-    import { TAGS } from "$lib/data/projects";
-	import { Plus } from 'lucide-svelte';
 
 	let { data }: PageProps = $props();
+	const stations = $derived(data.stations);
+	const counts = $derived(lineCounts(stations));
 
-    let spacer: HTMLElement;
-
-    let tags = Object.entries(TAGS)
-
-	$effect(() => {
-		let headerHeight = getContext('header_height');
-		spacer.style.paddingTop = `${headerHeight}px`;
-	});
+	let filter = $state<LineId | 'all'>('all');
+	const shown = $derived(
+		filter === 'all' ? stations : stations.filter((s) => s.lines.includes(filter as LineId))
+	);
 </script>
 
 <svelte:head>
-	<title>Work | DakDot</title>
-	<meta name="description" content="Work and projects by Dakdot creations" />
+	<title>Work | Dakdot</title>
+	<meta
+		name="description"
+		content="Case studies from Dakdot: brand identities, packaging, web applications and motion for companies and founders."
+	/>
 </svelte:head>
 
-<div class="content-grid pt-[10vh] md:pt-[20vh]" bind:this={spacer}>
-	<!-- Hero Section -->
-	<section class="text-center sm:h-[30vh] grid place-content-center justify-items-center">
-		<h1 class="title-2">Our Work</h1>
-	</section>
-</div>
+<section class="wrap head" aria-labelledby="work-h">
+	<h1 id="work-h" use:splitWords>Work we're proud of.</h1>
+	<p class="lede">
+		Brands, products and stories we've built with our clients. Pick a service to see the work behind
+		it.
+	</p>
 
-<section class="py-32 content-grid">
-    <div class="sticky top-0 hidden">
-        <div class="grid sm:flex gap-x-3">
-            {#each tags as tag }
-                <button class="cursor-pointer bg-dark hover:bg-dark-lead/30 transition-all py-1.5 px-3 rounded-full">
-                    <span>{tag[1].name}</span>
-                </button>
-            {/each}
-        </div>
-    </div>
-    <div class="wrapper breakout @container">
-        <div class="grid gap-6 projects_wrapper">
-            {#each data.projects as project}
-            <a href="{`/case-studies/${project.slug}`}">
-                <article class="project-card group">
-                    <div class="thumb">
-                        {#if project.thumb.type === 'video'}
-                            <video class="nail" src={project.thumb.src} autoplay loop muted></video>
-                        {:else}
-                            <img class="nail" src={project.thumb.src} alt={project.title} />
-                            <div class="overlay">
-                                <p>{project.industry.name}</p>
-                            </div>
-                        {/if}
-                    </div>
-                    <header>
-                        <h3 class="title">{project.title}</h3>
-                        <div class="plus-btn group-hover:bg-white group-hover:text-black">
-                            <Plus />
-                        </div>
-                    </header>
-                </article>
-            </a>
-            {/each}
-        </div>
-    </div>
+	<div class="filters" role="group" aria-label="Filter by service">
+		<button
+			type="button"
+			class:on={filter === 'all'}
+			aria-pressed={filter === 'all'}
+			onclick={() => (filter = 'all')}
+		>
+			All <span class="tnum">{stations.length}</span>
+		</button>
+		{#each LINE_IDS as id}
+			<button
+				type="button"
+				class:on={filter === id}
+				aria-pressed={filter === id}
+				style="--f: var({LINES[id].colorVar}); --on: var({LINES[id].onColorVar})"
+				disabled={counts[id] === 0}
+				title={counts[id] === 0 ? `No ${LINES[id].name} case studies on the site yet` : undefined}
+				onclick={() => (filter = id)}
+			>
+				{LINES[id].name} <span class="tnum">{counts[id]}</span>
+			</button>
+		{/each}
+	</div>
 </section>
-<div>
-</div>
+
+<section class="wrap" aria-label="Projects">
+	{#if shown.length}
+		<ul class="grid" aria-live="polite">
+			{#each shown as s, i (s.slug)}
+				<li class:tall={i % 3 === 0} use:reveal={(i % 2) * 80}>
+					<a
+						href={s.href}
+						target={s.external ? '_blank' : undefined}
+						rel={s.external ? 'noopener' : undefined}
+						class="card"
+						data-cursor={s.kind === 'product' ? 'Open' : 'View'}
+					>
+						<div class="media">
+							{#if s.thumb.type === 'video'}
+								<video src={s.thumb.src} poster={s.thumb.poster} muted loop playsinline autoplay
+								></video>
+							{:else}
+								<img src={s.thumb.src} alt={s.thumb.alt ?? ''} loading={i < 2 ? 'eager' : 'lazy'} />
+							{/if}
+						</div>
+						<div class="meta">
+							<h2>{s.title}</h2>
+							<p>
+								{[s.lines.map((l) => LINES[l].name).join(' + '), s.industry]
+									.filter(Boolean)
+									.join(' · ')}
+							</p>
+						</div>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	{:else}
+		<div class="empty">
+			<p class="empty-h">Nothing here yet.</p>
+			<p>
+				We don't have {filter !== 'all' ? LINES[filter].name : ''} case studies on the site yet. Ask us
+				on a call and we'll walk you through what we've built.
+			</p>
+			<RollButton label="Book a call" href="/contact" />
+		</div>
+	{/if}
+</section>
 
 <style>
-    @reference "tailwindcss/theme";
+	.wrap {
+		max-width: 88rem;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+	.head {
+		padding-top: clamp(8rem, 18vh, 12rem);
+		padding-bottom: 3rem;
+	}
+	h1 {
+		font-size: clamp(3.25rem, 10vw, 9rem);
+		font-weight: 800;
+		letter-spacing: -0.045em;
+		line-height: 0.92;
+		max-width: 11ch;
+		text-wrap: balance;
+	}
+	.lede {
+		margin-top: 1.75rem;
+		max-width: 46ch;
+		font-size: 1.15rem;
+		line-height: 1.55;
+		color: var(--color-mute);
+	}
+	.filters {
+		margin-top: 2.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	.filters button {
+		--f: var(--color-paper);
+		--on: var(--color-ink);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		padding: 0.65rem 1.1rem;
+		border-radius: 999px;
+		border: 1px solid var(--color-rule-strong);
+		background: transparent;
+		color: var(--color-paper);
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+		transition:
+			background 0.3s var(--ease-out),
+			color 0.3s var(--ease-out),
+			border-color 0.3s var(--ease-out);
+	}
+	.filters button:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+	.filters button:not(:disabled):hover {
+		border-color: var(--color-paper);
+	}
+	.filters button.on {
+		background: var(--f);
+		border-color: var(--f);
+		color: var(--on);
+	}
+	.filters span {
+		font-size: 0.8rem;
+		opacity: 0.7;
+	}
 
-    .projects_wrapper{
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        justify-content: center;
-    }
-    
-    .project-card {
-        display: grid;
-        gap: 1rem;
+	.grid {
+		list-style: none;
+		padding: 0 0 6rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 3.5rem 1.5rem;
+		align-items: start;
+	}
+	.grid li:nth-child(even) {
+		margin-top: 6rem;
+	}
+	.card {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+	}
+	.media {
+		aspect-ratio: 4 / 3;
+		border-radius: 24px;
+		overflow: hidden;
+		background: var(--color-ink-3);
+	}
+	.tall .media {
+		aspect-ratio: 4 / 5;
+	}
+	.media img,
+	.media video {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+		transition: scale 0.9s var(--ease-out);
+	}
+	.card:hover .media img,
+	.card:hover .media video,
+	.card:focus-visible .media img {
+		scale: 1.06;
+	}
+	.meta {
+		margin-top: 1.1rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+	.meta h2 {
+		font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+		transition: translate 0.5s var(--ease-out);
+	}
+	.card:hover .meta h2 {
+		translate: 0.5rem 0;
+	}
+	.meta p {
+		color: var(--color-mute);
+		font-size: 0.95rem;
+	}
+	.card:focus-visible {
+		outline-offset: 6px;
+		border-radius: 24px;
+	}
 
-        & .thumb{
-            overflow: hidden;
-            display: grid;
-            place-content: center;
-            position: relative;
-            
-            & .nail{
-                aspect-ratio: 4/3;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: .75rem;
+	.empty {
+		padding: 3rem 0 8rem;
+		max-width: 46ch;
+		display: grid;
+		gap: 1rem;
+		justify-items: start;
+		color: var(--color-mute);
+		line-height: 1.55;
+	}
+	.empty-h {
+		font-size: 2rem;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		color: var(--color-paper);
+	}
 
-                transition: scale 1s ease-in-out;
-            }
-
-
-            & .overlay{
-                position: absolute;
-                bottom: -4rem;
-                left: -3rem;
-                width: fit-content;
-                height: fit-content;
-                background: var(--color-black);
-                padding: .5rem 1rem;
-                border-top-right-radius: 1rem;
-                transition: all .5s ease-in-out;
-            }
-
-            &:hover {
-                & .overlay{
-                    bottom: 0;
-                    left: 0;
-                }
-                & img {
-                    scale: 1.05;
-                }
-            }
-        }
-
-        & header{
-            display: flex;
-            justify-content: space-between;
-            column-gap: .75rem;
-            
-            & .title{
-                font-size: 1.15rem;
-                margin: auto 0;
-            }
-            
-            & .plus-btn{
-                @apply h-10 w-10 mt-auto;
-                font-size: 1rem;
-                aspect-ratio: 1/1;
-                outline: 2px solid;
-                display: grid;
-                place-content: center;
-                border-radius: 50%;
-                rotate: 0;
-                transition: all .375s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            }
-        }
-    }
+	@media (max-width: 760px) {
+		.grid {
+			grid-template-columns: 1fr;
+			gap: 2.5rem;
+		}
+		.grid li:nth-child(even) {
+			margin-top: 0;
+		}
+		.tall .media {
+			aspect-ratio: 4 / 3;
+		}
+	}
 </style>

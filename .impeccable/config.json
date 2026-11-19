@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-11-19T15:34:38.720Z",
         "reason": "Claude: HTML email templates need a web-safe font; email clients cannot load the site's web font"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "sfmono-regular",
+        "files": [
+          "src/lib/components/services/visuals/HeroWeb.svelte"
+        ],
+        "createdAt": "2026-11-19T17:07:02.444Z",
+        "reason": "Claude: monospace stack sets the illustrated code snippet only (code is a sanctioned use of mono)"
       }
     ]
   }

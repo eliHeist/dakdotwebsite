@@ -3,17 +3,17 @@
 	import Footer from './Footer.svelte';
 	import Cursor from '$lib/components/ui/Cursor.svelte';
 	import '../app.css';
-	import '../app.ts';
 
 	import Lenis from 'lenis';
-	import { setContext } from 'svelte';
-
-	// Older pages pad themselves by the fixed header's height (4.5rem).
-	setContext('header_height', 72);
+	import { stillMode } from '$lib/actions/motion';
 
 	$effect(() => {
-		// Smooth scrolling stays short and is skipped entirely for reduced motion.
-		if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		// Reduced motion or ?still: the whole site renders at rest.
+		if (stillMode()) {
+			document.documentElement.classList.add('still');
+			return;
+		}
+		// Smooth scrolling stays short.
 		const lenis = new Lenis({ duration: 0.9 });
 		let id = 0;
 		const raf = (time: number) => {

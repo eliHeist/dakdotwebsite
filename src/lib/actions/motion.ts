@@ -54,6 +54,49 @@ export function magnetic(node: HTMLElement, strength = 0.28) {
 	};
 }
 
+/**
+ * Pointer parallax: children carrying `data-depth` (px of travel at the edge)
+ * drift with the pointer across the node. Fine pointers only.
+ */
+export function parallax(node: HTMLElement) {
+	if (reduced() || !finePointer()) return {};
+	const layers = [...node.querySelectorAll<HTMLElement>('[data-depth]')];
+	let raf = 0,
+		tx = 0,
+		ty = 0,
+		x = 0,
+		y = 0;
+	const tick = () => {
+		x += (tx - x) * 0.08;
+		y += (ty - y) * 0.08;
+		for (const l of layers) {
+			const d = Number(l.dataset.depth) || 0;
+			l.style.translate = `${(x * d).toFixed(2)}px ${(y * d).toFixed(2)}px`;
+		}
+		raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.001 ? requestAnimationFrame(tick) : 0;
+	};
+	const move = (e: PointerEvent) => {
+		const r = node.getBoundingClientRect();
+		tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+		ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+		if (!raf) raf = requestAnimationFrame(tick);
+	};
+	const leave = () => {
+		tx = 0;
+		ty = 0;
+		if (!raf) raf = requestAnimationFrame(tick);
+	};
+	node.addEventListener('pointermove', move);
+	node.addEventListener('pointerleave', leave);
+	return {
+		destroy() {
+			node.removeEventListener('pointermove', move);
+			node.removeEventListener('pointerleave', leave);
+			cancelAnimationFrame(raf);
+		}
+	};
+}
+
 let io: IntersectionObserver | null = null;
 function observer() {
 	if (!io) {

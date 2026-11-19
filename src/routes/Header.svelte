@@ -13,6 +13,13 @@
 
 	const is = (prefix: string) => $page.url.pathname.startsWith(prefix);
 
+	// Over a light colour field (Brand's paper, Motion's yellow) the header turns ink until scrolled.
+	const onLight = $derived(
+		!scrolled &&
+			!menuOpen &&
+			['/services/brand-design', '/services/motion'].some((p) => $page.url.pathname.startsWith(p))
+	);
+
 	const links = [
 		{ label: 'Work', href: '/case-studies' },
 		{ label: 'Services', href: '/#services' },
@@ -29,7 +36,7 @@
 	onkeydown={(e) => e.key === 'Escape' && (menuOpen = false)}
 />
 
-<header class="page-header" class:scrolled class:open={menuOpen}>
+<header class="page-header" class:scrolled class:open={menuOpen} class:on-light={onLight}>
 	<div class="bar">
 		<a href="/" class="brand" aria-label="Dakdot home"><Logo class="logo" /></a>
 
@@ -51,7 +58,9 @@
 			</ul>
 		</nav>
 
-		<div class="cta"><RollButton label="Book a call" href="/#book" variant="light" /></div>
+		<div class="cta">
+			<RollButton label="Book a call" href="/contact" variant={onLight ? 'ink' : 'light'} />
+		</div>
 
 		<button
 			class="toggle"
@@ -77,7 +86,7 @@
 			{/each}
 		</ul>
 		<div class="sheet-foot">
-			<RollButton label="Book a call" href="/#book" />
+			<RollButton label="Book a call" href="/contact" />
 			<a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
 			<a href="mailto:{CONTACT.email}">{CONTACT.email}</a>
 		</div>
@@ -94,6 +103,22 @@
 	header.scrolled,
 	header.open {
 		background: var(--color-ink);
+	}
+	header.on-light .brand,
+	header.on-light .roll-link,
+	header.on-light .toggle {
+		color: var(--color-ink);
+	}
+	header.on-light .toggle {
+		border-color: color-mix(in srgb, var(--color-ink) 35%, transparent);
+	}
+	header.on-light .roll-link[aria-current='page']::after {
+		background: var(--color-ink);
+	}
+	.brand,
+	.roll-link,
+	.toggle {
+		transition: color 0.3s var(--ease-out);
 	}
 	.bar {
 		max-width: 88rem;
@@ -176,7 +201,7 @@
 		font-weight: 600;
 		color: var(--color-paper);
 		background: none;
-		border: 1px solid #3a404a;
+		border: 1px solid var(--color-rule-strong);
 		border-radius: 999px;
 		padding: 0.55rem 1rem;
 		cursor: pointer;
@@ -249,7 +274,7 @@
 	.svc a {
 		display: inline-block;
 		padding: 0.45rem 0.9rem;
-		border: 1px solid #3a404a;
+		border: 1px solid var(--color-rule-strong);
 		border-radius: 999px;
 		color: var(--color-paper);
 		text-decoration: none;

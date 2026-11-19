@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { stillMode } from '$lib/actions/motion';
 	import { CONTACT, SOCIALS, whatsappHref } from '$lib/data/contact';
 	import { LINE_IDS, LINES } from '$lib/data/network';
 
@@ -12,7 +13,7 @@
 	let shut = $state(false);
 
 	onMount(() => {
-		if (matchMedia('(prefers-reduced-motion: reduce)').matches || !mark) return;
+		if (stillMode() || !mark) return;
 		const move = (e: PointerEvent) => {
 			const r = mark!.getBoundingClientRect();
 			const cx = r.left + (130.5 / 163) * r.width;
@@ -43,7 +44,7 @@
 	<div class="grid">
 		<div class="col">
 			<p class="h">Contact</p>
-			<a href="/#book">Book a call</a>
+			<a href="/contact">Book a call</a>
 			<a href={whatsappHref} target="_blank" rel="noopener">WhatsApp</a>
 			<a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a>
 			<a href="mailto:{CONTACT.email}">{CONTACT.email}</a>

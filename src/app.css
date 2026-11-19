@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@import './css/_infinitescroller';
-@import './css/_animations';
 
 @font-face {
 	font-family: 'Schibsted Grotesk';
@@ -27,7 +25,7 @@
 	--column-margin-top: 4rem;
 	color: var(--color-paper);
 	color-scheme: dark;
-	accent-color: var(--color-line-web);
+	accent-color: var(--color-signal);
 	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -37,6 +35,7 @@
 	--color-ink-2: #12151a;
 	--color-ink-3: #1a1e25;
 	--color-rule: #262b33;
+	--color-rule-strong: #3a404a;
 	--color-paper: #e9ecef;
 	--color-mute: #9aa1ab;
 	--color-line-web: #ee2531;
@@ -58,22 +57,8 @@
 	--color-motion-text: #7d9fff;
 
 	--font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
-}
-
-@theme {
-	--color-white: #FDFEFD;
-	--color-lead: #B7AFB5;
-	--color-dark-lead: #787273;
-	--color-beige: #ad9990;
-	--color-black: #0C0C0C;
-	--color-dark: #1F1C1C;
-	--color-red: #EE2531;
-    
-	--color-light: #e1e4e1;
-	--color-blue: #274595;
-	--color-yellow: #efd212;
-
-    --default-font-family: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+	--default-font-family: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+	--color-focus: #f2c230;
 }
 
 body {
@@ -89,11 +74,11 @@ body {
 
 /* Browser surfaces, themed from the palette */
 ::selection {
-	background: var(--color-line-web);
+	background: var(--color-signal);
 	color: #fff;
 }
 :focus-visible {
-	outline: 2px solid var(--color-line-brand);
+	outline: 2px solid var(--color-focus);
 	outline-offset: 3px;
 	border-radius: 2px;
 }
@@ -107,6 +92,22 @@ a {
 }
 .tnum {
 	font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Stand-down: reduced motion or ?still renders every page at rest ---------- */
+html.still *,
+html.still *::before,
+html.still *::after {
+	animation: none !important;
+	transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+	.anim,
+	.anim *,
+	.anim *::before,
+	.anim *::after {
+		animation: none !important;
+	}
 }
 
 /* ---------- Motion vocabulary (armed by $lib/actions/motion.ts) ---------- */
@@ -141,101 +142,3 @@ a {
 	translate: 0 0;
 }
 
-@layer components {
-	.content-grid {
-		--padding-inline: 1rem;
-		--content-max-width: 1200px;
-		--breakout-max-width: 1600px;
-		--breakout-size: calc((var(--breakout-max-width) - var(--content-max-width)) / 2);
-
-		display: grid;
-		grid-template-columns:
-			[full-width-start] minmax(var(--padding-inline), 1fr) [breakout-start] minmax(
-				0,
-				var(--breakout-size)
-			) [content-start] min(100% - (var(--padding-inline) * 2), var(--content-max-width))
-			[content-end] minmax(0, var(--breakout-size)) [breakout-end] minmax(
-				var(--padding-inline),
-				1fr
-			) [full-width-end];
-
-		& > :not(.breakout, .full-width) {
-			grid-column: content;
-		}
-
-		& > .breakout {
-			grid-column: breakout;
-		}
-
-		& > .full-width {
-			grid-column: full-width;
-		}
-	}
-
-	.title-1 {
-		font-style: normal;
-		font-weight: 800;
-		font-size: 4rem;
-		line-height: 100%;
-		text-align: center;
-		letter-spacing: -0.035em;
-		color: var(--color-paper);
-	}
-	.title-2 {
-		font-style: normal;
-		font-weight: 800;
-		font-size: 3.75rem;
-		line-height: 115%;
-		text-align: center;
-		letter-spacing: -0.035em;
-		color: var(--color-paper);
-	}
-	.title-3 {
-		font-style: normal;
-		font-weight: 800;
-		font-size: 3rem;
-		line-height: 115%;
-		text-align: center;
-		letter-spacing: -0.03em;
-		color: var(--color-paper);
-	}
-}
-
-@media screen and (min-width: 1000px) {
-	.title-1 {
-		font-size: 6rem;
-	}
-	.title-2 {
-		font-size: 7rem;
-	}
-	.title-3 {
-		font-size: 5rem;
-	}
-	.title-4 {
-		font-size: 3rem;
-	}
-}
-
-.text-gradient {
-	color: var(--color-paper);
-}
-
-a.link:hover {
-	text-decoration: underline;
-}
-
-
-
-/*  */
-.amber-glow{
-    filter: 
-        drop-shadow(0 0 0.5rem var(--color-white))
-        drop-shadow(0 0 1rem var(--color-white))
-        drop-shadow(0 0 1.5rem var(--color-white))
-        drop-shadow(0 0 2.5rem var(--color-yellow))
-        drop-shadow(0 0 4rem var(--color-yellow))
-        drop-shadow(0 0 5.5rem var(--color-yellow))
-        drop-shadow(0 0 6rem var(--color-yellow))
-        drop-shadow(0 0 9.5rem var(--color-yellow))
-    ;
-}

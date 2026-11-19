@@ -198,7 +198,7 @@
 		width: 3rem;
 		height: 3rem;
 		border-radius: 50%;
-		border: 1px solid #3a404a;
+		border: 1px solid var(--color-rule-strong);
 		transition:
 			background 0.35s var(--ease-out),
 			color 0.35s var(--ease-out),

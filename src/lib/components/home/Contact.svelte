@@ -4,6 +4,9 @@
 	import { CONTACT, whatsappHref } from '$lib/data/contact';
 	import { reveal, splitWords } from '$lib/actions/motion';
 
+	let { heading = 'Got a project in mind?', level = 2 }: { heading?: string; level?: 1 | 2 } =
+		$props();
+
 	type Status = 'idle' | 'sending' | 'sent' | 'error';
 	let status = $state<Status>('idle');
 	let message = $state('');
@@ -49,7 +52,9 @@
 {#snippet wa()}<WhatsAppIcon />{/snippet}
 
 <section id="book" class="wrap" aria-labelledby="book-h">
-	<h2 id="book-h" use:splitWords>Got a project in mind?</h2>
+	<svelte:element this={`h${level}`} id="book-h" class="big-h" use:splitWords
+		>{heading}</svelte:element
+	>
 
 	<div class="grid">
 		<div class="side" use:reveal>
@@ -173,7 +178,10 @@
 		margin: 0 auto;
 		padding: 7rem 1.5rem 8rem;
 	}
-	h2 {
+	.wrap:has(h1) {
+		padding-top: clamp(8rem, 18vh, 12rem);
+	}
+	.big-h {
 		font-size: clamp(3rem, 10vw, 9.5rem);
 		font-weight: 800;
 		letter-spacing: -0.045em;
@@ -250,7 +258,7 @@
 		width: 100%;
 		background: transparent;
 		border: 0;
-		border-bottom: 1px solid #3a404a;
+		border-bottom: 1px solid var(--color-rule-strong);
 		border-radius: 0;
 		padding: 0.6rem 0;
 		color: var(--color-paper);

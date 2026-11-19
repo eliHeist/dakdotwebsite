@@ -12,7 +12,7 @@
 	$effect(() => {
 		const fine = matchMedia('(hover: hover) and (pointer: fine)');
 		const still = matchMedia('(prefers-reduced-motion: reduce)');
-		enabled = fine.matches;
+		enabled = fine.matches && !new URLSearchParams(location.search).has('still');
 		if (!enabled) return;
 
 		let x = 0,
