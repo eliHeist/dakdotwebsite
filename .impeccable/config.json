@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "files": [
+          "src/routes/api/contact/+server.ts"
+        ],
+        "createdAt": "2026-11-19T15:27:19.953Z",
+        "reason": "Claude: HTML email templates need a web-safe font; email clients cannot load the site's web font"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "arial",
+        "files": [
+          "src/routes/api/contact/+server.ts"
+        ],
+        "createdAt": "2026-11-19T15:34:38.720Z",
+        "reason": "Claude: HTML email templates need a web-safe font; email clients cannot load the site's web font"
+      }
+    ]
+  }
+}

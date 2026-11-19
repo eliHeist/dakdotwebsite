@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T15:34:35.073Z",
+  "title": "Design System: Dakdot",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0b0d10",
+        "tonalRamp": [
+          "#090a0d",
+          "#090b0e",
+          "#0a0c0f",
+          "#0b0c0f",
+          "#0b0d10",
+          "#535457",
+          "#8e9092",
+          "#cacbcd"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#12151a",
+        "tonalRamp": [
+          "#0b0c10",
+          "#0d0e12",
+          "#0f1115",
+          "#111318",
+          "#12151a",
+          "#585a5e",
+          "#929496",
+          "#cccdcf"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#1a1e25",
+        "tonalRamp": [
+          "#0d0e12",
+          "#101217",
+          "#14171c",
+          "#171b21",
+          "#1a1e25",
+          "#5d6066",
+          "#95989b",
+          "#cdcfd1"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#262b33",
+        "tonalRamp": [
+          "#101216",
+          "#16181e",
+          "#1c1f25",
+          "#22262d",
+          "#262b33",
+          "#66696f",
+          "#9b9da2",
+          "#d0d1d4"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#e9ecef",
+        "tonalRamp": [
+          "#404245",
+          "#6d6f72",
+          "#9a9da0",
+          "#c7cacd",
+          "#e9ecef",
+          "#eef1f3",
+          "#f2f4f6",
+          "#f7f8f9"
+        ]
+      },
+      "mute": {
+        "role": "neutral",
+        "displayName": "Mute",
+        "canonical": "#9aa1ab",
+        "tonalRamp": [
+          "#2d2f34",
+          "#4a4d54",
+          "#676c73",
+          "#848a93",
+          "#9aa1ab",
+          "#b7bcc3",
+          "#cfd3d8",
+          "#e7e9ec"
+        ]
+      },
+      "line-web": {
+        "role": "primary",
+        "displayName": "Web Line Red",
+        "canonical": "#ee2531",
+        "tonalRamp": [
+          "#421015",
+          "#6f161d",
+          "#9e1b24",
+          "#cc212b",
+          "#ee2531",
+          "#f2656e",
+          "#f59ba1",
+          "#f8d0d3"
+        ]
+      },
+      "line-brand": {
+        "role": "secondary",
+        "displayName": "Brand Line Yellow",
+        "canonical": "#f2c230",
+        "tonalRamp": [
+          "#433715",
+          "#715c1c",
+          "#a08123",
+          "#cfa62b",
+          "#f2c230",
+          "#f4d36d",
+          "#f6e1a0",
+          "#f8f0d3"
+        ]
+      },
+      "line-motion": {
+        "role": "tertiary",
+        "displayName": "Motion Line Blue",
+        "canonical": "#3a6ff2",
+        "tonalRamp": [
+          "#152346",
+          "#1e3773",
+          "#294ba2",
+          "#3360d0",
+          "#3a6ff2",
+          "#7499f5",
+          "#a4bcf8",
+          "#d4dffa"
+        ]
+      },
+      "web-text": {
+        "role": "primary",
+        "displayName": "Web Text",
+        "canonical": "#ff5a63",
+        "tonalRamp": [
+          "#461d22",
+          "#772d33",
+          "#a93e45",
+          "#da4e56",
+          "#ff5a63",
+          "#fe8a91",
+          "#fcb3b7",
+          "#fbdbdd"
+        ]
+      },
+      "brand-text": {
+        "role": "secondary",
+        "displayName": "Brand Text",
+        "canonical": "#f2c230",
+        "tonalRamp": [
+          "#433715",
+          "#715c1c",
+          "#a08123",
+          "#cfa62b",
+          "#f2c230",
+          "#f4d36d",
+          "#f6e1a0",
+          "#f8f0d3"
+        ]
+      },
+      "motion-text": {
+        "role": "tertiary",
+        "displayName": "Motion Text",
+        "canonical": "#7d9fff",
+        "tonalRamp": [
+          "#252f49",
+          "#3d4d79",
+          "#546baa",
+          "#6b89db",
+          "#7d9fff",
+          "#a3bbfe",
+          "#c2d2fd",
+          "#e1e9fd"
+        ]
+      },
+      "signal-red": {
+        "role": "primary",
+        "displayName": "Signal Red",
+        "canonical": "#db1f2b",
+        "tonalRamp": [
+          "#3d0f14",
+          "#67131a",
+          "#911720",
+          "#bb1c26",
+          "#db1f2b",
+          "#e4616a",
+          "#ec989e",
+          "#f4cfd2"
+        ]
+      },
+      "signal-red-deep": {
+        "role": "primary",
+        "displayName": "Signal Red Deep",
+        "canonical": "#c41724",
+        "tonalRamp": [
+          "#370d12",
+          "#5d0f17",
+          "#82121c",
+          "#a81520",
+          "#c41724",
+          "#d45b65",
+          "#e2949b",
+          "#efcdd1"
+        ]
+      },
+      "whatsapp": {
+        "role": "neutral",
+        "displayName": "WhatsApp Green (third-party)",
+        "canonical": "#25d366",
+        "tonalRamp": [
+          "#0f3c23",
+          "#156434",
+          "#1b8c47",
+          "#21b559",
+          "#25d366",
+          "#65df93",
+          "#9ae9b9",
+          "#cff3de"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Station names in the project index; line names run one step larger (700, to 2.75rem)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Ledes and intros in Mute, 40 to 52ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Metadata, legend, field labels, text actions; map labels 14px/500 with an ink halo."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Pill actions and the cursor badge."
+      }
+    },
+    "shadows": [
+      {
+        "name": "float",
+        "value": "0 18px 40px -12px rgb(0 0 0 / 0.7)",
+        "purpose": "Station preview card on the map."
+      },
+      {
+        "name": "float-menu",
+        "value": "0 20px 40px -16px rgb(0 0 0 / 0.7)",
+        "purpose": "Services dropdown."
+      },
+      {
+        "name": "float-large",
+        "value": "0 30px 60px -20px rgb(0 0 0 / 0.75)",
+        "purpose": "Cursor-following project image in the index."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single curve for every transition and keyframe (--ease-out)."
+      },
+      {
+        "name": "state",
+        "value": "0.2s to 0.4s",
+        "purpose": "Hover, focus, dimming and arrow nudges."
+      },
+      {
+        "name": "rail-extend",
+        "value": "0.7s",
+        "purpose": "Line-row rail extending on hover; capability stops staggered 80ms."
+      },
+      {
+        "name": "route-draw",
+        "value": "1.1s, stagger 140ms, delay 120ms",
+        "purpose": "The one drawing moment: map routes draw once on load over an always-visible base track. Skipped under reduced motion."
+      },
+      {
+        "name": "pointer-follow",
+        "value": "lerp 0.22 (cursor), 0.18 (index float)",
+        "purpose": "Eased pointer following; the cursor is instant under reduced motion."
+      },
+      {
+        "name": "smooth-scroll",
+        "value": "Lenis duration 0.9",
+        "purpose": "Short smooth scroll, disabled under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "form-single",
+        "value": "520px"
+      },
+      {
+        "name": "map-mobile",
+        "value": "640px"
+      },
+      {
+        "name": "nav-sheet",
+        "value": "760px"
+      },
+      {
+        "name": "rows-stack",
+        "value": "820px"
+      },
+      {
+        "name": "contact-stack",
+        "value": "860px"
+      },
+      {
+        "name": "hero-stack",
+        "value": "960px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action (Book a call, Send). Signal Red so white text clears 4.5:1.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Book a call <svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></a>",
+      "css": ".ds-btn-primary{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.5rem;border-radius:999px;background:#db1f2b;color:#fff;font-weight:600;text-decoration:none;transition:background .25s var(--ease-out, cubic-bezier(0.16,1,0.3,1)),transform .25s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-btn-primary svg{transition:transform .3s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-btn-primary:hover{background:#c41724}.ds-btn-primary:hover svg{transform:translateX(4px)}.ds-btn-primary:active{transform:scale(.98)}.ds-btn-primary:focus-visible{outline:2px solid var(--color-line-brand,#f2c230);outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary pill with a hairline border; the WhatsApp variant turns the border green on hover.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"#25d366\" aria-hidden=\"true\"><path d=\"M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.3A9.5 9.5 0 1 0 12 2.5Zm0 17.2c-1.5 0-2.9-.4-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A7.7 7.7 0 1 1 12 19.7Z\"/></svg>WhatsApp us</a>",
+      "css": ".ds-btn-ghost{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.5rem;border-radius:999px;border:1px solid var(--color-rule,#262b33);color:var(--color-paper,#e9ecef);background:transparent;font-weight:600;text-decoration:none;transition:border-color .25s var(--ease-out, cubic-bezier(0.16,1,0.3,1)),background .25s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-btn-ghost:hover{border-color:#25d366;background:rgb(37 211 102/.08)}.ds-btn-ghost:focus-visible{outline:2px solid var(--color-line-brand,#f2c230);outline-offset:3px}"
+    },
+    {
+      "name": "Header CTA",
+      "kind": "button",
+      "refersTo": "button-header",
+      "description": "The one light-filled control, in the header bar.",
+      "html": "<a class=\"ds-btn-header\" href=\"#\">Book a call</a>",
+      "css": ".ds-btn-header{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;display:inline-flex;align-items:center;padding:.6rem 1.15rem;border-radius:999px;background:var(--color-paper,#e9ecef);color:var(--color-ink,#0b0d10);font-weight:600;text-decoration:none;transition:background .2s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-btn-header:hover{background:#fff}.ds-btn-header:focus-visible{outline:2px solid var(--color-line-brand,#f2c230);outline-offset:3px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Ink 2 field with its label above; focus brightens the border to Paper; errors in Web Text.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-n\">Company email</label><input id=\"ds-n\" type=\"email\" placeholder=\"you@company.com\"/><p class=\"ds-err\">That email address does not look right.</p></div>",
+      "css": ".ds-field{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;color:var(--color-paper,#e9ecef);max-width:22rem}.ds-field label{display:block;font-size:.9rem;font-weight:500;margin-bottom:.45rem}.ds-field input{width:100%;box-sizing:border-box;background:var(--color-ink-2,#12151a);border:1px solid var(--color-rule,#262b33);border-radius:8px;padding:.8rem .9rem;color:inherit;font:inherit;caret-color:var(--color-line-web,#ee2531);transition:border-color .2s var(--ease-out, cubic-bezier(0.16,1,0.3,1)),background .2s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-field input::placeholder{color:#7d8590}.ds-field input:hover{border-color:#3a404a}.ds-field input:focus{outline:none;border-color:var(--color-paper,#e9ecef);background:var(--color-ink-3,#1a1e25)}.ds-err{margin:.4rem 0 0;font-size:.85rem;color:var(--color-web-text,#ff5a63)}"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Transparent pill items, Ink 3 on hover, current page underlined in Web Line Red.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Work</a><a href=\"#\">Services</a><a href=\"#\">About</a></nav>",
+      "css": ".ds-nav{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;display:flex;gap:.25rem;background:var(--color-ink,#0b0d10);padding:.75rem}.ds-nav a{padding:.55rem .9rem;border-radius:999px;color:var(--color-paper,#e9ecef);text-decoration:none;font-weight:500;transition:background .2s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-nav a:hover{background:var(--color-ink-3,#1a1e25)}.ds-nav a[aria-current=page]{box-shadow:inset 0 -2px 0 var(--color-line-web,#ee2531);border-radius:0}.ds-nav a:focus-visible{outline:2px solid var(--color-line-brand,#f2c230);outline-offset:3px}"
+    },
+    {
+      "name": "Line Legend",
+      "kind": "chip",
+      "refersTo": "line-legend",
+      "description": "4px line swatch, name at 600, Mute count beneath with tabular numerals.",
+      "html": "<ul class=\"ds-legend\"><li><i style=\"background:#ee2531\"></i><b>Web Development</b><span>Web apps, platforms and sites</span></li><li><i style=\"background:#f2c230\"></i><b>Brand Design</b><span>5 on the map</span></li><li><i style=\"background:#3a6ff2\"></i><b>Motion</b><span>Animation and 3D</span></li></ul>",
+      "css": ".ds-legend{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem 2rem;color:var(--color-paper,#e9ecef)}.ds-legend li{display:grid;grid-template-columns:1.5rem auto;column-gap:.6rem;align-items:center}.ds-legend i{height:4px;border-radius:2px;grid-row:span 2}.ds-legend b{font-weight:600;font-size:.95rem}.ds-legend span{font-size:.8rem;color:var(--color-mute,#9aa1ab);font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Route Rail Index",
+      "kind": "custom",
+      "refersTo": "route-rail",
+      "description": "Project list as a route: a continuous 4px line with hollow stops; hover fills the stop, slides the title and dims siblings. Interchanges ring in Paper.",
+      "html": "<ul class=\"ds-route\"><li><a href=\"#\"><span class=\"ds-stop first\"><i></i></span><span class=\"ds-t\">JK Consults</span><span class=\"ds-m\">Brand Design · Health Care</span></a></li><li><a href=\"#\"><span class=\"ds-stop\"><i class=\"x\"></i></span><span class=\"ds-t\">Interchange project</span><span class=\"ds-m\">Brand Design + Web Development</span></a></li><li><a href=\"#\"><span class=\"ds-stop last\"><i></i></span><span class=\"ds-t\">Wekume Logo</span><span class=\"ds-m\">Brand Design · Logo</span></a></li></ul>",
+      "css": ".ds-route{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;--c:#f2c230;list-style:none;margin:0;padding:0;border-top:1px solid var(--color-rule,#262b33);color:var(--color-paper,#e9ecef);background:var(--color-ink,#0b0d10)}.ds-route a{display:grid;grid-template-columns:2.5rem 1.4fr 1fr;align-items:center;gap:1.5rem;padding:1.6rem 0;border-bottom:1px solid var(--color-rule,#262b33);color:inherit;text-decoration:none;transition:opacity .3s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-route:hover a:not(:hover){opacity:.35}.ds-stop{position:relative;align-self:stretch;margin:-1.6rem 0}.ds-stop::before{content:'';position:absolute;left:50%;top:-1px;bottom:-1px;width:4px;margin-left:-2px;background:var(--c)}.ds-stop.first::before{top:50%}.ds-stop.last::before{bottom:50%}.ds-stop i{position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;box-sizing:border-box;border-radius:50%;background:var(--color-ink,#0b0d10);border:3.5px solid var(--c);transition:transform .3s var(--ease-out, cubic-bezier(0.16,1,0.3,1)),background .3s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-stop i.x{border-color:var(--color-paper,#e9ecef)}.ds-route a:hover .ds-stop i,.ds-route a:focus-visible .ds-stop i{transform:scale(1.35);background:var(--color-paper,#e9ecef)}.ds-t{font-size:1.6rem;font-weight:700;letter-spacing:-.025em;line-height:1.1;transition:translate .4s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-route a:hover .ds-t{translate:.5rem 0}.ds-m{color:var(--color-mute,#9aa1ab);font-size:.95rem}@media (prefers-reduced-motion:reduce){.ds-route a,.ds-t,.ds-stop i{transition:none}}"
+    },
+    {
+      "name": "Line Row",
+      "kind": "custom",
+      "refersTo": "line-row",
+      "description": "Service row whose rail extends from 18% to full width on hover while its capability stops pop in, staggered.",
+      "html": "<a class=\"ds-linerow\" href=\"#\" style=\"--c:#ee2531\"><span class=\"ds-rail\"><i style=\"left:12%\"></i><i style=\"left:38%\"></i><i style=\"left:64%\"></i></span><span class=\"ds-name\">Web Development</span><span class=\"ds-cta\">See the service <svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></span></a>",
+      "css": ".ds-linerow{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;display:grid;grid-template-columns:1fr auto;row-gap:.75rem;padding:0 0 2.25rem;border-bottom:1px solid var(--color-rule,#262b33);color:var(--color-paper,#e9ecef);background:var(--color-ink,#0b0d10);text-decoration:none}.ds-rail{grid-column:1/-1;position:relative;height:2.25rem}.ds-rail::before{content:'';position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:var(--c);transform-origin:left;transform:scaleX(.18);transition:transform .7s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-rail i{position:absolute;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;box-sizing:border-box;border-radius:50%;background:var(--color-ink,#0b0d10);border:3px solid var(--c);opacity:0;transform:scale(.4);transition:opacity .3s var(--ease-out, cubic-bezier(0.16,1,0.3,1)),transform .3s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-linerow:hover .ds-rail::before,.ds-linerow:focus-visible .ds-rail::before{transform:scaleX(1)}.ds-linerow:hover .ds-rail i,.ds-linerow:focus-visible .ds-rail i{opacity:1;transform:scale(1)}.ds-linerow:hover .ds-rail i:nth-child(2){transition-delay:80ms}.ds-linerow:hover .ds-rail i:nth-child(3){transition-delay:160ms}.ds-name{font-size:2.25rem;font-weight:700;letter-spacing:-.03em;line-height:1.05}.ds-cta{display:inline-flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:500}.ds-cta svg{transition:transform .3s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-linerow:hover .ds-cta svg{transform:translateX(4px)}@media (prefers-reduced-motion:reduce){.ds-rail::before,.ds-rail i{transition:none}}"
+    },
+    {
+      "name": "Contextual Cursor Badge",
+      "kind": "custom",
+      "refersTo": "cursor-badge",
+      "description": "Paper disc that scales in beside the pointer over labelled targets; fine pointers only, native cursor kept.",
+      "html": "<div class=\"ds-cursor-demo\"><span class=\"ds-cursor\">View</span></div>",
+      "css": ".ds-cursor-demo{font-family:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;position:relative;height:6rem;background:var(--color-ink,#0b0d10)}.ds-cursor{position:absolute;left:14px;top:14px;display:grid;place-items:center;min-width:4.25rem;height:4.25rem;padding:0 .9rem;box-sizing:border-box;border-radius:999px;background:var(--color-paper,#e9ecef);color:var(--color-ink,#0b0d10);font-size:.8rem;font-weight:600;letter-spacing:.01em;transform:scale(.9);transition:transform .35s var(--ease-out, cubic-bezier(0.16,1,0.3,1))}.ds-cursor-demo:hover .ds-cursor{transform:scale(1)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Network Map",
+    "overview": "Dakdot is drawn as one transit network. Three service lines (Web, Brand, Motion) carry projects as stations; where a project rides two lines it becomes an interchange, which is where software meets design. The schematic is abstracted, not literal: it appears only where it carries meaning (the hero map, the project index as a route, the line rows, the section terminus and the footer rails). Everything between those moments is quiet: a near-black ground, one grotesk, generous space, hairline rules.\n\nThe system is dark-only and flat. Colour belongs to the lines and almost nowhere else; type does the rest of the work at heavy weights with tight tracking. Interaction is the signature: hovering a station or a row lights its route and dims the rest, a cursor-following preview shows the work, and a contextual dot cursor names the action. Motion is damped and short, content is visible by default, and there is one drawing moment per page, not many.\n\nThe page refuses the stacked agency template (hero, logo marquee, card grid, bento, FAQ, CTA band). New pages extend the network vocabulary rather than reaching for cards.",
+    "keyCharacteristics": [
+      "Near-black ink ground with a three-step tonal ink scale and hairline rules; no light theme.",
+      "Three line colours used as strokes, rails and station rings, never as large fills.",
+      "One family, Schibsted Grotesk (400 to 900, self-hosted), with tabular numerals on counts.",
+      "Strokes run horizontal, vertical or at 45°; stations are hollow rings, interchanges ring in paper.",
+      "Pill-shaped actions; 8 to 12px radii for fields, previews and panels.",
+      "One ease-out curve for everything; a single route-draw on load; reduced motion honoured throughout."
+    ],
+    "rules": [
+      {
+        "name": "The Lines Own Colour Rule",
+        "body": "Hue appears only as a line: a stroke, a rail, a ring, a 4px legend swatch. Surfaces stay ink; no tinted panels, no gradients, no coloured section bands.",
+        "section": "colors"
+      },
+      {
+        "name": "The Text-Safe Tint Rule",
+        "body": "A line colour used as text, or behind text, switches to its text-safe tint (or, for the red action, to Signal Red). Raw line colours are for strokes.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Schibsted Grotesk is the only face. Hierarchy comes from weight (400 / 500 / 600 / 700 / 800) and tracking, never from a second family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Heavy-Tight Rule",
+        "body": "Anything 1.4rem and up is 700 or 800 with negative tracking (-0.025em to -0.04em). Body never goes below 400 or tighter than 0.",
+        "section": "typography"
+      },
+      {
+        "name": "The Only Floats Cast Rule",
+        "body": "A shadow means \"this is hovering because you pointed at something\". Resting surfaces, rows and buttons never carry one.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do express every service as its line colour, and every project as a station on that line; mark projects on two or more lines as interchanges.",
+      "Do switch to the text-safe tint (`web-text`, `brand-text`, `motion-text`) when a line colour must be read, and use Signal Red (`signal-red`) under white text.",
+      "Do use the single ease-out curve (`cubic-bezier(0.16, 1, 0.3, 1)`) for every transition, in the 0.2 to 0.4s range for states and up to 0.7s for rails.",
+      "Do keep one drawing moment per page: the map routes draw once on load (1.1s, staggered 140ms), over an always-visible base track, so content is never hidden waiting for animation.",
+      "Do honour reduced motion: skip the route draw, smooth scrolling and hover transitions, and snap the cursor to the pointer.",
+      "Do keep content inside the 88rem container with the 1.5rem gutter, and split sections asymmetrically rather than centring them.",
+      "Do give empty lines capability stops and an honest \"See the service\" instead of placeholder projects."
+    ],
+    "donts": [
+      "Don't fill surfaces or panels with line colour, or use gradients; colour lives in strokes, rails and rings.",
+      "Don't draw routes at angles other than 0°, 90° and 45°.",
+      "Don't add a second typeface or set headings below 700.",
+      "Don't put shadows on resting surfaces; only pointer-driven floats cast them.",
+      "Don't rebuild the stacked agency template (hero, logo marquee, card grid, bento, FAQ, CTA band) on new pages; list work as stations on a route.",
+      "Don't make the contextual cursor or the cursor-following preview carry information that touch or keyboard users cannot reach.",
+      "Don't add a preloader or hide content until an animation runs."
+    ]
+  }
+}
