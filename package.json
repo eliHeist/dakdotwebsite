@@ -2,6 +2,7 @@
 	"name": "dakdotweb",
 	"version": "0.0.1",
 	"type": "module",
+	"packageManager": "pnpm@10.34.9",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
