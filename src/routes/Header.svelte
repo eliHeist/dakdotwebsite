@@ -10,7 +10,13 @@
 
 	let menuOpen = $state(false);
 	let svcOpen = $state(false);
-	let scrolled = $state(false);
+	/** 0 at the top of the page, 1 once the bar has fully become the island. */
+	let p = $state(0);
+	const scrolled = $derived(p > 0.04);
+	/** True for a moment after the services panel toggles, so that morph runs slower. */
+	let morphing = $state(false);
+	let morphTimer = 0;
+	const ISLAND_AT = 220; // px of scroll over which the bar shrinks into the island
 	let hot = $state<LineId | null>(null);
 	let shell: HTMLDivElement | undefined = $state();
 	let closeTimer = 0;
@@ -56,19 +62,41 @@
 		document.documentElement.style.overflow = menuOpen ? 'hidden' : '';
 	});
 
+	// Opening or closing the panel gets a slower, deliberate morph; scrolling stays tight.
+	let lastSvc = false;
+	$effect(() => {
+		if (svcOpen === lastSvc) return;
+		lastSvc = svcOpen;
+		morphing = true;
+		clearTimeout(morphTimer);
+		morphTimer = window.setTimeout(() => (morphing = false), 950);
+	});
+
+	let raf = 0;
+	function onScroll() {
+		if (pinned || raf) return;
+		raf = requestAnimationFrame(() => {
+			raf = 0;
+			p = Math.min(1, Math.max(0, window.scrollY / ISLAND_AT));
+		});
+	}
+	$effect(() => {
+		if (!pinned) p = Math.min(1, Math.max(0, window.scrollY / ISLAND_AT));
+	});
+
 	// Review aid for static captures: ?nav=island or ?nav=services pins a header state.
 	// Read at render time (skipped while prerendering, where the query is unavailable).
 	const pin = building ? null : $page.url.searchParams.get('nav');
 	const pinned = pin === 'island' || pin === 'services';
 	if (pinned) {
-		scrolled = true;
+		p = 1;
 		svcOpen = pin === 'services';
 		if (pin === 'services') hot = 'web';
 	}
 </script>
 
 <svelte:window
-	onscroll={() => !pinned && (scrolled = window.scrollY > 24)}
+	onscroll={onScroll}
 	onkeydown={(e) => {
 		if (e.key === 'Escape') {
 			menuOpen = false;
@@ -83,6 +111,8 @@
 	class:svc-open={svcOpen}
 	class:open={menuOpen}
 	class:on-light={onLight}
+	class:morphing
+	style="--p: {menuOpen ? 0 : p.toFixed(3)}"
 >
 	<div
 		class="shell"
@@ -211,30 +241,32 @@
 	}
 
 	/*
-	 * One shell morphs between three states:
-	 *   top   – full-width bar, transparent
-	 *   island – compact pill, centred (after scrolling)
-	 *   open  – either state grown downward into the services panel
+	 * One shell morphs with scroll. --p runs 0 → 1 over the first ~220px:
+	 *   p = 0  full-width bar, transparent
+	 *   p = 1  compact centred island
+	 * In either state, Services grows the shell downward into the panel.
 	 */
+	header {
+		--dur: 0.2s;
+		--min: 33rem;
+	}
+	header.morphing {
+		/* Opening/closing the panel is a deliberate, slower morph. */
+		--dur: 0.9s;
+	}
 	.shell {
 		pointer-events: auto;
-		max-width: 88rem;
+		max-width: calc(88rem - (88rem - var(--min)) * var(--p));
 		margin: 0 auto;
-		border-radius: 28px;
-		border: 1px solid transparent;
-		background: transparent;
+		border-radius: calc(28px + 972px * var(--p));
+		border: 1px solid rgb(38 43 51 / var(--p));
+		background: rgb(26 30 37 / var(--p));
 		overflow: hidden;
 		transition:
-			max-width 0.6s var(--ease-out),
-			border-radius 0.6s var(--ease-out),
-			background 0.4s var(--ease-out),
-			border-color 0.4s var(--ease-out);
-	}
-	.island .shell {
-		max-width: 33rem;
-		border-radius: 999px;
-		background: var(--color-ink-3);
-		border-color: var(--color-rule);
+			max-width var(--dur) var(--ease-out),
+			border-radius var(--dur) var(--ease-out),
+			background var(--dur) var(--ease-out),
+			border-color var(--dur) var(--ease-out);
 	}
 	.svc-open .shell {
 		max-width: 60rem;
@@ -249,20 +281,16 @@
 	}
 
 	.bar {
-		height: 3.75rem;
-		padding: 0 0.75rem 0 1.25rem;
+		height: calc(3.75rem - 0.5rem * var(--p));
+		/* The right padding closes to zero so the CTA sits flush with the island's edge. */
+		padding: 0 calc(0.75rem * (1 - var(--p))) 0 calc(1.25rem - 0.15rem * var(--p));
 		display: flex;
 		align-items: center;
-		gap: 2rem;
+		gap: calc(2rem - 0.75rem * var(--p));
 		transition:
-			gap 0.6s var(--ease-out),
-			height 0.5s var(--ease-out),
-			padding 0.5s var(--ease-out);
-	}
-	.island .bar {
-		height: 3.25rem;
-		gap: 1.25rem;
-		padding: 0 0.4rem 0 1.1rem;
+			height var(--dur) var(--ease-out),
+			gap var(--dur) var(--ease-out),
+			padding var(--dur) var(--ease-out);
 	}
 	.brand {
 		color: var(--color-paper);
@@ -270,12 +298,9 @@
 		transition: color 0.3s var(--ease-out);
 	}
 	.brand :global(.logo) {
-		height: 1.6rem;
+		height: calc(1.6rem - 0.35rem * var(--p));
 		width: auto;
-		transition: height 0.5s var(--ease-out);
-	}
-	.island .brand :global(.logo) {
-		height: 1.25rem;
+		transition: height var(--dur) var(--ease-out);
 	}
 	:global(html.dot-away) .brand :global(.dot) {
 		opacity: 0;
@@ -283,14 +308,28 @@
 
 	nav ul {
 		display: flex;
-		gap: 1.75rem;
+		gap: calc(1.75rem - 0.65rem * var(--p));
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		transition: gap 0.6s var(--ease-out);
+		transition: gap var(--dur) var(--ease-out);
 	}
-	.island nav ul {
-		gap: 1.1rem;
+
+	/* The CTA grows to the bar's full height as it becomes the island, sharing its radius. */
+	.cta {
+		align-self: stretch;
+		display: flex;
+		align-items: center;
+	}
+	.cta :global(.btn) {
+		height: calc(3rem + (100% - 3rem) * var(--p));
+		border-radius: 999px;
+		transition:
+			height var(--dur) var(--ease-out),
+			background 0.3s var(--ease-out);
+	}
+	.svc-open .cta :global(.btn) {
+		border-radius: 27px;
 	}
 	.roll-link {
 		position: relative;
@@ -586,9 +625,10 @@
 		}
 		.toggle {
 			display: inline-flex;
+			margin-right: calc(0.4rem * var(--p));
 		}
-		.island .shell {
-			max-width: 22rem;
+		header {
+			--min: 22rem;
 		}
 	}
 </style>

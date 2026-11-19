@@ -13,24 +13,37 @@
 	let { data }: PageProps = $props();
 	const stations = $derived(data.stations);
 
-	// The last word of the headline rolls through what we grow.
+	// Two words roll: what we do, and what it grows. They sit at line ends so nothing reflows,
+	// and flip half a beat apart so the headline never changes all at once.
+	const verbs = ['design', 'build', 'craft'];
 	const words = ['business.', 'brand.', 'product.', 'startup.'];
+	let v = $state(0);
 	let w = $state(0);
 	// Dot only invites a poke when it is actually alive.
 	let alive = $state(false);
 	onMount(() => {
 		if (stillMode()) return;
 		alive = true;
-		const id = setInterval(() => (w = (w + 1) % words.length), 2200);
-		return () => clearInterval(id);
+		const a = setInterval(() => (v = (v + 1) % verbs.length), 2400);
+		let b = 0;
+		const offset = setTimeout(() => {
+			w = (w + 1) % words.length;
+			b = window.setInterval(() => (w = (w + 1) % words.length), 2400);
+		}, 1200);
+		return () => {
+			clearInterval(a);
+			clearInterval(b);
+			clearTimeout(offset);
+		};
 	});
+	const past = (i: number, cur: number, n: number) => i === (cur + n - 1) % n;
 </script>
 
 <svelte:head>
-	<title>Dakdot: brand, software and motion that grow your business</title>
+	<title>Dakdot: we design, build and craft what grows your business</title>
 	<meta
 		name="description"
-		content="Dakdot is a digital studio in Kampala building web applications, brand identities and motion as one connected system."
+		content="Dakdot is a digital studio in Kampala. We design brands, build web applications and craft motion that work together."
 	/>
 </svelte:head>
 
@@ -39,14 +52,19 @@
 <section class="hero" aria-labelledby="hero-h">
 	<div class="dot-slot"><LivingDot /></div>
 
-	<h1 id="hero-h" aria-label="We build systems that grow your business.">
-		<span class="ln" aria-hidden="true">We build</span>
-		<span class="ln" aria-hidden="true">systems that</span>
+	<h1 id="hero-h" aria-label="We design, build and craft what grows your business.">
 		<span class="ln" aria-hidden="true"
-			>grow your <span class="rot"
-				>{#each words as word, i}<span
-						class:on={i === w}
-						class:past={i === (w + words.length - 1) % words.length}>{word}</span
+			>We <span class="rot"
+				>{#each verbs as word, i}<span class:on={i === v} class:past={past(i, v, verbs.length)}
+						>{word}</span
+					>{/each}</span
+			></span
+		>
+		<span class="ln" aria-hidden="true">what grows</span>
+		<span class="ln" aria-hidden="true"
+			>your <span class="rot"
+				>{#each words as word, i}<span class:on={i === w} class:past={past(i, w, words.length)}
+						>{word}</span
 					>{/each}</span
 			></span
 		>
@@ -55,8 +73,8 @@
 	<div class="foot">
 		<div class="pitch">
 			<p class="sub">
-				Dakdot is a digital studio in Kampala. We design brands and build software as one connected
-				system, so every part of your business works with the others.
+				Dakdot is a digital studio in Kampala. We design brands, build software and craft motion
+				that work together, so every part of your business pulls in the same direction.
 			</p>
 			<div class="ctas">
 				<RollButton label="Book a call" href="#book" cursor="Let's talk" />
