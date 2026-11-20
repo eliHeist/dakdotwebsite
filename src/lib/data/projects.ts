@@ -34,5 +34,17 @@ export const INDUSTRIES = {
 	},
 	healthcare: {
 		name: 'Health Care'
+	},
+	travel: {
+		name: 'Travel & Tourism'
+	},
+	architecture: {
+		name: 'Architecture & Interiors'
+	},
+	events: {
+		name: 'Events'
+	},
+	automotive: {
+		name: 'Automotive'
 	}
 };
