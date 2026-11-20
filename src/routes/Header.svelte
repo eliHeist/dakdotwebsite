@@ -274,7 +274,9 @@
 	.open .shell {
 		max-width: none;
 		border-radius: 20px;
-		background: var(--color-ink);
+		/* Same fill and hairline as the island. */
+		background: var(--color-ink-3);
+		border-color: var(--color-rule);
 	}
 
 	.bar {
@@ -602,8 +604,11 @@
 		text-decoration: none;
 		font-size: 0.95rem;
 	}
-	.sheet-foot {
+	/* Free space collects between the logo bar and the links, so the links sit low with the CTA. */
+	.sheet .big {
 		margin-top: auto;
+	}
+	.sheet-foot {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
